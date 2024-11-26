@@ -2,6 +2,11 @@
 These are the dots for my XMonad installation, xmonad-alex; so that I can reproduce it easily when
 changing systems.
 
+## Screenshots
+![Emacs(Org Mode)](../Screenshots/SS1-emacs.png)
+![Empty Screen](../Screenshots/SS2-empty.png)
+![Fetch](../Screenshots/SS3-fastfetch.png)
+
 ## Installation Dependencies, for the WM
 - **git**: If you're here, you probably already have it installed.
 - **Haskell**: I recommend you install the all the tools provided under `ghcup`. This configuration
