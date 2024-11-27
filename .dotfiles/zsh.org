@@ -1,0 +1,20 @@
+#+Author: Alex Rosegrid
+#+Title: Zsh Configuration
+
+* ZProfile
+Clear all the useless startup messages.
+On the first /tty/ terminal, open an X session on startup.
+Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond
+anyway.
+#+begin_src shell :tangle .zprofile
+  clear
+
+  if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
+      systemd-inhibit \
+	  --what=handle-power-key \
+	  --why="Restrict power key in Graphical environment" \
+	  startx &>/dev/null
+      logout
+  fi
+#+end_src
+
