@@ -69,7 +69,7 @@ changing systems.
 ### Xinitrc Setup
 The first time around, run `startx` with a bare bones `.xinitrc`, with just the line
 `exec ~/.cache/xmonad/xmonad-x86_64-linux`. Once inside an Xorg session, you can run the
-`xinitrc.sh` script to auto build the `.xinitrc` file.
-*This is a script to find the touchpad xinput id, and sets the acceleration and tapping properties
+`xinitrc.sh` script to auto build the `.xinitrc` file.  
+*This is a script to find the touchpad xinput id, and set the acceleration and tapping properties
 accordingly. Additionally, it also sets the keyboard repeat rate and delay, and changes the
 keymaps.*
