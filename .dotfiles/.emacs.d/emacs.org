@@ -2,7 +2,6 @@
 #+Title: Emacs Configuration
 #+Startup: show2levels indent
 
-
 * Early Init Settings
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle early-init.el
@@ -59,4 +58,42 @@ shows at least some of the keystrokes in the ~echo-area~.
 
 #+begin_src emacs-lisp
   (setq make-backup-files nil)
+#+end_src
+
+
+* Init Settings
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle init.el
+:END:
+
+** Add the MELPA Repository
+
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+#+end_src
+
+
+** Some Quality of Life Features
+
+*** Recentf Mode
+#+begin_src emacs-lisp
+  (recentf-mode 1)
+  (global-set key "\C-xf" 'recentf-open-files)
+#+end_src
+
+*** Electric Modes
+#+begin_src emacs-lisp
+  (electric-pair-mode)
+#+end_src
+
+*** Line Numbering
+#+begin_src emacs-lisp
+  (setq-default global-display-line-numbers-mode t)
+  (setq-default display-line-numbers 'relative)
+#+end_src
+
+*** Auto Revert Mode
+#+begin_src emacs-lisp
+  (auto-revert-mode 1)
 #+end_src
