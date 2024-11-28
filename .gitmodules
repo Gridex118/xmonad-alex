@@ -1,0 +1,3 @@
+[submodule ".dotfiles/.zsh/themes/p10k"]
+	path = .dotfiles/.zsh/themes/p10k
+	url = https://github.com/romkatv/powerlevel10k
