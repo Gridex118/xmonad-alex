@@ -3,6 +3,7 @@
 #+Startup: show2levels
 
 * ZProfile
+
 Clear all the useless startup messages.
 On the first /tty/ terminal, open an X session on startup.
 Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond anyway.
@@ -18,7 +19,9 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   fi
 #+end_src
 
+
 * Aliases
+
 ** Eye Candy For Some Shell Commands
 #+begin_src shell :tangle .zsh/.zalias
   alias ls="ls --color"
@@ -38,6 +41,7 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
 #+end_src
 
+
 * Key Bindings
 #+begin_src shell :tangle .zsh/.zkeys
   bindkey "^[[H" beginning-of-line
@@ -46,7 +50,9 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   bindkey "^h" autosuggest-accept
 #+end_src
 
+
 * Zshrc
+
 This needs to be =sourced= inside the =~/.zshrc= file, as such
 #+begin_src shell
   source ~/.zsh/.zshrc
