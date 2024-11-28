@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ROOTDIR="$(pwd)/"
+CFGFILE=$ROOTDIR"cfg.cfg"
+if ! [ -f $CFGFILE ]; then exit 1; fi
+for TARGET in `cat $CFGFILE`; do
+    latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=$ROOTDIR/pdf/ $TARGET
+done
+

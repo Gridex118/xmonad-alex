@@ -1,0 +1,21 @@
+#!/bin/bash
+
+JOB="$1"
+ROOTDIR="$(pwd)/"
+CFGFILE=$ROOTDIR"cfg.cfg"
+PDFDIR=$ROOTDIR"pdf"
+
+if [ -d $JOB ]; then
+    if ! [ -f $CFGFILE ]; then exit 1; fi
+    cd $JOB
+    JOB_MAIN_FILE="$(grep $JOB $CFGFILE | awk -F'/' '{print $1}')"
+    NVIM_FILE="."
+else
+    JOB_MAIN_FILE="$JOB"
+    NVIM_FILE=$JOB
+fi
+
+PDF="$PDFDIR/$(echo $JOB_MAIN_FILE | awk -F'.' '{print $1}').pdf"
+zathura $PDF &
+nvim $NVIM_FILE
+
