@@ -1,0 +1,31 @@
+configuration {
+
+    modi: "drun,run,window";
+    case-sensitive: false;
+    cycle: true;
+    filter: "";
+    scroll-method: 0;
+    normalize-match: true;
+    show-icons: false;
+    steal-focus: true;
+    matching: "normal";
+    tokenize: true;
+
+    fixed-num-lines: true;
+    terminal: "alacritty";
+    kb-accept-entry: "Alt+q,Return,KP_Enter";
+    kb-row-down: "Down,Alt+Tab";
+
+    timeout {
+      action: "kb-cancel";
+      delay:  0;
+    }
+
+    filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+    }
+
+    font: "MesloLGS NF 17";
+
+}

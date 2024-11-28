@@ -1,1 +1,5 @@
 /.dotfiles/ltximg/
+/.dotfiles/.config/nvim/ftdetect/*.vim
+/.dotfiles/.config/nvim/lazy-lock.json
+/.dotfiles/.config/nvim/syntax/*.vim
+/.dotfiles/.config/zathura/recent.log
