@@ -94,3 +94,66 @@ A light background, since I use this terminal only when taking print screenshots
   return config
 #+end_src
 
+
+
+* Tmux Configuration
+
+** Corrections
+
+These, apparently, remove a lot of erratic behavior
+
+#+begin_src tmux :tangle .tmux.conf
+  set-option -sg escape-time 0
+  set-option -g focus-events on
+  set -g default-terminal "tmux-256color"
+  set -ag terminal-overrides ",xterm-256color:RGB"
+#+end_src
+
+** Change the Prefix Key
+
+#+begin_src tmux :tangle .tmux.conf
+  unbind C-b
+  set -g prefix C-space
+  bind C-Space send-prefix
+#+end_src
+
+** All Other Key Binds
+
+For the most part, these are here to feed my =vim= obsession.
+
+#+begin_src tmux :tangle .tmux.conf
+  bind c new-window -c "#{pane_current_path}"
+  bind '"' split-window -c "#{pane_current_path}"
+  bind % split-window -h -c "#{pane_current_path}"
+
+  # Throw a pane to a new window
+  bind Z break-pane -d
+
+  # Set synchronization
+  bind S setw synchronize-panes
+
+  # hjkl pane switching
+  bind -r K select-pane -U
+  bind -r J select-pane -D
+  bind -r H select-pane -L
+  bind -r L select-pane -R
+
+  unbind Up
+  unbind Down
+  unbind Left
+  unbind Right
+
+  # hjkl Pane resize
+  bind -r C-k resize-pane -U
+  bind -r C-j resize-pane -D
+  bind -r C-h resize-pane -L
+  bind -r C-l resize-pane -R
+
+  unbind C-Up
+  unbind C-Down
+  unbind C-Left
+  unbind C-Right
+
+  # hjkl scrolling
+  setw -g mode-keys vi
+#+end_src
