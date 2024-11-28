@@ -1,5 +1,6 @@
 #+Author: Alex Rosegrid
 #+Title: Zsh Configuration
+#+Startup: show2levels
 
 * ZProfile
 Clear all the useless startup messages.
@@ -18,6 +19,7 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 #+end_src
 
 * Aliases
+
 ** Eye Candy For Some Shell Commands
 #+begin_src shell :tangle .zsh/.zalias
   alias ls="ls --color"
@@ -26,7 +28,6 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 #+end_src
 
 ** Shortcuts
-
 #+begin_src shell :tangle .zsh/.zalias
   alias tmat="tmux attach -dt"
   alias t0="tmux attach -dt0"
@@ -46,3 +47,29 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   bindkey "^h" autosuggest-accept
 #+end_src
 
+* Zshrc
+
+** Lines Configured by /zsh-newuser-install/
+#+begin_src shell :tangle .zsh/.zshrc
+  HISTFILE=~/.histfile
+  HISTSIZE=1000
+  SAVEHIST=1000
+  setopt autocd histignorespace
+
+  autoload -Uz compinit
+  compinit
+#+end_src
+
+** Initialize some Programs
+#+begin_src shell :tangle .zsh/.zshrc
+  eval "$(zoxide init zsh)"
+  eval "$(fzf --zsh)"
+#+end_src
+
+** Source Companion Files
+#+begin_src shell :tangle .zsh/.zshrc
+  source ~/.zsh/themes/p10k/powerlevel10k.zsh-theme
+  source ~/.zsh/lib/zsh-autosuggestions.zsh
+  source ~/.zsh/.zalias
+  source ~/.zsh/.zkeys
+#+end_src
