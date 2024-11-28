@@ -19,7 +19,6 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 #+end_src
 
 * Aliases
-
 ** Eye Candy For Some Shell Commands
 #+begin_src shell :tangle .zsh/.zalias
   alias ls="ls --color"
@@ -48,7 +47,6 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 #+end_src
 
 * Zshrc
-
 ** Lines Configured by /zsh-newuser-install/
 #+begin_src shell :tangle .zsh/.zshrc
   HISTFILE=~/.histfile
