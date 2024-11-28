@@ -38,3 +38,12 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
 #+end_src
+
+* Key Bindings
+#+begin_src shell :tangle .zsh/.zkeys
+  bindkey "^[[H" beginning-of-line
+  bindkey "^[[F" end-of-line
+  bindkey "^[[3~" delete-char
+  bindkey "^h" autosuggest-accept
+#+end_src
+
