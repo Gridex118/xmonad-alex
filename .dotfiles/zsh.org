@@ -4,8 +4,7 @@
 * ZProfile
 Clear all the useless startup messages.
 On the first /tty/ terminal, open an X session on startup.
-Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond
-anyway.
+Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond anyway.
 #+begin_src shell :tangle .zprofile
   clear
 
@@ -18,3 +17,24 @@ anyway.
   fi
 #+end_src
 
+
+* Aliases
+** Eye Candy For Some Shell Commands
+#+begin_src shell :tangle .zsh/.zalias
+  alias ls="ls --color"
+  alias grep="grep --color"
+  alias cat="bat --theme TwoDark"
+#+end_src
+
+** Shortcuts
+
+#+begin_src shell :tangle .zsh/.zalias
+  alias tmat="tmux attach -dt"
+  alias t0="tmux attach -dt0"
+  alias tmls="tmux list-sessions"
+  alias gccintel="gcc -S -masm=intel -Og -fverbose-asm"
+  alias neofetch="fastfetch --config neofetch.jsonc"
+  alias rexmonad="xmoand --recompile&& xmoand --restart"
+  alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
+  alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
+#+end_src

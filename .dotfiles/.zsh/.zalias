@@ -1,0 +1,12 @@
+alias ls="ls --color"
+alias grep="grep --color"
+alias cat="bat --theme TwoDark"
+
+alias tmat="tmux attach -dt"
+alias t0="tmux attach -dt0"
+alias tmls="tmux list-sessions"
+alias gccintel="gcc -S -masm=intel -Og -fverbose-asm"
+alias neofetch="fastfetch --config neofetch.jsonc"
+alias rexmonad="xmoand --recompile&& xmoand --restart"
+alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
+alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
