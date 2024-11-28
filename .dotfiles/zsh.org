@@ -17,7 +17,6 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
   fi
 #+end_src
 
-
 * Aliases
 ** Eye Candy For Some Shell Commands
 #+begin_src shell :tangle .zsh/.zalias
