@@ -1,0 +1,56 @@
+#+Author: Alex Rosegrid
+#+Title: Emacs Configuration
+#+Startup: show2levels indent
+
+
+* Early Init Settings
+
+#+Property: header-args :tangle early-init.el
+
+
+** Declutter the GUI
+
+This is the bare minimum customization needed to make =emacs= bearable, really. Instead of a weird
+logo on a white screen with ugly horizontal and vertical bars, you get a simple white screen
+instead.
+/And, I guess, it enables line truncation, since I, *personally*, don't like visual lines much; oh,
+and it disables cursor blinking too./
+
+#+begin_src emacs-lisp
+  (visual-line-mode nil)
+  (setq-default truncate-lines t)
+  (setq-default blink-cursor-mode nil)
+  (setq-default inhibit-startup-screen t)
+
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+#+end_src
+
+
+** (Possibly Placebo) Quick Start
+
+*** Precompute Activation Actions
+This requires running =package-quickstart-refresh= and/or =package-refresh-contents= every now and
+then.
+#+begin_src emacs-lisp
+  (setq package-quickstart t)
+#+end_src
+
+*** Garbage Collector Tweaks
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold (* 64 1000 1000))
+  (setq read-process-output-max (* 1024 1024))
+#+end_src
+
+
+** A More /vim like/ Experience
+
+The first line keeps the text in the page from jumping around while scrolling, and the second one
+shows at least some of the keystrokes in the ~echo-area~.
+
+#+begin_src emacs-lisp
+  (setq scroll-conservatively 101)
+  (setq echo-keystrokes .1)
+#+end_src
+
