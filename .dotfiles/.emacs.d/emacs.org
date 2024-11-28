@@ -4,10 +4,11 @@
 
 
 * Early Init Settings
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle early-init.el
+:END:
 
-#+Property: header-args :tangle early-init.el
-
-** Declutter the GUI
+** Unclutter the GUI
 
 This is the bare minimum customization needed to make =emacs= bearable, really. Instead of a weird
 logo on a white screen with ugly horizontal and vertical bars, you get a simple white screen
