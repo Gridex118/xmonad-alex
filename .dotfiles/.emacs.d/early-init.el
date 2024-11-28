@@ -1,3 +1,4 @@
+(visual-line-mode nil)
 (setq-default truncate-lines t)
 (setq-default blink-cursor-mode nil)
 (setq-default inhibit-startup-screen t)
@@ -13,3 +14,5 @@
 
 (setq scroll-conservatively 101)
 (setq echo-keystrokes .1)
+
+(setq make-backup-files nil)

@@ -7,7 +7,6 @@
 
 #+Property: header-args :tangle early-init.el
 
-
 ** Declutter the GUI
 
 This is the bare minimum customization needed to make =emacs= bearable, really. Instead of a weird
@@ -54,3 +53,9 @@ shows at least some of the keystrokes in the ~echo-area~.
   (setq echo-keystrokes .1)
 #+end_src
 
+
+** Miscellaneous
+
+#+begin_src emacs-lisp
+  (setq make-backup-files nil)
+#+end_src
