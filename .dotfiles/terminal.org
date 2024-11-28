@@ -1,0 +1,80 @@
+#+Author: Alex Rosegrid
+#+Title: Terminal Configuration
+#+Startup: show2levels
+
+* Alacritty Configuration
+
+** Window
+
+#+begin_src conf :tangle .alacritty.toml
+  [window]
+  dynamic_title = true
+  opacity = 1.0
+
+  [window.dimensions]
+  columns = 110
+  lines = 25
+
+  [window.padding]
+  x = 5
+  y = 5
+#+end_src
+
+** Color Scheme
+
+#+begin_src conf :tangle .alacritty.toml
+  [[colors.indexed_colors]]
+  color = "#ff9e64"
+  index = 16
+
+  [[colors.indexed_colors]]
+  color = "#db4b4b"
+  index = 17
+
+  [colors.bright]
+  black = "#414868"
+  blue = "#7aa2f7"
+  cyan = "#7dcfff"
+  green = "#9ece6a"
+  magenta = "#bb9af7"
+  red = "#f7768e"
+  white = "#c0caf5"
+  yellow = "#e0af68"
+
+  [colors.normal]
+  black = "#15161e"
+  blue = "#7aa2f7"
+  cyan = "#7dcfff"
+  green = "#9ece6a"
+  magenta = "#bb9af7"
+  red = "#f7768e"
+  white = "#a9b1d6"
+  yellow = "#e0af68"
+
+  [colors.primary]
+  background = "#1a1b26"
+  foreground = "#c0caf5"
+#+end_src
+
+** Font
+
+#+begin_src conf :tangle .alacritty.toml
+  [font]
+  size = 10
+
+  [font.normal]
+  family = "MesloLGS NF"
+  style = "Regular"
+#+end_src
+
+** Miscellaneous
+
+#+begin_src conf :tangle .alacritty.toml
+  [scrolling]
+  history = 50000
+  multiplier = 3
+
+  [env]
+  TERM = "xterm-256color"
+#+end_src
+
