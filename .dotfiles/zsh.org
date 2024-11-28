@@ -47,6 +47,11 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 #+end_src
 
 * Zshrc
+This needs to be =sourced= inside the =~/.zshrc= file, as such
+#+begin_src shell
+  source ~/.zsh/.zshrc
+#+end_src
+
 ** Lines Configured by /zsh-newuser-install/
 #+begin_src shell :tangle .zsh/.zshrc
   HISTFILE=~/.histfile
