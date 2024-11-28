@@ -1,0 +1,79 @@
+conky.config = {
+    alignment = 'bottom_right',
+    background = true,
+    border_width = 1,
+    border_inner_margin = 15,
+    color1 = '19A094',
+    color2 = 'FF5252',
+    cpu_avg_samples = 2,
+    default_color = 'grey',
+    default_outline_color = 'grey',
+    default_shade_color = 'grey',
+    double_buffer = true,
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'MesloLGS NF:size=18',
+    gap_x = 80,
+    gap_y = 30,
+    minimum_height = 5,
+    maximum_width = 1000,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    own_window_class = 'Conky',
+    own_window_type = 'override',
+    own_window_transparent = false,
+    own_window_argb_visual = true,
+    own_window_argb_value = 45,
+    stippled_borders = 0,
+    update_interval = 1.2,
+    uppercase = none,
+    use_spacer = 'right',
+    show_graph_scale = false,
+    show_graph_range = false
+}
+
+conky.text = [[
+    $alignr ${color1}\
+    Uptime:$color $uptime
+    ${color1}${font Roboto Mono:style=Bold}\
+    SYSTEM$color $hr\
+    ${font}
+    ${color2}CPU : ${color1}${goto 320}\
+    $cpu% ${goto 380}${cpubar cpu0 15,140}
+    ${color2}RAM :${color grey} $mem/$memmax\
+    ${color1}${goto 320}$memperc% ${goto 380}${membar 15,140}
+    ${color2}Battery :${color grey} \
+    ${color1}${goto 320}${battery_percent BAT0}% ${goto 380}${battery_bar 15,140 BAT0}
+
+    ${color2}Disk : ${color grey}\
+    ${goto 115}${fs_used /}/${fs_size /}${color}\
+    ${goto 320}${color grey}${color1}${fs_used_perc /}%${goto 380}${fs_bar 15,140 /}
+    ${color1}${font Roboto Regular:style=Bold}\
+
+    NETWORKING$color${font} $hr
+    ${color2}${if_up wlan0}\
+    ${color}${font}\
+    ${color2}wlan0:\
+    ${color}${font} ${wireless_essid wlan0}
+    ${color2}Down: ${color}${downspeed wlan0} \
+    ${goto 250}${color2}Up: ${color}${upspeed wlan0}
+    ${downspeedgraph wlan0 40,195 00ffff 19A094} \
+    ${upspeedgraph wlan0 40,195 00ffff 19A094}
+
+    ${color1}${font Roboto Mono:style=Bold}\
+    PROCESSES$color$font $hr
+    Total:$processes             Running:$running_processes
+    ${color2} Name               PID   CPU%   MEM%
+    ${color} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+    ${color} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+    ${color} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+    ${color} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
+]]
