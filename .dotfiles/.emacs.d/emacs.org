@@ -85,6 +85,7 @@ shows at least some of the keystrokes in the ~echo-area~.
 *** Electric Modes
 #+begin_src emacs-lisp
   (electric-pair-mode)
+  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 #+end_src
 
 *** Line Numbering
@@ -97,3 +98,66 @@ shows at least some of the keystrokes in the ~echo-area~.
 #+begin_src emacs-lisp
   (auto-revert-mode 1)
 #+end_src
+
+
+
+** Org Mode
+
+*** Performance Improvements
+Otherwise, at least on my system, entering text in the code blocks is *slow*.
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda() (setq jit-lock-defer-time 0.15)))
+#+end_src
+
+*** LaTeX Export Settings
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (setq org-latex-src-block-backend 'listing
+                    org-lagex-listings-options  '(("numbers" "left")
+                                                  ("breaklines" "true")
+                                                  ("upquote" "true")
+                                                  ("autogobble" "true")
+                                                  ("showstringspaces" "false")
+                                                  ("basicstyle" "\\ttfamily")))))
+#+end_src
+
+*** LaTeX Preview Settings
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (setq org-preview-latex-default-process 'dvipng
+                    org-startup-with-latex-preview     t)))
+#+end_src
+
+*** Org Babel Settings
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (org-babel-do-load-languages
+               'org-babel-load-languages '((emacs-lisp . t)
+                                           (C . t)
+                                           (shell . t)
+                                           (lua . t))))
+#+end_src
+
+*** Appearance
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (display-line-numbers-mode -1)
+              (setq org-startup-indented t)))
+#+end_src
+
+
+*** Miscellaneous
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda()
+              (setq-local electric-pair-inhibit-predicate
+                          `(lambda(c)
+                             (if (char-equal c ?<) t
+                               (,electric-pair-inhibit-predicate c))))))
+#+end_src
+
