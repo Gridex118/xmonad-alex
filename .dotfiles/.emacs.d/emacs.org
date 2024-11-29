@@ -99,6 +99,24 @@ shows at least some of the keystrokes in the ~echo-area~.
   (auto-revert-mode 1)
 #+end_src
 
+*** Vim Layer
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1))
+#+end_src
+To make the integration a bit better,
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+#+end_src
 
 
 ** Org Mode
@@ -171,7 +189,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
               (setq c-indentation-style 'k&r
                     c-basic-offset       4)))
 #+end_src
-
 
 *** Treesitter Settings
 #+begin_src emacs-lisp
