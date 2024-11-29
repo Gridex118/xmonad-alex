@@ -119,6 +119,19 @@ To make the integration a bit better,
 #+end_src
 
 
+
+** UI Settings
+
+*** A (Fairly) Good looking theme
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :config
+    (load-theme 'doom-city-lights t)
+    (doom-themes-org-config))
+#+end_src
+
+
 ** Org Mode
 
 *** Performance Improvements

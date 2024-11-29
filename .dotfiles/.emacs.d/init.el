@@ -25,6 +25,13 @@
   :ensure t
   :config
   (evil-collection-init))
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-city-lights t)
+  (doom-themes-org-config))
+
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
 
