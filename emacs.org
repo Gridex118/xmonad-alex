@@ -2,9 +2,11 @@
 #+Title: Emacs Configuration
 #+Startup: show2levels indent
 
+#+PROPERTY: EMACS_CONFIG_DIR .dotfiles/.emacs.d/
+
 * Early Init Settings
 :PROPERTIES:
-:header-args:emacs-lisp: :tangle early-init.el
+:header-args:emacs-lisp: :tangle (concat (org-entry-get nil "EMACS_CONFIG_DIR" t) "early-init.el")
 :END:
 
 ** Unclutter the GUI
@@ -63,7 +65,7 @@ shows at least some of the keystrokes in the ~echo-area~.
 
 * Init Settings
 :PROPERTIES:
-:header-args:emacs-lisp: :tangle init.el
+:header-args:emacs-lisp: :tangle (concat (org-entry-get nil "EMACS_CONFIG_DIR" t) "init.el")
 :END:
 
 ** Add the MELPA Repository
