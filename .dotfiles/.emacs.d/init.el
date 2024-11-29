@@ -49,3 +49,19 @@
                         `(lambda(c)
                            (if (char-equal c ?<) t
                              (,electric-pair-inhibit-predicate c))))))
+
+(add-hook 'prog-mode-hook
+          (lambda()
+            (setq c-indentation-style 'k&r
+                  c-basic-offset       4)))
+
+(add-hook 'prog-mode-hook
+          (lambda()
+            (setq treesit-font-lock-level 4
+                  c-ts-mode-indent-style 'k&r
+                  c-ts-mode-indent-offset 4)))
+
+(setq treesit-language-source-alist
+      '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+        (c "https://github.com/tree-sitter/tree-sitter-c")
+        (bash "https://github.com/tree-sitter/tree-sitter-bash")))
