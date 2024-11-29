@@ -2,12 +2,18 @@
 #+Title: Zsh Configuration
 #+Startup: show2levels
 
+#+PROPERTY: BASE_CONFIG_DIR .dotfiles/
+#+PROPERTY: ZSH_CONFIG_DIR  .dotfiles/.zsh/
+
 * ZProfile
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "BASE_CONFIG_DIR" t) ".zprofile")
+:END:
 
 Clear all the useless startup messages.
 On the first /tty/ terminal, open an X session on startup.
 Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond anyway.
-#+begin_src shell :tangle .zprofile
+#+begin_src shell
   clear
 
   if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
@@ -21,16 +27,19 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 
 
 * Aliases
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "ZSH_CONFIG_DIR" t) ".zalias")
+:END:
 
 ** Eye Candy For Some Shell Commands
-#+begin_src shell :tangle .zsh/.zalias
+#+begin_src shell
   alias ls="ls --color"
   alias grep="grep --color"
   alias cat="bat --theme TwoDark"
 #+end_src
 
 ** Shortcuts
-#+begin_src shell :tangle .zsh/.zalias
+#+begin_src shell
   alias tmat="tmux attach -dt"
   alias t0="tmux attach -dt0"
   alias tmls="tmux list-sessions"
@@ -43,7 +52,11 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 
 
 * Key Bindings
-#+begin_src shell :tangle .zsh/.zkeys
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "ZSH_CONFIG_DIR" t) ".zkeys")
+:END:
+
+#+begin_src shell
   bindkey "^[[H" beginning-of-line
   bindkey "^[[F" end-of-line
   bindkey "^[[3~" delete-char
@@ -52,14 +65,17 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 
 
 * Zshrc
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "ZSH_CONFIG_DIR" t) ".zshrc")
+:END:
 
 This needs to be =sourced= inside the =~/.zshrc= file, as such
-#+begin_src shell
+#+begin_src shell :tangle no
   source ~/.zsh/.zshrc
 #+end_src
 
 ** Lines Configured by /zsh-newuser-install/
-#+begin_src shell :tangle .zsh/.zshrc
+#+begin_src shell
   HISTFILE=~/.histfile
   HISTSIZE=1000
   SAVEHIST=1000
@@ -70,13 +86,13 @@ This needs to be =sourced= inside the =~/.zshrc= file, as such
 #+end_src
 
 ** Initialize some Programs
-#+begin_src shell :tangle .zsh/.zshrc
+#+begin_src shell
   eval "$(zoxide init zsh)"
   eval "$(fzf --zsh)"
 #+end_src
 
 ** Source Companion Files
-#+begin_src shell :tangle .zsh/.zshrc
+#+begin_src shell
   source ~/.zsh/themes/p10k/powerlevel10k.zsh-theme
   source ~/.zsh/lib/zsh-autosuggestions.zsh
   source ~/.zsh/.zalias
