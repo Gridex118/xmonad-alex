@@ -29,6 +29,9 @@
 (use-package doom-themes
   :ensure t
   :config
+  (setq doom-themes-enable-bold   t
+        doom-themes-enable-italic t)
+  (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-city-lights t)
   (doom-themes-org-config))
 
