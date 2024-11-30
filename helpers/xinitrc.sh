@@ -64,4 +64,3 @@ echo "xss-lock --transfer-sleep-lock -- ~/.local/bin/transfer-sleep-lock-generic
 #########################
 echo "# Start WM" >> ~/.xinitrc
 echo "exec $WM" >> ~/.xinitrc
-
