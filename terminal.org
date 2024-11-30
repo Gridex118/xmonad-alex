@@ -1,12 +1,18 @@
 #+Author: Alex Rosegrid
 #+Title: Terminal Configuration
 #+Startup: show2levels
+#+Startup: indent
+
+#+PROPERTY: BASE_CONFIG_DIR .dotfiles/
 
 * Alacritty Configuration
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "BASE_CONFIG_DIR" t) ".alacritty.toml")
+:END:
 
 ** Window
 
-#+begin_src conf :tangle .alacritty.toml
+#+begin_src conf
   [window]
   dynamic_title = true
   opacity = 1.0
@@ -22,7 +28,7 @@
 
 ** Color Scheme
 
-#+begin_src conf :tangle .alacritty.toml
+#+begin_src conf
   [[colors.indexed_colors]]
   color = "#ff9e64"
   index = 16
@@ -58,7 +64,7 @@
 
 ** Font
 
-#+begin_src conf :tangle .alacritty.toml
+#+begin_src conf
   [font]
   size = 10
 
@@ -69,7 +75,7 @@
 
 ** Miscellaneous
 
-#+begin_src conf :tangle .alacritty.toml
+#+begin_src conf
   [scrolling]
   history = 50000
   multiplier = 3
@@ -80,10 +86,13 @@
 
 
 * Wezterm Configuration
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "BASE_CONFIG_DIR" t) ".wezterm.lua")
+:END:
 
 A light background, since I use this terminal only when taking print screenshots.
 
-#+begin_src lua :tangle .wezterm.lua
+#+begin_src lua
   local wezterm = require('wezterm')
   local config = wezterm.config_builder()
 
@@ -97,12 +106,15 @@ A light background, since I use this terminal only when taking print screenshots
 
 
 * Tmux Configuration
+:PROPERTIES:
+:header-args: :tangle (concat (org-entry-get nil "BASE_CONFIG_DIR" t) ".tmux.conf")
+:END:
 
 ** Corrections
 
 These, apparently, remove a lot of erratic behavior
 
-#+begin_src tmux :tangle .tmux.conf
+#+begin_src tmux
   set-option -sg escape-time 0
   set-option -g focus-events on
   set -g default-terminal "tmux-256color"
@@ -111,7 +123,7 @@ These, apparently, remove a lot of erratic behavior
 
 ** Change the Prefix Key
 
-#+begin_src tmux :tangle .tmux.conf
+#+begin_src tmux
   unbind C-b
   set -g prefix C-space
   bind C-Space send-prefix
@@ -121,7 +133,7 @@ These, apparently, remove a lot of erratic behavior
 
 For the most part, these are here to feed my =vim= obsession.
 
-#+begin_src tmux :tangle .tmux.conf
+#+begin_src tmux
   bind c new-window -c "#{pane_current_path}"
   bind '"' split-window -c "#{pane_current_path}"
   bind % split-window -h -c "#{pane_current_path}"
