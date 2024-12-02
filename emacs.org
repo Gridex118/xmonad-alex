@@ -81,7 +81,7 @@ shows at least some of the keystrokes in the ~echo-area~.
 *** Recentf Mode
 #+begin_src emacs-lisp
   (recentf-mode 1)
-  (global-set key "\C-xf" 'recentf-open-files)
+  (global-set-key "\C-xf" 'recentf-open-files)
 #+end_src
 
 *** Electric Modes
@@ -175,7 +175,7 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                'org-babel-load-languages '((emacs-lisp . t)
                                            (C . t)
                                            (shell . t)
-                                           (lua . t))))
+                                           (lua . t)))))
 #+end_src
 
 *** Appearance

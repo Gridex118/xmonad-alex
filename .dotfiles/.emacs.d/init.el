@@ -2,7 +2,7 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (recentf-mode 1)
-(global-set key "\C-xf" 'recentf-open-files)
+(global-set-key "\C-xf" 'recentf-open-files)
 
 (electric-pair-mode)
 (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
@@ -59,7 +59,7 @@
              'org-babel-load-languages '((emacs-lisp . t)
                                          (C . t)
                                          (shell . t)
-                                         (lua . t))))
+                                         (lua . t)))))
 
 (add-hook 'org-mode-hook
           (lambda()

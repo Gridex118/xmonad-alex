@@ -6,9 +6,9 @@ conky.config = {
     color1 = '19A094',
     color2 = 'FF5252',
     cpu_avg_samples = 2,
-    default_color = 'grey',
-    default_outline_color = 'grey',
-    default_shade_color = 'grey',
+    default_color = 'gray',
+    default_outline_color = 'gray',
+    default_shade_color = 'gray',
     double_buffer = true,
     draw_borders = false,
     draw_graph_borders = false,
@@ -18,7 +18,7 @@ conky.config = {
     font = 'MesloLGS NF:size=18',
     gap_x = 80,
     gap_y = 30,
-    minimum_height = 5,
+    minimum_height = 800,
     maximum_width = 1000,
     net_avg_samples = 2,
     no_buffers = true,
@@ -46,25 +46,24 @@ conky.text = [[
     ${color1}${font Roboto Mono:style=Bold}\
     SYSTEM$color $hr\
     ${font}
-    ${color2}CPU : ${color1}${goto 320}\
-    $cpu% ${goto 380}${cpubar cpu0 15,140}
-    ${color2}RAM :${color grey} $mem/$memmax\
-    ${color1}${goto 320}$memperc% ${goto 380}${membar 15,140}
-    ${color2}Battery :${color grey} \
-    ${color1}${goto 320}${battery_percent BAT0}% ${goto 380}${battery_bar 15,140 BAT0}
+    ${color2}CPU : ${color1}${goto 325}\
+    $cpu% ${goto 440}${cpubar cpu0 15,140}
+    ${color2}RAM :${color gray} $mem/$memmax\
+    ${color1}${goto 380}$memperc% ${goto 440}${membar 15,140}
+    ${color2}Battery :${color gray} \
+    ${color1}${goto 380}${battery_percent BAT0}% ${goto 440}${battery_bar 15,140 BAT0}
 
-    ${color2}Disk : ${color grey}\
-    ${goto 115}${fs_used /}/${fs_size /}${color}\
-    ${goto 320}${color grey}${color1}${fs_used_perc /}%${goto 380}${fs_bar 15,140 /}
+    ${color2}Disk : ${color gray}\
+    ${goto 155}${fs_used /}/${fs_size /}${color}\
+    ${goto 380}${color gray}${color1}${fs_used_perc /}%${goto 440}${fs_bar 15,140 /}
     ${color1}${font Roboto Regular:style=Bold}\
 
     NETWORKING$color${font} $hr
     ${color2}${if_up wlan0}\
-    ${color}${font}\
-    ${color2}wlan0:\
-    ${color}${font} ${wireless_essid wlan0}
+    ${color}${font} ${color2}${goto 75}wlan0:\
+    ${color}${font} ${wireless_essid wlan0}${endif}
     ${color2}Down: ${color}${downspeed wlan0} \
-    ${goto 250}${color2}Up: ${color}${upspeed wlan0}
+    ${goto 280}${color2}Up: ${color}${upspeed wlan0}
     ${downspeedgraph wlan0 40,195 00ffff 19A094} \
     ${upspeedgraph wlan0 40,195 00ffff 19A094}
 

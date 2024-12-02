@@ -86,11 +86,11 @@ myXmobarPP = def
 
 myStartupHook :: X ()
 myStartupHook = do
-    spawnOnce "xmobar"
+    spawnOnce "~/.cabal/bin/xmobar"
     spawnOnce "redshift"
     spawnOnce "picom -b"
     spawnOnce "conky"
-    spawnOnce "/usr/lib/notification-daemon-1.0/notification-daemon"
+    spawnOnce "/usr/libexec/notification-daemon"
 
 main :: IO ()
 main = xmonad
@@ -111,7 +111,7 @@ main = xmonad
         , "M-S-c"
         ]
         `additionalKeys`
-        [ ((shiftMask, xK_Shift_R), spawn "notify-send 'hello'")    -- Okay, this is stupid; keeping it for shits and giggles
+        [ ((shiftMask, xK_Shift_R), spawn "emacs")    -- Okay, this is stupid; keeping it for shits and giggles
         ]
         `additionalKeysP`
         [ ("M-S-d", spawn "~/.config/rofi/implements/launcher.sh")
@@ -123,7 +123,7 @@ main = xmonad
                 , ((0, xK_g), subName "Gimp" $ spawn "gimp")
                 , ((0, xK_e), subName "Emacs" $ spawn "emacs")
                 , ((0, xK_v), subName "Volume" $ spawn "pavucontrol")
-                , ((0, xK_p), subName "Private Window" $ spawn "firefox --private-window")
+                , ((0, xK_p), subName "Private Window" $ spawn "~/.local/bin/firefox --private-window")
                 ])
         -- The Games submap
         , ("M-a", visualSubmap def $ fromList
@@ -135,7 +135,7 @@ main = xmonad
         , ("M-S-r", spawn "xmonad --recompile&& xmonad --restart")
         , ("M-S-n", spawn "iwctl station wlan0 scan on")
         , ("M-<Return>", spawn "alacritty")
-        , ("M-S-<Return>", spawn "firefox")
+        , ("M-S-<Return>", spawn "~/.local/bin/firefox")
         , ("M-C-<Print>", spawn "flameshot full")
         , ("M-<Print>", spawn "flameshot gui")
         , ("M-S-p", spawn "if [ `pgrep picom` ]; then pkill picom; else picom -b; fi")
