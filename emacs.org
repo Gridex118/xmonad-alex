@@ -121,6 +121,35 @@ To make the integration a bit better,
 #+end_src
 
 
+*** Completion and Hints
+Vertico, to get a vertical list of available commands
+#+begin_src emacs-lisp
+  (use-package vertico
+    :ensure t
+    :init
+    (vertico-mode))
+#+end_src
+Marginalia, to get relevant hints/annonations about the commands.
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :bind
+    (:map minibuffer-local-map
+                ("M-A" . marginalia-cycle))
+    :init
+    (marginalia-mode))
+#+end_src
+Corfu, for auto completion popups
+#+begin_src emacs-lisp
+  (use-package corfu
+    :ensure t
+    :custom
+    (corfu-cycle t)
+    :init
+    (corfu-auto)
+    (global-corfu-mode))
+#+end_src
+
 
 ** UI Settings
 
@@ -134,6 +163,20 @@ To make the integration a bit better,
     (set-face-italic 'font-lock-comment-face t)
     (load-theme 'doom-city-lights t)
     (doom-themes-org-config))
+#+end_src
+
+*** Font
+#+begin_src emacs-lisp
+  (custom-set-faces
+   '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
+#+end_src
+
+*** A Better Looking Modeline
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :init
+    (doom-modeline-mode 1))
 #+end_src
 
 

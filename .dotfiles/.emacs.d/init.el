@@ -26,6 +26,27 @@
   :config
   (evil-collection-init))
 
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode))
+
+(use-package marginalia
+  :ensure t
+  :bind
+  (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+(use-package corfu
+  :ensure t
+  :custom
+  (corfu-cycle t)
+  :init
+  (setq corfu-auto t)
+  (global-corfu-mode))
+
 (use-package doom-themes
   :ensure t
   :config
@@ -34,6 +55,18 @@
   (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-city-lights t)
   (doom-themes-org-config))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
+
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
@@ -88,3 +121,14 @@
       '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (c "https://github.com/tree-sitter/tree-sitter-c")
         (bash "https://github.com/tree-sitter/tree-sitter-bash")))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(blink-cursor-mode nil)
+ '(global-display-line-numbers-mode t)
+ '(menu-bar-mode nil)
+ '(package-selected-packages
+   '(corfu marginalia vertico doom-modeline evil-collection doom-themes))
+ '(tool-bar-mode nil))
