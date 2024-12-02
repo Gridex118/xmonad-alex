@@ -10,11 +10,16 @@
 :header-args: :tangle (concat (org-entry-get nil "BASE_CONFIG_DIR" t) ".zprofile")
 :END:
 
-Clear all the useless startup messages.
-On the first /tty/ terminal, open an X session on startup.
-Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond anyway.
+- Clear all the useless startup messages.
+- Load the .zshenv file
+- Set neovim the default editor
+- On the first /tty/ terminal, open an X session on startup.
+- Also, during an X session, inhibit the power button. If the system OOMs, it probably won't respond anyway.
 #+begin_src shell
   clear
+
+  . ~/.zshenv
+  export EDITOR=/usr/bin/nvim
 
   if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
       systemd-inhibit \
@@ -57,6 +62,7 @@ Also, during an X session, inhibit the power button. If the system OOMs, it prob
 :END:
 
 #+begin_src shell
+  set -o emacs
   bindkey "^[[H" beginning-of-line
   bindkey "^[[F" end-of-line
   bindkey "^[[3~" delete-char
