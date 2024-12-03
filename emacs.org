@@ -120,7 +120,6 @@ To make the integration a bit better,
     (evil-collection-init))
 #+end_src
 
-
 *** Completion and Hints
 Vertico, to get a vertical list of available commands
 #+begin_src emacs-lisp
