@@ -145,10 +145,16 @@ Corfu, for auto completion popups
     :custom
     (corfu-cycle t)
     :init
-    (corfu-auto)
-    (global-corfu-mode))
+    (global-corfu-mode)
+    :config
+    (setq corfu-auto t))
 #+end_src
 
+*** Magit
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t)
+#+end_src
 
 ** UI Settings
 
