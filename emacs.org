@@ -106,10 +106,12 @@ shows at least some of the keystrokes in the ~echo-area~.
   (use-package evil
     :ensure t
     :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    :config
-    (evil-mode 1))
+    (setq evil-want-integration t
+          evil-want-keybinding  nil
+          evil-default-state   'emacs)
+    :hook
+    (org-mode . evil-local-mode)
+    (c-mode . evil-local-mode))
 #+end_src
 To make the integration a bit better,
 #+begin_src emacs-lisp
@@ -155,6 +157,7 @@ Corfu, for auto completion popups
   (use-package magit
     :ensure t)
 #+end_src
+
 
 ** UI Settings
 
@@ -228,10 +231,15 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 
 *** Appearance
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook
-            (lambda()
-              (display-line-numbers-mode -1)
-              (setq org-startup-indented t)))
+  (use-package org-bullets
+    :ensure t
+    :hook (org-mode . org-bullets-mode))
+#+end_src
+ #+begin_src emacs-lisp
+    (add-hook 'org-mode-hook
+              (lambda()
+                (display-line-numbers-mode -1)
+                (setq org-startup-indented t)))
 #+end_src
 
 *** Miscellaneous

@@ -15,10 +15,12 @@
 (use-package evil
   :ensure t
   :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config
-  (evil-mode 1))
+  (setq evil-want-integration t
+        evil-want-keybinding  nil
+        evil-default-state   'emacs)
+  :hook
+  (org-mode . evil-local-mode)
+  (c-mode . evil-local-mode))
 
 (use-package evil-collection
   :after evil
@@ -93,6 +95,10 @@
                                          (C . t)
                                          (shell . t)
                                          (lua . t)))))
+
+(use-package org-bullets
+  :ensure t
+  :hook (org-mode . org-bullets-mode))
 
 (add-hook 'org-mode-hook
           (lambda()
