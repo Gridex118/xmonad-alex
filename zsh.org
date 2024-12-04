@@ -50,7 +50,7 @@
   alias tmls="tmux list-sessions"
   alias gccintel="gcc -S -masm=intel -Og -fverbose-asm"
   alias neofetch="fastfetch --config neofetch.jsonc"
-  alias rexmonad="xmoand --recompile&& xmoand --restart"
+  alias rexmonad="xmonad --recompile&& xmonad --restart"
   alias rexinit="grep -P '(xinput|xset|setxkb)' ~/.xinitrc| bash -"
   alias wallpaper="nitrogen --no-recurse ~/Wallpapers/"
 #+end_src

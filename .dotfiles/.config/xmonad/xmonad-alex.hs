@@ -25,7 +25,7 @@ import XMonad.Actions.GridSelect (goToSelected)
 
 
 myManageHook = composeAll
-    [ className =? "pavucontrol" --> doCenterFloat
+    [ className =? "Pavucontrol" --> doCenterFloat
     , className =? "qemu" --> doCenterFloat
     , className =? "feh" --> doCenterFloat
     -- For Jubin's 8085simulator
