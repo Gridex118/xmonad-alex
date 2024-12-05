@@ -16,17 +16,23 @@
   :ensure t
   :init
   (setq evil-want-integration t
-        evil-want-keybinding  nil
-        evil-default-state   'emacs)
-  :hook
-  (org-mode . evil-local-mode)
-  (c-mode . evil-local-mode))
+        evil-want-keybinding  nil)
+  :config
+  (evil-mode 1))
 
 (use-package evil-collection
   :after evil
   :ensure t
   :config
   (evil-collection-init))
+
+(dolist (p '((prog-mode                . normal)
+             (minibuffer-inactive-mode . emacs)
+             (help-mode                . emacs)
+             (emacs-lisp-mode          . emacs)
+             (dired-mode               . emacs)
+             (fundamental-mode         . emacs)))
+  (evil-set-initial-state (car p) (cdr p)))
 
 (use-package vertico
   :ensure t
@@ -49,6 +55,12 @@
   (global-corfu-mode)
   :config
   (setq corfu-auto t))
+
+(use-package lsp-mode
+  :ensure t
+  :hook
+  (c-mode . lsp-deferred)
+  (lua-mode . lsp-deferred))
 
 (use-package magit
   :ensure t)

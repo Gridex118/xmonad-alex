@@ -107,11 +107,9 @@ shows at least some of the keystrokes in the ~echo-area~.
     :ensure t
     :init
     (setq evil-want-integration t
-          evil-want-keybinding  nil
-          evil-default-state   'emacs)
-    :hook
-    (org-mode . evil-local-mode)
-    (c-mode . evil-local-mode))
+          evil-want-keybinding  nil)
+    :config
+    (evil-mode 1))
 #+end_src
 To make the integration a bit better,
 #+begin_src emacs-lisp
@@ -120,6 +118,16 @@ To make the integration a bit better,
     :ensure t
     :config
     (evil-collection-init))
+#+end_src
+Set some sane default modes
+#+begin_src emacs-lisp
+  (dolist (p '((prog-mode                . normal)
+               (minibuffer-inactive-mode . emacs)
+               (help-mode                . emacs)
+               (emacs-lisp-mode          . emacs)
+               (dired-mode               . emacs)
+               (fundamental-mode         . emacs)))
+    (evil-set-initial-state (car p) (cdr p)))
 #+end_src
 
 *** Completion and Hints
@@ -152,6 +160,14 @@ Corfu, for auto completion popups
     (setq corfu-auto t))
 #+end_src
 
+*** LSP Mode
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :hook
+    (c-mode . lsp-deferred)
+    (lua-mode . lsp-deferred))
+#+end_src
 *** Magit
 #+begin_src emacs-lisp
   (use-package magit
