@@ -28,6 +28,7 @@
 
 (dolist (p '((prog-mode                . normal)
              (minibuffer-inactive-mode . emacs)
+             (haskell-mode             . emacs)
              (help-mode                . emacs)
              (emacs-lisp-mode          . emacs)
              (dired-mode               . emacs)
@@ -56,6 +57,14 @@
   :config
   (setq corfu-auto t))
 
+(use-package yasnippet
+  :ensure t
+  :init
+  (yas-global-mode 1))
+(use-package yasnippet-snippets
+  :ensure t
+  :after yasnippet)
+
 (use-package lsp-mode
   :ensure t
   :hook
@@ -81,6 +90,12 @@
   :ensure t
   :init
   (doom-modeline-mode 1))
+
+(use-package rainbow-blocks
+  :ensure t
+  :hook
+  (emacs-lisp-mode . rainbow-delimiters-mode)
+  (emacs-lisp-mode . rainbow-identifiers-mode))
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
