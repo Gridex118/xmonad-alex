@@ -139,6 +139,14 @@
                            (if (char-equal c ?<) t
                              (,electric-pair-inhibit-predicate c))))))
 
+(use-package slime
+  :ensure t
+  :init
+  (setq inferior-lisp-program "sbcl"
+        slime-lisp-implementations
+        '((nyxt ("sbcl" "--dynamic-space-size 3072")
+                :env ("CL_SOURCE_REGISTRY=~/.opt/common-lisp//:~/.opt/common-lisp/nyxt/_build//")))))
+
 (add-hook 'prog-mode-hook
           (lambda()
             (setq c-indentation-style 'k&r

@@ -15,4 +15,5 @@
 (setq scroll-conservatively 101)
 (setq echo-keystrokes .1)
 
-(setq make-backup-files nil)
+(setq make-backup-files nil
+      byte-compile-warnings '(not docstrings))

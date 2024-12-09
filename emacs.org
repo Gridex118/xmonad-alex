@@ -58,8 +58,10 @@ shows at least some of the keystrokes in the ~echo-area~.
 
 ** Miscellaneous
 
+Don't want backup files with weird names, and *probably* useless docstring warnings
 #+begin_src emacs-lisp
-  (setq make-backup-files nil)
+  (setq make-backup-files nil
+        byte-compile-warnings '(not docstrings))
 #+end_src
 
 
@@ -291,6 +293,17 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 
 
 ** Programming
+
+*** Superior Lisp
+#+begin_src emacs-lisp
+  (use-package slime
+    :ensure t
+    :init
+    (setq inferior-lisp-program "sbcl"
+          slime-lisp-implementations
+          '((nyxt ("sbcl" "--dynamic-space-size 3072")
+                  :env ("CL_SOURCE_REGISTRY=~/.opt/common-lisp//:~/.opt/common-lisp/nyxt/_build//")))))
+#+end_src
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp
