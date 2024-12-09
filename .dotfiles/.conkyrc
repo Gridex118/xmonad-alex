@@ -1,5 +1,5 @@
 conky.config = {
-    alignment = 'bottom_right',
+    alignment = 'bottom_left',
     background = true,
     border_width = 1,
     border_inner_margin = 15,
@@ -31,7 +31,7 @@ conky.config = {
     own_window_type = 'override',
     own_window_transparent = false,
     own_window_argb_visual = true,
-    own_window_argb_value = 45,
+    own_window_argb_value = 25,
     stippled_borders = 0,
     update_interval = 1.2,
     uppercase = none,
@@ -59,9 +59,9 @@ conky.text = [[
     ${color1}${font Roboto Regular:style=Bold}\
 
     NETWORKING$color${font} $hr
-    ${color2}${if_up wlan0}\
+    ${color2}\
     ${color}${font} ${color2}${goto 75}wlan0:\
-    ${color}${font} ${wireless_essid wlan0}${endif}
+    ${color}${font} ${exec iw wlan0 info| grep "ssid"| awk '{print $2}'}
     ${color2}Down: ${color}${downspeed wlan0} \
     ${goto 280}${color2}Up: ${color}${upspeed wlan0}
     ${downspeedgraph wlan0 40,195 00ffff 19A094} \
