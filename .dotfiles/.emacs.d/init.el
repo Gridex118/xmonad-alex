@@ -37,6 +37,7 @@
 
 (use-package vertico
   :ensure t
+  :defer  t
   :init
   (vertico-mode))
 
@@ -50,6 +51,7 @@
 
 (use-package corfu
   :ensure t
+  :defer  t
   :custom
   (corfu-cycle t)
   :init
@@ -59,6 +61,7 @@
 
 (use-package yasnippet
   :ensure t
+  :defer  t
   :init
   (yas-global-mode 1))
 (use-package yasnippet-snippets
@@ -72,7 +75,8 @@
   (lua-mode . lsp-deferred))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :defer  t)
 
 (use-package doom-themes
   :ensure t
@@ -141,11 +145,9 @@
 
 (use-package slime
   :ensure t
+  :defer  t
   :init
-  (setq inferior-lisp-program "sbcl"
-        slime-lisp-implementations
-        '((nyxt ("sbcl" "--dynamic-space-size 3072")
-                :env ("CL_SOURCE_REGISTRY=~/.opt/common-lisp//:~/.opt/common-lisp/nyxt/_build//")))))
+  (setq inferior-lisp-program "sbcl"))
 
 (add-hook 'prog-mode-hook
           (lambda()

@@ -138,6 +138,7 @@ Vertico, to get a vertical list of available commands
 #+begin_src emacs-lisp
   (use-package vertico
     :ensure t
+    :defer  t
     :init
     (vertico-mode))
 #+end_src
@@ -155,6 +156,7 @@ Corfu, for auto completion popups
 #+begin_src emacs-lisp
   (use-package corfu
     :ensure t
+    :defer  t
     :custom
     (corfu-cycle t)
     :init
@@ -166,6 +168,7 @@ Yasnippets, for, well, snippets
 #+begin_src emacs-lisp
   (use-package yasnippet
     :ensure t
+    :defer  t
     :init
     (yas-global-mode 1))
   (use-package yasnippet-snippets
@@ -183,8 +186,9 @@ Yasnippets, for, well, snippets
 #+end_src
 *** Magit
 #+begin_src emacs-lisp
-  (use-package magit
-    :ensure t)
+    (use-package magit
+      :ensure t
+      :defer  t)
 #+end_src
 
 
@@ -298,11 +302,9 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
   (use-package slime
     :ensure t
+    :defer  t
     :init
-    (setq inferior-lisp-program "sbcl"
-          slime-lisp-implementations
-          '((nyxt ("sbcl" "--dynamic-space-size 3072")
-                  :env ("CL_SOURCE_REGISTRY=~/.opt/common-lisp//:~/.opt/common-lisp/nyxt/_build//")))))
+    (setq inferior-lisp-program "sbcl"))
 #+end_src
 
 *** Sane Indentation for the C Family
