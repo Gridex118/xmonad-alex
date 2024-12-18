@@ -61,6 +61,7 @@ shows at least some of the keystrokes in the ~echo-area~.
 Don't want backup files with weird names, and *probably* useless docstring warnings
 #+begin_src emacs-lisp
   (setq make-backup-files nil
+        native-comp-async-report-warnings-errors 'silent
         byte-compile-warnings '(not docstrings))
 #+end_src
 
@@ -218,6 +219,9 @@ Yasnippets, for, well, snippets
     :ensure t
     :init
     (doom-modeline-mode 1))
+  (use-package all-the-icons
+    :ensure t
+    :after  doom-modeline)
 #+end_src
 
 *** Better Highlighting

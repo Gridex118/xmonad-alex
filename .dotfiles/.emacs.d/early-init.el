@@ -16,4 +16,5 @@
 (setq echo-keystrokes .1)
 
 (setq make-backup-files nil
+      native-comp-async-report-warnings-errors 'silent
       byte-compile-warnings '(not docstrings))
