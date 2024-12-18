@@ -111,7 +111,7 @@ main = xmonad
         , "M-S-c"
         ]
         `additionalKeys`
-        [ ((shiftMask, xK_Shift_R), spawn "emacs")    -- Okay, this is stupid; keeping it for shits and giggles
+        [ ((shiftMask, xK_Shift_R), spawn "cycle_layout.sh")    -- Okay, this is stupid; keeping it for shits and giggles
         ]
         `additionalKeysP`
         [ ("M-S-d", spawn "~/.config/rofi/implements/launcher.sh")
