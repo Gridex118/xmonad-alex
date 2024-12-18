@@ -26,7 +26,7 @@ import XMonad.Actions.GridSelect (goToSelected)
 
 myManageHook = composeAll
     [ className =? "Pavucontrol" --> doCenterFloat
-    , className =? "qemu" --> doCenterFloat
+    , className =? "Qemu-system-x86_64" --> doCenterFloat
     , className =? "feh" --> doCenterFloat
     -- For Jubin's 8085simulator
     , stringProperty "WM_NAME" =? "Save Mnemonics" --> doCenterFloat
