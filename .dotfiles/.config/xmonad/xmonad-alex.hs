@@ -133,7 +133,7 @@ main = xmonad
         )
         , ("M-q", kill)
         , ("M-S-r", spawn "xmonad --recompile&& xmonad --restart")
-        , ("M-S-n", spawn "iwctl station wlan0 scan on")
+        , ("M-S-n", spawn "nettoggle.sh")
         , ("M-<Return>", spawn "alacritty")
         , ("M-S-<Return>", spawn "~/.local/bin/firefox")
         , ("M-C-<Print>", spawn "flameshot full")
