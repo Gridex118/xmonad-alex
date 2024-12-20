@@ -71,7 +71,8 @@
 (use-package lsp-mode
   :ensure t
   :hook
-  (c-mode . lsp-deferred)
+  (c-mode   . lsp-deferred)
+  (c++-mode . lsp-deferred)
   (lua-mode . lsp-deferred))
 
 (use-package magit
