@@ -1,6 +1,6 @@
 #+Author: Alex Rosegrid
 #+Title: Emacs Configuration
-#+Startup: show2levels indent
+#+Startup: show3levels indent
 
 #+PROPERTY: EMACS_CONFIG_DIR .dotfiles/.emacs.d/
 
@@ -87,6 +87,11 @@ Don't want backup files with weird names, and *probably* useless docstring warni
   (global-set-key "\C-xf" 'recentf-open-files)
 #+end_src
 
+*** Buffer Switching Keybinds
+#+begin_src emacs-lisp
+  (global-set-key "\C-xwb" 'switch-to-buffer-other-window)
+#+end_src
+
 *** Electric Modes
 #+begin_src emacs-lisp
   (electric-pair-mode)
@@ -116,7 +121,8 @@ Don't want backup files with weird names, and *probably* useless docstring warni
 *** Better Terminal
 #+begin_src emacs-lisp
   (use-package vterm
-    :ensure t)
+    :ensure t
+    :defer  t)
 #+end_src
 
 *** Better PDF Tooling
@@ -248,6 +254,13 @@ Mainly for emacs lisp, but the delimitors work for other languages too
 #+end_src
 
 
+** Tramp Settings
+Never save authentication sources
+#+begin_src emacs-lisp
+  (setq auth-source-save-behavior nil)
+#+end_src
+
+
 ** UI Settings
 
 *** A (Fairly) Good looking theme
@@ -352,6 +365,21 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
 
 
 ** Programming
+
+*** Packages for Other Programming Major Modes
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :ensure t
+    :defer  t)
+
+  (use-package haskell-mode
+    :ensure t
+    :defer  t)
+
+  (use-package portage-modes
+    :ensure t
+    :defer  t)
+#+end_src
 
 *** Sane Indentation for the C Family
 #+begin_src emacs-lisp
