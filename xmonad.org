@@ -157,7 +157,8 @@ Copied this from the WiKi, have no idea what most of these functions are
     , "picom -b"
     , "conky.sh"
     , "/usr/libexec/notification-daemon"
-    , "emacs --daemon" ]
+    , "emacs --daemon"
+    , "redshift" ]
 
   myStartupHook :: X ()
   myStartupHook = do
