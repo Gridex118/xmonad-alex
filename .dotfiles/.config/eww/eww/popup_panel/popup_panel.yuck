@@ -1,0 +1,20 @@
+;; -*- lisp -*-
+
+(defwindow popup-panel
+    :stacking "fg"
+    :windowtype "normal"
+    :wm-ignore true
+    :geometry (geometry
+               :anchor "top right"
+               :width "25%"
+               :height "50%"
+               :x "-0.7%"
+               :y "1.5%")
+    :window-type "dock"
+    (popup-panel-layout))
+
+(defwidget popup-panel-layout []
+  (eventbox
+   :onclick "eww close popup-panel"
+   (box
+    (label :text "Widgets go here"))))

@@ -1,0 +1,3 @@
+;; -*- lisp -*-
+
+(include "./popup_panel/popup_panel.yuck")
