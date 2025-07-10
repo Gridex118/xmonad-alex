@@ -15,6 +15,27 @@
 
 (defwidget popup-panel-layout []
   (eventbox
-   :onclick "eww close popup-panel"
+   :onhoverlost `eww close popup-panel`
    (box
-    (label :text "Widgets go here"))))
+    :orientation "vertical"
+    (box
+     :orientation "vertical"
+     (box
+      :orientation "vertical"
+      (label :text "Brightness")
+      (box
+       (label :text "󰃞") (scale :value 70) (label :text "󰃠")))
+     (box
+      :orientation "vertical"
+      (label :text "Volume")
+      (box
+       (label :text "󰝞") (scale :value 60) (label :text "󰝝"))))
+    (box
+     (button (label :text "󰀃  HotSpot"))
+     (button (label :text "  WiFi"))
+     (button (label :text "󰝟  Mute")))
+    (box
+     (button (label :text "󰚰  Update")))
+    (box
+     (button (label :text "  Backup"))
+     (button (label :text "󰍛  ZRam"))))))
