@@ -18,24 +18,44 @@
    :onhoverlost `eww close popup-panel`
    (box
     :orientation "vertical"
-    (box
-     :orientation "vertical"
-     (box
-      :orientation "vertical"
-      (label :text "Brightness")
-      (box
-       (label :text "󰃞") (scale :value 70) (label :text "󰃠")))
-     (box
-      :orientation "vertical"
-      (label :text "Volume")
-      (box
-       (label :text "󰝞") (scale :value 60) (label :text "󰝝"))))
+    (popup-panel-row-1)
+    (popup-panel-row-2)
+    (popup-panel-row-3)
+    (popup-panel-row-4))))
+
+(defwidget popup-panel-row-1 []
+  (box
+   :orientation "vertical"
+   (popup-panel-brightness)
+   (popup-panel-volume)))
+
+(defwidget popup-panel-row-2 []
     (box
      (button (label :text "󰀃  HotSpot"))
      (button (label :text "  WiFi"))
-     (button (label :text "󰝟  Mute")))
+     (button (label :text "󰝟  Mute"))))
+
+(defwidget popup-panel-row-3 []
     (box
-     (button (label :text "󰚰  Update")))
+     (button (label :text "󰚰  Update"))))
+
+(defwidget popup-panel-row-4 []
     (box
      (button (label :text "  Backup"))
-     (button (label :text "󰍛  ZRam"))))))
+     (button (label :text "󰍛  ZRam"))))
+
+(defwidget popup-panel-brightness []
+  (box
+   :orientation "vertical"
+   (label :text "Brightness")
+   (box (label :text "󰃞")
+        (scale :value 70)
+        (label :text "󰃠"))))
+
+(defwidget popup-panel-volume []
+  (box
+   :orientation "vertical"
+   (label :text "Volume")
+   (box (label :text "󰝞")
+        (scale :value 60)
+        (label :text "󰝝"))))
