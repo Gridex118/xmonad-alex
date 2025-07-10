@@ -6,8 +6,8 @@
     :wm-ignore true
     :geometry (geometry
                :anchor "top right"
-               :width "25%"
-               :height "50%"
+               :width "30%"
+               :height "65%"
                :x "-0.7%"
                :y "1.5%")
     :window-type "dock"
@@ -15,6 +15,7 @@
 
 (defwidget popup-panel-layout []
   (eventbox
+   :class "popup-panel"
    :onhoverlost `eww close popup-panel`
    (box
     :orientation "vertical"
@@ -25,37 +26,45 @@
 
 (defwidget popup-panel-row-1 []
   (box
+   :class "row-1"
    :orientation "vertical"
    (popup-panel-brightness)
    (popup-panel-volume)))
 
 (defwidget popup-panel-row-2 []
-    (box
-     (button (label :text "󰀃  HotSpot"))
-     (button (label :text "  WiFi"))
-     (button (label :text "󰝟  Mute"))))
+  (box
+   :class "row-2"
+   :spacing 5
+   (button :class "action-button" (label :text "󰀃  HotSpot"))
+   (button :class "action-button" (label :text "  WiFi"))
+   (button :class "action-button" (label :text "󰝟  Mute"))))
 
 (defwidget popup-panel-row-3 []
-    (box
-     (button (label :text "󰚰  Update"))))
+  (box
+   :class "row-3"
+   (button :class "action-button" (label :text "󰚰  Update"))))
 
 (defwidget popup-panel-row-4 []
-    (box
-     (button (label :text "  Backup"))
-     (button (label :text "󰍛  ZRam"))))
+  (box
+   :class "row-4"
+   (button :class "action-button" (label :text "  Backup"))
+   (button :class "action-button" (label :text "󰍛  ZRam"))))
 
 (defwidget popup-panel-brightness []
-  (box
-   :orientation "vertical"
-   (label :text "Brightness")
-   (box (label :text "󰃞")
-        (scale :value 70)
-        (label :text "󰃠"))))
+  (overlay
+   (box
+    :class "bv-slider"
+    (label :text "󰃞")
+    (scale :value 70 :min 0 :max 100)
+    (label :text "󰃠"))
+   (label :text "Brightness")))
 
 (defwidget popup-panel-volume []
-  (box
-   :orientation "vertical"
-   (label :text "Volume")
-   (box (label :text "󰝞")
-        (scale :value 60)
-        (label :text "󰝝"))))
+  (overlay
+   (box
+    :class "bv-slider"
+    :style "margin-right: 4em;"
+    (label :text "󰝞")
+    (scale :value 60)
+    (label :text "󰝝"))
+   (label :text "Volume")))
