@@ -158,6 +158,7 @@
 	    haskell-mode
 	    help-mode
 	    compilation-mode
+        emacs-lisp-mode
 	    lisp-mode
 	    dired-mode
 	    vterm-mode
