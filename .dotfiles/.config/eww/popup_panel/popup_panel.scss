@@ -5,29 +5,48 @@
 .popup-panel {
     font-family: "Roboto";
     font-size: 13pt;
-    color: #A19494;
-    background-color: #4C4C4C;
+    color: #CECECE;
+    background-color: rgba(76, 76, 76, 0.4);
+}
+
+.icon {
+    font-size: 24pt;
+    color: #666666;
 }
 
 .popup-panel > box {
-    padding: 28pt;
+    padding: 0 28pt;
+    padding-top: 68pt;
+    padding-bottom: 48pt;
 }
 
 .popup-panel .bv-slider {
-    margin: 12pt 0;
     border-radius: 5pt;
     background-color: #D9D9D9;
     font-size: 18pt;
 }
 
+scale trough {
+    background-color: #D9D9D9;
+    border-radius: 4px;
+    min-height: 45px;
+    min-width: 70px;
+    margin: 0 10px;
+}
+
+scale trough highlight {
+    background-color: #A3A0A0;
+    border-radius: 4px;
+}
+
 .popup-panel > box > box {
-    background-color: white;
     margin: 3pt 0;
 }
 
 .popup-panel .action-button {
     background-color: #D9D9D9;
     border-radius: 8pt;
+    color: #A19494;
 }
 
 .popup-panel .row-2 .action-button {

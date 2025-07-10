@@ -6,10 +6,10 @@
     :wm-ignore true
     :geometry (geometry
                :anchor "top right"
-               :width "30%"
-               :height "65%"
-               :x "-0.7%"
-               :y "1.5%")
+               :width "28%"
+               :height "60%"
+               :x "-0.9%"
+               :y "2.7%")
     :window-type "dock"
     (popup-panel-layout))
 
@@ -35,36 +35,50 @@
   (box
    :class "row-2"
    :spacing 5
-   (button :class "action-button" (label :text "󰀃  HotSpot"))
-   (button :class "action-button" (label :text "  WiFi"))
-   (button :class "action-button" (label :text "󰝟  Mute"))))
+   (button :class "action-button" (label :class "icon" :text ""))
+   (button :class "action-button" (label :class "icon" :text "󰀃"))
+   (button :class "action-button" (label :class "icon" :text "󰌌"))))
 
 (defwidget popup-panel-row-3 []
   (box
    :class "row-3"
-   (button :class "action-button" (label :text "󰚰  Update"))))
+   (button :class "action-button"
+           (box
+            :halign "center"
+            (label :class "icon" :text "󰚰")
+            (label :text "Update")))))
 
 (defwidget popup-panel-row-4 []
   (box
    :class "row-4"
-   (button :class "action-button" (label :text "  Backup"))
-   (button :class "action-button" (label :text "󰍛  ZRam"))))
+   (button :class "action-button"
+           (box
+            :halign "center"
+            (label :class "icon" :text "")
+            (label :text "Backup")))
+   (button :class "action-button"
+           (box
+            :halign "center"
+            (label :class "icon" :text "󰍛")
+            (label :text "ZRam")))))
 
 (defwidget popup-panel-brightness []
-  (overlay
-   (box
-    :class "bv-slider"
-    (label :text "󰃞")
+  (box
+   (overlay
     (scale :value 70 :min 0 :max 100)
-    (label :text "󰃠"))
-   (label :text "Brightness")))
+    (box
+     :spacing 30
+     (label :class "icon" :text "󰃞")
+     (label :text "Brightness")
+     (label :class "icon" :text "󰃠")))))
 
 (defwidget popup-panel-volume []
-  (overlay
-   (box
-    :class "bv-slider"
-    :style "margin-right: 4em;"
-    (label :text "󰝞")
-    (scale :value 60)
-    (label :text "󰝝"))
-   (label :text "Volume")))
+  (box
+   :style "margin-right: 50px;"
+   (overlay
+    (scale :value 60 :min 0 :max 100)
+    (box
+     :spacing 30
+     (label :class "icon" :text "󰝞")
+     (label :text "Volume")
+     (label :class "icon" :text "󰝝")))))
