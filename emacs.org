@@ -436,6 +436,11 @@ Mainly for emacs lisp, but the delimitors work for other languages too
   (global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
 #+end_src
 
+*** Kebinding to Kill the Server
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x M-q") 'save-buffers-kill-emacs)
+#+end_src
+
 
 ** File Extension Matching
 #+begin_src emacs-lisp

@@ -254,6 +254,8 @@
 
 (global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
 
+(global-set-key (kbd "C-x M-q") 'save-buffers-kill-emacs)
+
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (setq auth-source-save-behavior nil)
