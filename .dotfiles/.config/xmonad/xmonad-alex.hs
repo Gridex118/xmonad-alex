@@ -128,7 +128,8 @@ mouseButtons = map (\(modifier, key, action) -> ((modifier, key), const $ spawn 
           , (shiftMask, 8, "xdotool type --clearmodifier [")
           , (shiftMask, 9, "xdotool type --clearmodifier ]")
           , (mod4Mask, 4, "~/scripts/soundctrl.sh +")
-          , (mod4Mask, 5, "~/scripts/soundctrl.sh -") ]
+          , (mod4Mask, 5, "~/scripts/soundctrl.sh -")
+          , (mod4Mask, 8, "~/scripts/toggle_eww_popup_panel.sh") ]
 
 workspaceGoToKeys :: [((KeyMask, KeySym), X ())]
 workspaceGoToKeys =
