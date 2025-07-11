@@ -42,27 +42,14 @@
 (defwidget popup-panel-row-3 []
   (box
    :class "row-3"
-   (eventbox
-    :class "action-button-wrapper"
-    (button :class "action-button"
-            (box
-             :halign "center"
-             (label :class "icon" :text "󰚰")
-             (label :text "Update"))))))
+   (update-fixed-action-button)))
 
 (defwidget popup-panel-row-4 []
   (box
    :class "row-4"
    :space-evenly false
    :halign "fill"
-   (eventbox
-    :hexpand true
-    :class "action-button-wrapper"
-    (button :class "action-button backup-button"
-            (box
-             :halign "center"
-             (label :class "icon" :text " ")
-             (label :text "Backup"))))
+   (backup-fixed-action-button)
    (zram-toggle-button)))
 
 (defwidget popup-panel-brightness []
@@ -110,6 +97,20 @@
      :onclick ""
      :icon "󰍛" :caption "ZRam"))
 
+(defwidget update-fixed-action-button []
+  (fixed-action-button
+   :class "action-button update-button"
+   :onclick ""
+   :hexpand false
+   :icon "󰚰" :caption "Update"))
+
+(defwidget backup-fixed-action-button []
+  (fixed-action-button
+   :class "action-button backup-button"
+   :onclick ""
+   :hexpand true
+   :icon " " :caption "Backup"))
+
 (defwidget toggle-button
     [class onclick icon caption]
     (eventbox
@@ -120,5 +121,18 @@
       (box
        :valign "center"
        :orientation "vertical"
+       (label :class "icon" :text icon)
+       (label :text caption)))))
+
+(defwidget fixed-action-button
+    [class onclick icon caption hexpand]
+    (eventbox
+     :class "action-button-wrapper"
+     :hexpand hexpand
+     (button
+      :class class
+      :onclick onclick
+      (box
+       :halign "center"
        (label :class "icon" :text icon)
        (label :text caption)))))
