@@ -7,7 +7,7 @@
     :geometry (geometry
                :anchor "top right"
                :width "28%"
-               :height "60%"
+               :height "62%"
                :x "-0.9%"
                :y "2.7%")
     :window-type "dock"
@@ -59,18 +59,22 @@
 (defwidget popup-panel-row-4 []
   (box
    :class "row-4"
+   :space-evenly false
+   :halign "fill"
    (eventbox
+    :hexpand true
     :class "action-button-wrapper"
-    (button :class "action-button"
+    (button :class "action-button backup-button"
             (box
              :halign "center"
              (label :class "icon" :text "")
              (label :text "Backup"))))
    (eventbox
     :class "action-button-wrapper"
-    (button :class "action-button"
+    (button :class "action-button zram-button"
             (box
-             :halign "center"
+             :valign "center"
+             :orientation "vertical"
              (label :class "icon" :text "󰍛")
              (label :text "ZRam"))))))
 
