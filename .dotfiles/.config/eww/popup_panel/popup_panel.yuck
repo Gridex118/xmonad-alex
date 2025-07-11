@@ -35,32 +35,44 @@
   (box
    :class "row-2"
    :spacing 5
-   (button :class "action-button" (label :class "icon" :text ""))
-   (button :class "action-button" (label :class "icon" :text "󰀃"))
-   (button :class "action-button" (label :class "icon" :text "󰌌"))))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button" (label :class "icon" :text "")))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button" (label :class "icon" :text "󰀃")))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button" (label :class "icon" :text "󰌌")))))
 
 (defwidget popup-panel-row-3 []
   (box
    :class "row-3"
-   (button :class "action-button"
-           (box
-            :halign "center"
-            (label :class "icon" :text "󰚰")
-            (label :text "Update")))))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button"
+            (box
+             :halign "center"
+             (label :class "icon" :text "󰚰")
+             (label :text "Update"))))))
 
 (defwidget popup-panel-row-4 []
   (box
    :class "row-4"
-   (button :class "action-button"
-           (box
-            :halign "center"
-            (label :class "icon" :text "")
-            (label :text "Backup")))
-   (button :class "action-button"
-           (box
-            :halign "center"
-            (label :class "icon" :text "󰍛")
-            (label :text "ZRam")))))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button"
+            (box
+             :halign "center"
+             (label :class "icon" :text "")
+             (label :text "Backup"))))
+   (eventbox
+    :class "action-button-wrapper"
+    (button :class "action-button"
+            (box
+             :halign "center"
+             (label :class "icon" :text "󰍛")
+             (label :text "ZRam"))))))
 
 (defwidget popup-panel-brightness []
   (box

@@ -21,7 +21,7 @@
 }
 
 .popup-panel .bv-slider {
-    border-radius: 5pt;
+    border-radius: 4pt;
     background-color: #D9D9D9;
     font-size: 18pt;
 }
@@ -44,13 +44,18 @@ scale trough highlight {
 }
 
 .popup-panel .action-button {
-    background-color: #D9D9D9;
+    background-color: #A3A0A0;
     border-radius: 8pt;
     color: #A19494;
 }
 
+
+.popup-panel .action-button-wrapper :hover {
+    background-color: #D9D9D9;
+}
+
 .popup-panel .row-2 .action-button {
-    margin: 12pt;
+    margin: 3pt 14pt;
 }
 
 .popup-panel .row-3 .action-button {
