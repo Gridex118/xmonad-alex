@@ -6,7 +6,7 @@
     font-family: "Roboto";
     font-size: 13pt;
     color: #CECECE;
-    background-color: rgba(76, 76, 76, 0.4);
+    background-color: rgba(76, 76, 76, 0.66);
 }
 
 .icon {
@@ -56,31 +56,35 @@ scale trough highlight {
     :hover {
         background-color: #D9D9D9;
         color: #A19494;
+        .icon {
+            color: #5A5A5A;
+        }
     }
 }
 
 .popup-panel .row-2 {
     margin: 0 4px;
     .action-button {
-        margin: 3px 12px;
+        margin: 6px 14px;
     }
 }
 
 .popup-panel .row-3 {
     margin: 0 4px;
     .action-button {
-        margin: 10px 12px;
+        margin: 18px 14px;
     }
 }
 
 .popup-panel .row-4 {
     margin: 0 4px;
     .action-button {
-        margin: 4px 12px;
+        margin: 10px 14px;
     }
     .backup-button {
     }
     .zram-button {
-        min-width: 140px;
+        min-width: 120px;
+        margin-left: 20px;
     }
 }
