@@ -15,9 +15,7 @@
 }
 
 .popup-panel > box {
-    padding: 0 28pt;
-    padding-top: 54pt;
-    padding-bottom: 42pt;
+    padding: 54pt 28pt 42pt 28pt;
 }
 
 .popup-panel .bv-slider {
@@ -39,8 +37,8 @@ scale trough highlight {
     border-radius: 4pt;
 }
 
-.popup-panel > box > box {
-    margin: 3px 0;
+.popup-panel .button-rows-wrapper {
+    margin: 0 18px;
 }
 
 .popup-panel .action-button {
@@ -62,29 +60,21 @@ scale trough highlight {
     }
 }
 
-.popup-panel .row-2 {
-    margin: 0 4px;
-    .action-button {
-        margin: 6px 14px;
-    }
+.popup-panel .row-2 .action-button {
+    min-height: 122px;
 }
 
-.popup-panel .row-3 {
-    margin: 0 4px;
-    .action-button {
-        margin: 18px 14px;
-    }
+.popup-panel .row-3 .action-button {
+    min-height: 108px;
 }
 
 .popup-panel .row-4 {
-    margin: 0 4px;
     .action-button {
-        margin: 10px 14px;
+        min-height: 124px;
     }
     .backup-button {
     }
     .zram-button {
         min-width: 120px;
-        margin-left: 20px;
     }
 }

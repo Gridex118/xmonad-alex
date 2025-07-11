@@ -19,22 +19,42 @@
    :onhoverlost `eww close popup-panel`
    (box
     :orientation "vertical"
-    (popup-panel-row-1)
-    (popup-panel-row-2)
-    (popup-panel-row-3)
-    (popup-panel-row-4))))
+    :space-evenly false
+    :spacing 70
+    (box
+     (popup-panel-row-1))
+    (button-rows))))
+
+(defwidget button-rows []
+  (box
+   :class "button-rows-wrapper"
+   :orientation "vertical"
+   :space-evenly false
+   :spacing 40
+   (popup-panel-row-2)
+   (secondary-buttons-rows)))
+
+(defwidget secondary-buttons-rows []
+  (box
+   :class "secondary-buttons-rows-wrapper"
+   :orientation "vertical"
+   :space-evenly false
+   :spacing 25
+   (popup-panel-row-3)
+   (popup-panel-row-4)))
 
 (defwidget popup-panel-row-1 []
   (box
    :class "row-1"
    :orientation "vertical"
+   :spacing 20
    (popup-panel-brightness)
    (popup-panel-volume)))
 
 (defwidget popup-panel-row-2 []
   (box
    :class "row-2"
-   :spacing 5
+   :spacing 35
    (wifi-toggle-button)
    (hotspot-toggle-button)
    (kmonad-toggle-button)))
@@ -48,6 +68,7 @@
   (box
    :class "row-4"
    :space-evenly false
+   :spacing 40
    :halign "fill"
    (backup-fixed-action-button)
    (zram-toggle-button)))
@@ -64,7 +85,7 @@
 
 (defwidget popup-panel-volume []
   (box
-   :style "margin-right: 50px;"
+   :style "margin-right: 50px"
    (overlay
     (scale :value 60 :min 0 :max 100)
     (box
