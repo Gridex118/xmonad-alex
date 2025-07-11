@@ -35,18 +35,9 @@
   (box
    :class "row-2"
    :spacing 5
-   (toggle-button
-    :class "action-button"
-    :onclick ""
-    :icon "" :caption "WiFi")
-   (toggle-button
-    :class "action-button"
-    :onclick ""
-    :icon "󰀃" :caption "HotSpot")
-   (toggle-button
-    :class "action-button"
-    :onclick ""
-    :icon "󰌌" :caption "KMonad")))
+   (wifi-toggle-button)
+   (hotspot-toggle-button)
+   (kmonad-toggle-button)))
 
 (defwidget popup-panel-row-3 []
   (box
@@ -70,12 +61,9 @@
     (button :class "action-button backup-button"
             (box
              :halign "center"
-             (label :class "icon" :text "")
+             (label :class "icon" :text " ")
              (label :text "Backup"))))
-   (toggle-button
-    :class "action-button zram-button"
-    :onclick ""
-    :icon "󰍛" :caption "ZRam")))
+   (zram-toggle-button)))
 
 (defwidget popup-panel-brightness []
   (box
@@ -97,6 +85,30 @@
      (label :class "icon" :text "󰝞")
      (label :text "Volume")
      (label :class "icon" :text "󰝝")))))
+
+(defwidget wifi-toggle-button []
+    (toggle-button
+     :class "action-button"
+     :onclick ""
+     :icon " " :caption "WiFi"))
+
+(defwidget hotspot-toggle-button []
+    (toggle-button
+     :class "action-button"
+     :onclick ""
+     :icon "󰀃" :caption "HotSpot"))
+
+(defwidget kmonad-toggle-button  []
+    (toggle-button
+     :class "action-button"
+     :onclick ""
+     :icon "󰌌" :caption "KMonad"))
+
+(defwidget zram-toggle-button []
+    (toggle-button
+     :class "action-button zram-button"
+     :onclick ""
+     :icon "󰍛" :caption "ZRam"))
 
 (defwidget toggle-button
     [class onclick icon caption]
