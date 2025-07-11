@@ -35,15 +35,18 @@
   (box
    :class "row-2"
    :spacing 5
-   (eventbox
-    :class "action-button-wrapper"
-    (button :class "action-button" (label :class "icon" :text "")))
-   (eventbox
-    :class "action-button-wrapper"
-    (button :class "action-button" (label :class "icon" :text "󰀃")))
-   (eventbox
-    :class "action-button-wrapper"
-    (button :class "action-button" (label :class "icon" :text "󰌌")))))
+   (toggle-button
+    :class "action-button"
+    :onclick ""
+    :icon "" :caption "WiFi")
+   (toggle-button
+    :class "action-button"
+    :onclick ""
+    :icon "󰀃" :caption "HotSpot")
+   (toggle-button
+    :class "action-button"
+    :onclick ""
+    :icon "󰌌" :caption "KMonad")))
 
 (defwidget popup-panel-row-3 []
   (box
@@ -69,14 +72,10 @@
              :halign "center"
              (label :class "icon" :text "")
              (label :text "Backup"))))
-   (eventbox
-    :class "action-button-wrapper"
-    (button :class "action-button zram-button"
-            (box
-             :valign "center"
-             :orientation "vertical"
-             (label :class "icon" :text "󰍛")
-             (label :text "ZRam"))))))
+   (toggle-button
+    :class "action-button zram-button"
+    :onclick ""
+    :icon "󰍛" :caption "ZRam")))
 
 (defwidget popup-panel-brightness []
   (box
@@ -98,3 +97,16 @@
      (label :class "icon" :text "󰝞")
      (label :text "Volume")
      (label :class "icon" :text "󰝝")))))
+
+(defwidget toggle-button
+    [class onclick icon caption]
+    (eventbox
+     :class "action-button-wrapper"
+     (button
+      :class class
+      :onclick onclick
+      (box
+       :valign "center"
+       :orientation "vertical"
+       (label :class "icon" :text icon)
+       (label :text caption)))))
