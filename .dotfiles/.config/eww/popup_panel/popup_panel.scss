@@ -41,14 +41,20 @@ scale trough highlight {
     margin: 0 18px;
 }
 
-.popup-panel .action-button {
-    border-radius: 8pt;
-    background-color: #A3A0A0;
-    color: #CECECE;
-    font-style: italic;
-    font-weight: 300;
+.popup-panel {
+    .action-button {
+        border-radius: 8pt;
+        background-color: #A3A0A0;
+        color: #CECECE;
+        font-style: italic;
+        font-weight: 300;
+    }
+    .action-button.update-button,
+    .action-button.backup-button {
+        background-color: #C9C9C9;
+        color: #A19494;
+    }
 }
-
 
 .popup-panel .action-button-wrapper {
     :hover {
