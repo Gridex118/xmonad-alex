@@ -56,13 +56,12 @@ scale trough highlight {
     }
 }
 
-.popup-panel .action-button-wrapper {
-    :hover {
-        background-color: #D9D9D9;
-        color: #A19494;
-        .icon {
-            color: #5A5A5A;
-        }
+.popup-panel .action-button.active,
+.popup-panel .action-button:hover {
+    background-color: #D9D9D9;
+    color: #A19494;
+    .icon {
+        color: #5A5A5A;
     }
 }
 

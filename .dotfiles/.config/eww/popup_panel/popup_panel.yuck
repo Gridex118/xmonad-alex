@@ -1,5 +1,9 @@
 ;; -*- lisp -*-
 
+(defpoll ssid
+    :interval "1s"
+    `popup_panel/scripts/wifi.sh --ssid`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -96,9 +100,9 @@
 
 (defwidget wifi-toggle-button []
     (toggle-button
-     :class "action-button"
-     :onclick ""
-     :icon " " :caption "WiFi"))
+     :class "action-button ${ssid == '' ? '' : 'active'}"
+     :onclick "popup_panel/scripts/wifi.sh --toggle"
+     :icon " " :caption ssid))
 
 (defwidget hotspot-toggle-button []
     (toggle-button
