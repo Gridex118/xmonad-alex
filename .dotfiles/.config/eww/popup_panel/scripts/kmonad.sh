@@ -25,12 +25,13 @@ while true; do
             fi
             shift ;;
 		--toggle-in-ext )
-            if [[ "$STATUS" = "External" ]]; then
-                killall kmonad
-                ~/scripts/kmonad-init.sh --force-use-internal &>/dev/null
-            else
-                killall kmonad
+            # Sticking in a side effect of starting KMonad in internal mode, since
+            # I could not think of a clean way to do this
+            [[ "$STATES" == "off" ]] || killall kmonad
+            if [[ "$STATUS" = "Internal" ]]; then
                 ~/scripts/kmonad-init.sh &>/dev/null
+            else
+                ~/scripts/kmonad-init.sh --force-use-internal &>/dev/null
             fi
             shift ;;
         * )
