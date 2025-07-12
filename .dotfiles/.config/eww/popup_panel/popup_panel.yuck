@@ -1,12 +1,16 @@
 ;; -*- lisp -*-
 
 (defpoll ssid
-    :interval "1s"
+    :interval "2s"
     `popup_panel/scripts/wifi.sh --ssid`)
 
 (defpoll kmonad_status
-    :interval "1s"
+    :interval "2s"
     `popup_panel/scripts/kmonad.sh --status`)
+
+(defpoll brightness
+    :interval "10s"
+    `popup_panel/scripts/brightness.sh --get`)
 
 (defwindow popup-panel
     :stacking "fg"
@@ -84,7 +88,8 @@
 (defwidget popup-panel-brightness []
   (box
    (overlay
-    (scale :value 70 :min 0 :max 100)
+    (scale :value brightness :min 1 :max 100
+           :onchange `popup_panel/scripts/brightness.sh --set {}`)
     (box
      :spacing 30
      (label :class "icon" :text "󰃞")
