@@ -4,6 +4,10 @@
     :interval "1s"
     `popup_panel/scripts/wifi.sh --ssid`)
 
+(defpoll kmonad_status
+    :interval "1s"
+    `popup_panel/scripts/kmonad.sh --status`)
+
 (defwindow popup-panel
     :stacking "fg"
     :windowtype "normal"
@@ -111,10 +115,11 @@
      :icon "󰀃" :caption "HotSpot"))
 
 (defwidget kmonad-toggle-button  []
-    (toggle-button
-     :class "action-button"
-     :onclick ""
-     :icon "󰌌" :caption "KMonad"))
+    (toggle-button-tristate
+     :class "action-button ${kmonad_status == 'off' ? '' : 'active'}"
+     :onclick "popup_panel/scripts/kmonad.sh --toggle"
+     :onrightclick "popup_panel/scripts/kmonad.sh --toggle-in-ext"
+     :icon "󰌌" :caption kmonad_status))
 
 (defwidget zram-toggle-button []
     (toggle-button
@@ -138,11 +143,18 @@
 
 (defwidget toggle-button
     [class onclick icon caption]
+    (toggle-button-tristate
+     :class class
+     :onclick onclick :onrightclick ""
+     :icon icon :caption caption))
+
+(defwidget toggle-button-tristate
+    [class onclick onrightclick icon caption]
     (eventbox
      :class "action-button-wrapper"
      (button
       :class class
-      :onclick onclick
+      :onclick onclick :onrightclick onrightclick
       (box
        :valign "center"
        :orientation "vertical"

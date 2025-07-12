@@ -5,7 +5,7 @@ if [[ -n "$(pgrep 'kmonad$')" ]]; then
 fi
 
 # Canonicalize the args
-GETOPTS_OUT=$(getopt -o i -l use-internal -n "kmonad-init.sh" -- "$@")
+GETOPTS_OUT=$(getopt -o iI -l use-internal,force-use-internal -n "kmonad-init.sh" -- "$@")
 if [[ $? != 0 ]]; then
 	echo "getopts gave error; aborting" >&2
 	exit 1
@@ -19,6 +19,9 @@ while true; do
 	case "$1" in
 		-i | --use-internal )
 			USE_INTERNAL=1
+			shift ;;
+		-I | --force-use-internal )
+			USE_INTERNAL=2
 			shift ;;
 		* ) shift; break ;;
 	esac
@@ -54,7 +57,9 @@ else
 		# Patch the file to fix some keybindings
 		PATCH_FILE="$HOME/scripts/internal.patch"
 		cat $PATCH_FILE
-		echo "Should these changes be made?[Ctrl-c to abort, ENTER to continue]"&& read
+        if [[ $USE_INTERNAL -eq 1 ]]; then
+		    echo "Should these changes be made?[Ctrl-c to abort, ENTER to continue]"&& read
+        fi
 		patch -b -i $PATCH_FILE ~/.config/kmonad/kmonad-alex-internal.kbd
 		(~/.local/bin/kmonad ~/.config/kmonad/kmonad-alex-internal.kbd &)
 	else
