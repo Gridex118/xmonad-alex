@@ -1,0 +1,14 @@
+font: MesloLGS NF 13
+background: "3282828ef"
+color: "#ffffff"
+separator: ": "
+border_width: 0
+corner_r: 12
+padding: 15
+
+anchor: center
+
+menu:
+  - key: "r"
+    desc: "RPCS3"
+    cmd: ~/.local/bin/rpcs3-v0.0.33-17020-d51d5ce8_linux64.AppImage

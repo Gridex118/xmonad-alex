@@ -1,0 +1,32 @@
+font: MesloLGS NF 13
+background: "3282828ef"
+color: "#ffffff"
+separator: ": "
+border_width: 0
+corner_r: 12
+padding: 15
+
+anchor: center
+
+menu:
+  - key: "z"
+    desc: "Zathura -- resume"
+    cmd: ~/.config/rofi/implements/fzathura.py --resume
+  - key: "Z"
+    desc: "Zathura"
+    cmd: ~/.config/rofi/implements/fzathura.py --menu
+  - key: "Ctrl+z"
+    desc: "Zathura -- No Save"
+    cmd: ~/.config/rofi/implements/fzathura.py --no-save-recent --menu
+  - key: "g"
+    desc: "Gimp"
+    cmd: gimp
+  - key: "e"
+    desc: "Emacs"
+    cmd: emacsclient --create-frame
+  - key: "v"
+    desc: "Volume"
+    cmd: pavucontrol
+  - key: "p"
+    desc: "Private Window"
+    cmd: firefox --private-window
