@@ -681,6 +681,14 @@ For languages that probably can't affect the system much, I'd rather not have to
 
 *** Packages for Other Programming Major Modes
 #+begin_src emacs-lisp
+  (use-package json-mode
+    :ensure t
+    :defer  t)
+
+  (use-package kdl-mode
+    :ensure t
+    :defer  t)
+
   (use-package lua-mode
     :ensure t
     :defer  t)
@@ -909,3 +917,10 @@ But, we don't want this for Makefiles
             (lambda() (indent-tabs-mode 1)))
 #+end_src
 
+
+
+** Unclutter Custom Variables
+#+begin_src emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file)
+#+end_src
