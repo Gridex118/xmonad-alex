@@ -110,8 +110,8 @@ layout {
         // draws any.
         //
         // draw-behind-window true
-        softness 30
-        spread 10
+        softness 50
+        spread 5
         offset x=0 y=5
         color "#0007"
     }
@@ -257,8 +257,12 @@ binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+E hotkey-overlay-title="Open Emacs" { spawn "emacsclient" "--create-frame"; }
     Mod+Shift+Return hotkey-overlay-title="Open new Browser Window: Firefox" { spawn "firefox" "--new-window"; }
-    Mod+D hotkey-overlay-title="Run an Application: rofi" { spawn-sh "~/.config/rofi/implements/launcher.sh"; }
+    Mod+Shift+D hotkey-overlay-title="Run an Application: rofi" { spawn-sh "~/.config/rofi/implements/launcher.sh"; }
+    Mod+D hotkey-overlay-title="Common Apps" { spawn-sh "~/.cargo/bin/wlr-which-key common_apps.yaml"; }
+    Mod+A hotkey-overlay-title="Games" { spawn-sh "~/.cargo/bin/wlr-which-key games.yaml"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+
+    Mod+MouseBack { spawn "eww" "--no-daemonize" "open" "popup-panel"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
