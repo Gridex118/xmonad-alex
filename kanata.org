@@ -168,7 +168,6 @@ And, the alias for the layer, and a tap dance for numeric and function key layer
     (tap-dance 200 (@num @fkeys)))
 #+end_src
 
-
 *** Layout Switching
 #+begin_src text
   (deflayermap (layoutswitch)
