@@ -161,7 +161,7 @@ prefer-no-csd
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
@@ -186,13 +186,44 @@ layer-rule {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
+window-rule {
+    opacity 0.98
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="^rpcs3$"
     open-floating true
+}
+
+window-rule {
+    match app-id="^rpcs3$"
+    match app-id="^mpv$"
+    opacity 1.0
+    focus-ring {
+        off
+    }
+}
+
+window-rule {
+    match app-id="^mpv$"
+    open-fullscreen true
+}
+
+window-rule {
+    match app-id="^com.obsproject.Studio$"
+    open-maximized true
+}
+
+window-rule {
+    match app-id="^PopupPanelUpdateWindow$"
+    open-on-workspace "11"
 }
 
 // Example: block out two password managers from screen capture.
@@ -205,14 +236,6 @@ window-rule {
 
     // Use this instead if you want them visible on third-party screenshot tools.
     // block-out-from "screencast"
-}
-
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    opacity 0.98
-    geometry-corner-radius 12
-    clip-to-geometry true
 }
 
 binds {
