@@ -135,12 +135,14 @@ workspace "11"
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-sh-at-startup "/usr/libexec/xdg-desktop-portal-gnome -r"
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 spawn-sh-at-startup "~/scripts/kanata-init.sh"
 spawn-sh-at-startup "emacs --daemon"
+spawn-sh-at-startup "eww daemon"
 spawn-at-startup "swww-daemon"
-spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion.png"
+spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion_blur.png"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
