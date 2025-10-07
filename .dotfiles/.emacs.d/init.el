@@ -403,6 +403,14 @@
   :hook (org-mode
          markdown-mode))
 
+(use-package json-mode
+  :ensure t
+  :defer  t)
+
+(use-package kdl-mode
+  :ensure t
+  :defer  t)
+
 (use-package lua-mode
   :ensure t
   :defer  t)
@@ -572,3 +580,6 @@
 
 (add-hook 'makefile-gmake-mode-hook
           (lambda() (indent-tabs-mode 1)))
+
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
