@@ -33,10 +33,12 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
+        "interval": 30,
         "format": " {usage}%",
         "tooltip": false
     },
     "memory": {
+        "interval": 30,
         "format": " {used}GiB ({percentage}%)"
     },
     "temperature": {
