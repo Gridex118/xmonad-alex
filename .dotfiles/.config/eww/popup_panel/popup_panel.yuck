@@ -33,15 +33,13 @@
     `popup_panel/scripts/update.sh --status`)
 
 (defwindow popup-panel
+    :monitor 0
     :stacking "fg"
     :windowtype "normal"
     :wm-ignore true
     :geometry (geometry
-               :anchor "top right"
-               :width "29.5%"
-               :height "60%"
-               :x "-0.9%"
-               :y "4%")
+               :anchor "center"
+               :width "40%")
     :window-type "dock"
     (popup-panel-layout))
 
