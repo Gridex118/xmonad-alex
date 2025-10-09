@@ -6,7 +6,7 @@
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 0.15);
+    background-color: rgba(190, 75, 77, 0.1);
     color: #ffffff;
 }
 
@@ -25,7 +25,6 @@ button {
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
     background: inherit;
-    box-shadow: inset 0 -3px #ffffff;
 }
 
 #workspaces > * {
@@ -60,7 +59,7 @@ button:hover {
 #temperature,
 #network,
 #mode {
-    background-color: rgba(84, 82, 93, 0.6);
+    background-color: rgba(190, 75, 77, 0.6);
     padding: 2px 15px;
     color: #ffffff;
 }
@@ -82,18 +81,26 @@ button:hover {
 }
 
 #battery.charging, #battery.plugged {
-    color: #ffffff;
-    background-color: #26A65B;
+    color: #9ece6a;
 }
 
+#battery.warning:not(.charging),
 #battery.critical:not(.charging) {
-    background-color: #f53c3c;
-    color: #ffffff;
+    color: #f53c3c;
+    font-weight: 800;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: steps(12);
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+#network.wifi {
+    color: #68fff7;
+}
+
+#clock {
+    font-weight: bold;
 }
 
 label:focus {

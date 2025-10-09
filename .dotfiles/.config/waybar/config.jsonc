@@ -18,6 +18,7 @@
     ],
 	"niri/workspaces": {
         "disable-scroll": true,
+        "disable-click": true,
         "all-outputs": true,
         "format": "{icon}",
         "format-icons": {
@@ -28,7 +29,7 @@
     "clock": {
         // "timezone": "America/New_York",
         "format": "{:%a, %b %d - (%H:%M)}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip": false,
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
@@ -38,7 +39,8 @@
     },
     "memory": {
         "interval": 30,
-        "format": "<span color='#E0AF68'></span> {used}GiB ({percentage}%)"
+        "format": "<span color='#E0AF68'></span> {used}GiB ({percentage}%)",
+        "tooltip": false,
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -51,10 +53,10 @@
     "battery": {
         "states": {
             // "good": 95,
-            "warning": 30,
-            "critical": 15
+            "warning": 35,
+            "critical": 20
         },
-        "format": "{icon} {capacity}%",
+        "format": "{icon} Off Plug ({capacity}%)",
         "format-full": "{icon} {capacity}%",
         "format-plugged": "Plugged in ",
         "format-charging": " On Plug ({capacity}%)",
@@ -68,7 +70,7 @@
         "format-wifi": "󰤨  {essid}: {bandwidthDownBytes}",
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "⚠ Disconnected",
+        "format-disconnected": "<span color='#A0A0A0'>Disconnected</span>",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
 }
