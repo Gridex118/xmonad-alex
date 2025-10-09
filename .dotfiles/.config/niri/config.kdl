@@ -150,7 +150,7 @@ workspace "11"
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-sh-at-startup "gammastep -l 28.6146:77.2284 -t 5400:3950"
 spawn-sh-at-startup "/usr/libexec/xdg-desktop-portal-gnome -r"
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
@@ -239,6 +239,8 @@ window-rule {
 
 window-rule {
     match app-id="^com.obsproject.Studio$"
+    match app-id="^gimp$"
+    match app-id="^virt-manager$"
     open-maximized true
 }
 
