@@ -10,12 +10,17 @@
         "temperature",
         "cpu",
         "memory",
+        "custom/gentoo",
         "network",
     ],
     "modules-right": [
         "battery",
         "clock",
     ],
+    "custom/gentoo": {
+        "format": " Gentoo Linux",
+        "interval": "360",
+    },
 	"niri/workspaces": {
         "disable-scroll": true,
         "disable-click": true,

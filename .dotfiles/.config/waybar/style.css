@@ -57,11 +57,17 @@ button:hover {
 #memory,
 #disk,
 #temperature,
+#custom-gentoo,
 #network,
 #mode {
     background-color: rgba(190, 75, 77, 0.6);
     padding: 2px 15px;
     color: #ffffff;
+}
+
+#custom-gentoo {
+    font-size: 1.2rem;
+    color: #eac7fc;
 }
 
 #workspaces {
