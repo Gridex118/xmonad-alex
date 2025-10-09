@@ -157,7 +157,8 @@ spawn-at-startup "dunst"
 spawn-sh-at-startup "~/scripts/kanata-init.sh"
 spawn-sh-at-startup "emacs --daemon"
 spawn-sh-at-startup "eww daemon"
-spawn-at-startup "swww-daemon"
+// Need to patch wbg to use "wbg_wallpaper" as the wlr namespace hint
+spawn-sh-at-startup "wbg ~/Wallpapers/evangelion.png"
 spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion_blur.png"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
