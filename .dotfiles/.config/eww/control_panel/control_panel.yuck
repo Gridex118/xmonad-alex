@@ -2,125 +2,106 @@
 
 (defpoll ssid
     :interval "2s"
-    `popup_panel/scripts/wifi.sh --ssid`)
+    `control_panel/scripts/wifi.sh --ssid`)
 
 (defpoll kanata_status
     :interval "2s"
-    `popup_panel/scripts/kanata.sh --status`)
+    `control_panel/scripts/kanata.sh --status`)
 
 (defpoll brightness
     :interval "10s"
-    `popup_panel/scripts/brightness.sh --get`)
+    `control_panel/scripts/brightness.sh --get`)
 
 (defpoll zram_status
     :interval "2s"
-    `popup_panel/scripts/zram.sh --used`)
+    `control_panel/scripts/zram.sh --used`)
 
 (defpoll volume
     :interval "5s"
-    `popup_panel/scripts/volume.sh --get`)
+    `control_panel/scripts/volume.sh --get`)
 
 (defpoll hotspot_ssid
     :interval "2s"
-    `popup_panel/scripts/hotspot.sh --ssid`)
+    `control_panel/scripts/hotspot.sh --ssid`)
 
 (defpoll backup_dev_status
     :interval "2s"
-    `popup_panel/scripts/backup.sh --status`)
+    `control_panel/scripts/backup.sh --status`)
 
 (defpoll updates_running
     :interval "2s"
-    `popup_panel/scripts/update.sh --status`)
+    `control_panel/scripts/update.sh --status`)
 
-(defwindow popup-panel
+(defwindow control-panel
     :monitor 0
     :stacking "fg"
     :windowtype "normal"
     :wm-ignore true
     :geometry (geometry
                :anchor "center"
-               :width "40%")
-    :window-type "dock"
-    (popup-panel-layout))
+               :width "37%")
+    (control-panel-layout))
 
-(defwidget popup-panel-layout []
+(defwidget control-panel-layout []
   (eventbox
-   :class "popup-panel"
-   :onhoverlost `eww close popup-panel`
+   :class "control-panel"
+   :onhoverlost `eww close control-panel`
    (box
     :orientation "vertical"
     :space-evenly false
     :spacing 30
-    (box
-     :class "sliders-wrapper"
-     (popup-panel-row-1))
-    (button-rows))))
+    (button-rows)
+    (box :class "sliders-wrapper"
+     (sliders-row)))))
 
 (defwidget button-rows []
   (box
-   :class "button-rows-wrapper"
+   :class       "button-rows-wrapper"
    :orientation "vertical"
    :space-evenly false
-   :spacing 40
-   (popup-panel-row-2)
-   (secondary-buttons-rows)))
+   :spacing 30
+   (button-row-1)
+   (button-row-2)))
 
-(defwidget secondary-buttons-rows []
+(defwidget button-row-1 []
   (box
-   :class "secondary-buttons-rows-wrapper"
-   :orientation "vertical"
-   :space-evenly false
-   :spacing 25
-   (popup-panel-row-3)
-   (popup-panel-row-4)))
-
-(defwidget popup-panel-row-1 []
-  (box
-   :class "row-1"
-   :orientation "vertical"
-   :spacing 20
-   (popup-panel-brightness)
-   (popup-panel-volume)))
-
-(defwidget popup-panel-row-2 []
-  (box
-   :class "row-2"
-   :spacing 40
+   :spacing 35
    (wifi-toggle-button)
    (hotspot-toggle-button)
-   (kanata-toggle-button)))
-
-(defwidget popup-panel-row-3 []
-  (box
-   :class "row-3"
-   (update-fixed-action-button)))
-
-(defwidget popup-panel-row-4 []
-  (box
-   :class "row-4"
-   :space-evenly false
-   :spacing 40
-   :halign "fill"
-   (backup-fixed-action-button)
+   (kanata-toggle-button)
    (zram-toggle-button)))
 
-(defwidget popup-panel-brightness []
+(defwidget button-row-2 []
+  (box
+   :space-evenly false
+   :spacing      20
+   (update-fixed-action-button)
+   (backup-fixed-action-button)))
+
+(defwidget sliders-row []
+  (box
+   :orientation "vertical"
+   :spacing 20
+   (control-panel-brightness)
+   (control-panel-volume)))
+
+(defwidget control-panel-brightness []
   (box
    (overlay
     (scale :value brightness :min 1 :max 100
-           :onchange `popup_panel/scripts/brightness.sh --set {}`)
+           :onchange `control_panel/scripts/brightness.sh --set {}`)
     (box
      :spacing 30
      (label :class "icon" :text "󰃞")
      (label :text "Brightness")
      (label :class "icon" :text "󰃠")))))
 
-(defwidget popup-panel-volume []
+(defwidget control-panel-volume []
   (box
    :style "margin-right: 50px"
    (overlay
     (scale :value volume :min 0 :max 150
-           :onchange `popup_panel/scripts/volume.sh --set {}`)
+           :onchange `control_panel/scripts/volume.sh --set {}`)
     (box
      :spacing 30
      (label :class "icon" :text "󰝞")
@@ -130,39 +111,39 @@
 (defwidget wifi-toggle-button []
     (toggle-button
      :class "action-button ${ssid == '' ? '' : 'active'}"
-     :onclick "popup_panel/scripts/wifi.sh --toggle"
+     :onclick "control_panel/scripts/wifi.sh --toggle"
      :icon " " :caption "${ssid == '' ? 'WiFi' : ssid}"))
 
 (defwidget hotspot-toggle-button []
     (toggle-button
      :class "action-button ${hotspot_ssid == '' ? '' : 'active'}"
-     :onclick "popup_panel/scripts/hotspot.sh --toggle"
+     :onclick "control_panel/scripts/hotspot.sh --toggle"
      :icon "󰀃" :caption "${hotspot_ssid == '' ? 'HotSpot' : hotspot_ssid}"))
 
 (defwidget kanata-toggle-button  []
     (toggle-button-tristate
      :class "action-button  ${kanata_status == 'off' ? '' : 'active'}"
-     :onclick "popup_panel/scripts/kanata.sh --toggle"
+     :onclick "control_panel/scripts/kanata.sh --toggle"
      :onrightclick ""
      :icon "󰌌" :caption kanata_status))
 
 (defwidget zram-toggle-button []
     (toggle-button
      :class "action-button zram-button ${zram_status == '' ? '' : 'active'}"
-     :onclick "popup_panel/scripts/zram.sh --toggle"
+     :onclick "control_panel/scripts/zram.sh --toggle"
      :icon "󰍛" :caption "${zram_status == '' ? 'ZRam' : zram_status}"))
 
 (defwidget update-fixed-action-button []
   (fixed-action-button
    :class "action-button update-button active"
-   :onclick "${updates_running == '0' ? 'popup_panel/scripts/update.sh --run' : ''}"
+   :onclick "${updates_running == '0' ? 'control_panel/scripts/update.sh --run' : ''}"
    :hexpand false
    :icon "󰚰" :caption "${updates_running == '0' ? 'Update Sys' : 'Updates Running'}"))
 
 (defwidget backup-fixed-action-button []
   (fixed-action-button
    :class "action-button backup-button ${backup_dev_status == '0' ? '' : 'active'}"
-   :onclick "${backup_dev_status == '1' ? 'popup_panel/scripts/backup.sh --run-backup' : ''}"
+   :onclick "${backup_dev_status == '1' ? 'control_panel/scripts/backup.sh --run-backup' : ''}"
    :hexpand true
    :icon " " :caption "${backup_dev_status == '1' ? 'Device Ready' : backup_dev_status == '2' ? 'In Progress' : 'No Device'}"))
 
