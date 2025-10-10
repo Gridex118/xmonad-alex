@@ -302,7 +302,6 @@ Vim surround emulation
     :config
     (global-evil-surround-mode 1))
 #+end_src
-
 Set some sane default modes
 #+begin_src emacs-lisp
   (require 'compile)
@@ -328,6 +327,28 @@ Set some sane default modes
         evil-insert-state-modes  nil
         evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
   				                       evil-emacs-state-modes))
+#+end_src
+**** Vim like increment and decrement
+*Currently, the cursor needs to be located somewhere on the number.*
+#+begin_src emacs-lisp
+  (defun myEvil/increment-number-at-point (increment)
+    (interactive)
+    (skip-chars-backward "0-9")
+    (or (looking-at  "[0-9]+")
+        (error "No number found"))
+    (replace-match
+     (number-to-string (+ (string-to-number (match-string 0)) increment))))
+#+end_src
+Helpers to increment and decrement without args
+#+begin_src emacs-lisp
+  (defun myEvil/decrement-number-at-point (decrement)
+    (interactive "*p")
+    (myEvil/increment-number-at-point (- decrement)))
+#+end_src
+Binding to =C-c a= and =C-c x=
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c a") 'myEvil/increment-number-at-point)
+  (global-set-key (kbd "C-c x") 'myEvil/decrement-number-at-point)
 #+end_src
 
 *** LSP Mode
