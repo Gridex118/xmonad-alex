@@ -308,7 +308,7 @@ binds {
     Mod+A hotkey-overlay-title="Games" { spawn-sh "~/.local/bin/wlr-which-key games.yaml"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
-    Mod+MouseBack { spawn "eww" "--no-daemonize" "open" "popup-panel"; }
+    Mod+MouseBack { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // or do a four-finger swipe up on a touchpad.
