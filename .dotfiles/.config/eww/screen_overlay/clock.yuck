@@ -1,0 +1,63 @@
+;; -*- lisp -*-
+
+(defpoll clock_hours
+    :interval "1h"
+    `date +"%H"`)
+
+(defpoll clock_min
+    :interval "1m"
+    `date +"%M"`)
+
+(defpoll clock_sec
+    :interval "1s"
+    `date +"%S"`)
+
+(defpoll clock_day
+    :interval "24h"
+    `date +"%A"`)
+
+(defpoll clock_date_month
+    :interval "24h"
+    `date +"%d %B"`)
+
+(defpoll clock_year
+    :interval "24h"
+    `date +"%G"`)
+
+(defwindow clock-overlay
+    :monitor 0
+    :stacking "bg"
+    :namespace "eww_overlay"
+    :wm-ignore true
+    :geometry (geometry
+               :anchor "top center"
+               :y "4%")
+    (box
+     :orientation "vertical"
+     :space-evenly false
+     :style "margin-left: 150px;"
+     (clock-time)
+     (box :class "clock-horizontal-divider")
+     (clock-date)))
+
+(defwidget clock-time []
+  (box
+   :space-evenly false
+   :spacing 0
+   (label :text "${clock_hours}"
+          :class "clock-hours")
+   (label :text ":${clock_min}"
+          :class "clock-min")
+   (label :text ":${clock_sec}"
+          :class "clock-sec")))
+
+(defwidget clock-date []
+  (box
+   :space-evenly false
+   :spacing 0
+   (label :text "${clock_day},"
+          :class "clock-day")
+   (label :text "${clock_date_month}"
+          :class "clock-date-month")
+   (label :text "${clock_year}"
+          :class "clock-year")))
