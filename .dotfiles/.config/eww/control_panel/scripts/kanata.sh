@@ -2,7 +2,7 @@
 
 STATUS="off"
 
-if xinput | grep -q "Kanata-Alex" ; then
+if libinput list-devices | grep -q "Kanata-Alex" ; then
     STATUS="Kanata"
 fi
 
