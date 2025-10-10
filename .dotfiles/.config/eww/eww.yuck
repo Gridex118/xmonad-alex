@@ -1,4 +1,3 @@
 ;; -*- lisp -*-
 
-(include "./control_panel/control
-_panel.yuck")
+(include "./control_panel/control_panel.yuck")
