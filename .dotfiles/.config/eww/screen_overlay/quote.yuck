@@ -1,0 +1,52 @@
+;; -*- lisp -*-
+
+(defwindow quote-overlay
+    :monitor 0
+    :stacking "bg"
+    :wm-ignore true
+    :namespace "eww_overlay"
+    :geometry (geometry
+               :anchor "bottom center"
+               :y "7%")
+    (box
+     :orientation "vertical"
+     :space-evenly false
+     :spacing 20
+     :class "quote-wrapper"
+     (quote)
+     (highlight-quote)
+     (quote-author)))
+
+(defwidget quote []
+  (box
+   :orientation "vertical"
+   (box
+    :space-evenly false
+    (label :text "\"Your're standing on the ")
+    (label :text "precipice of a clif" :style "color: #FFFFFF;")
+    (label :text ". Step"))
+   (box
+    :space-evenly false
+    (label :text "forward and smash into the ground " :style "color: #EB797B;")
+    (label :text "below,"))
+   (box
+    :space-evenly false
+    (label :text "or ")
+    (label :text "stay where you are " :style "color: #FFFFFF;")
+    (label :text "and ")
+    (label :text "endure constant" :style "color: #EB797B;"))
+   (box
+    :space-evenly false
+    (label :text "mockery" :style "color: #EB797B;")
+    (label :text "; ")
+    (label :text "the choice is yours" :style "color: #FFFFFF;")
+    (label :text "\""))))
+
+(defwidget highlight-quote []
+  (box
+   :space-evenly false
+   (label :text "I don't want to work, " :style "color: #FFFFFF;")
+   (label :text "no matter what anyone says!" :style "color: #EB797B;")))
+
+(defwidget quote-author []
+  (label :text "-- Rudeus Greyrat"))

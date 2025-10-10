@@ -2,3 +2,4 @@
 
 (include "./control_panel/control_panel.yuck")
 (include "./screen_overlay/clock.yuck")
+(include "./screen_overlay/quote.yuck")
