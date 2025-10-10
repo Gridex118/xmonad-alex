@@ -1,10 +1,11 @@
-font: MesloLGS NF 13
+font: MesloLGS NF 16
 background: "3282828ef"
 color: "#ffffff"
 separator: ": "
 border_width: 0
 corner_r: 12
-padding: 15
+padding: 45
+column_padding: 30
 
 anchor: center
 
