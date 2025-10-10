@@ -11,6 +11,8 @@ environment {
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
 input {
+    disable-power-key-handling
+
     keyboard {
         // Enable numlock on startup, omitting this setting disables it.
         numlock
@@ -160,6 +162,7 @@ spawn-sh-at-startup "eww daemon"
 // Need to patch wbg to use "wbg_wallpaper" as the wlr namespace hint
 spawn-sh-at-startup "wbg ~/Wallpapers/evangelion.png"
 spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion_blur.png"
+spawn-sh-at-startup "swayidle -w before-sleep ~/scripts/swaylock.sh"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -444,4 +447,6 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+
+    XF86PowerOff { spawn-sh "~/scripts/swaylock.sh"; }
 }
