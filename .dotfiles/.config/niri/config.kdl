@@ -5,6 +5,7 @@
 
 environment {
     QT_QPA_PLATFORM "wayland"
+    MOZ_ENABLE_WAYLAND "1"
 }
 
 // Input device configuration.
@@ -214,6 +215,7 @@ window-rule {
     opacity 0.98
     geometry-corner-radius 12
     clip-to-geometry true
+    draw-border-with-background false
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
