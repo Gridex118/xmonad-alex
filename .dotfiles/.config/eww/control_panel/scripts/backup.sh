@@ -7,7 +7,7 @@ if [[ -f /mnt/backup/config ]]; then
    BACKUP_MOUNT_STATUS=1
 fi
 
-if wmctrl -lx| grep -q "PopupPanelBackupWindow"; then
+if niri msg windows| grep -q "PopupPanelBackupWindow"; then
     BACKUP_MOUNT_STATUS=2
 fi
 

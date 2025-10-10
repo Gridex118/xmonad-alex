@@ -2,7 +2,7 @@
 
 UPDATES_RUNNING=0
 
-if wmctrl -lx| grep -q "PopupPanelUpdateWindow"; then
+if niri msg windows| grep -q "PopupPanelUpdateWindow"; then
     UPDATES_RUNNING=1
 fi
 

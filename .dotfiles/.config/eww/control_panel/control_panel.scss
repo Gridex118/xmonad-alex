@@ -2,13 +2,13 @@
     all: unset;
 }
 
-.popup-panel {
+.control-panel {
     font-family: "Roboto";
     font-size: 13pt;
     color: #FFFFFF;
     background-color: rgba(58, 58, 58, 0.6);
     border-radius: 8pt;
-    border-left: 4pt solid #E86264;
+    border-bottom: 4pt solid #E86264;
 }
 
 .icon {
@@ -16,11 +16,11 @@
     color: #666666;
 }
 
-.popup-panel > box {
-    padding: 32pt 14pt 24pt 14pt;
+.control-panel > box {
+    padding: 24pt 14pt;
 }
 
-.popup-panel .bv-slider {
+.control-panel .bv-slider {
     border-radius: 4pt;
     font-size: 18pt;
 }
@@ -39,7 +39,7 @@ scale trough highlight {
     border-radius: 4pt;
 }
 
-.popup-panel {
+.control-panel {
     .sliders-wrapper,
     .button-rows-wrapper {
         border-radius: 8pt;
@@ -50,21 +50,27 @@ scale trough highlight {
     }
 
     .button-rows-wrapper {
-        margin: 0 16px 0 36px;
+        margin: 0 18px 0 28px;
+    }
+
+    .sliders-wrapper {
+        margin-right: 100px;
     }
 }
 
-.popup-panel {
+.control-panel {
     .action-button {
         border-radius: 8pt;
         background-color: #D5D5D5;
         color: #A19494;
         font-style: italic;
+        min-height: 120px;
         font-weight: 300;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     }
     .action-button.update-button,
     .action-button.backup-button {
+        min-height: 90px;
         background-color: #E5E5E5;
     }
     .action-button.update-button.active,
@@ -73,30 +79,15 @@ scale trough highlight {
     }
 }
 
-.popup-panel .action-button.active,
-.popup-panel .action-button:hover {
+.control-panel .action-button.update-button {
+    min-width: 370px;
+}
+
+.control-panel .action-button.active,
+.control-panel .action-button:hover {
     background-color: #E86264;
     color: #FFFFFF;
     .icon {
         color: #FFFFFF;
-    }
-}
-
-.popup-panel .row-2 .action-button {
-    min-height: 122px;
-}
-
-.popup-panel .row-3 .action-button {
-    min-height: 100px;
-}
-
-.popup-panel .row-4 {
-    .action-button {
-        min-height: 124px;
-    }
-    .backup-button {
-    }
-    .zram-button {
-        min-width: 120px;
     }
 }
