@@ -172,6 +172,21 @@
       evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
 				                       evil-emacs-state-modes))
 
+(defun myEvil/increment-number-at-point (increment)
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at  "[0-9]+")
+      (error "No number found"))
+  (replace-match
+   (number-to-string (+ (string-to-number (match-string 0)) increment))))
+
+(defun myEvil/decrement-number-at-point (decrement)
+  (interactive "*p")
+  (myEvil/increment-number-at-point (- decrement)))
+
+(global-set-key (kbd "C-c a") 'myEvil/increment-number-at-point)
+(global-set-key (kbd "C-c x") 'myEvil/decrement-number-at-point)
+
 (use-package lsp-mode
   :ensure t
   :custom
