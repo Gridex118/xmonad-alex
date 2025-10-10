@@ -1,0 +1,36 @@
+.clock-hours {
+    font-size: 7rem;
+    color: #EB797B;
+}
+
+.clock-date-month {
+    font-size: 4rem;
+    color: #EB797B;
+}
+
+.clock-min,
+.clock-sec {
+    font-size: 3.5rem;
+    margin-top: 2.1rem;
+}
+
+.clock-day,
+.clock-year {
+    font-size: 2rem;
+}
+
+.clock-day {
+    margin-bottom: 1.7rem;
+    margin-right:  1rem;
+}
+
+.clock-year {
+    margin-left: 1rem;
+    margin-top: 1.3rem;
+}
+
+.clock-horizontal-divider {
+    border: 1px solid white;
+    min-width: 500px;
+    margin-bottom: 10px;
+}
