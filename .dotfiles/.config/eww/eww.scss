@@ -1,1 +1,7 @@
 @import 'control_panel/control_panel.scss'
+@import 'screen_overlay/clock.scss'
+
+* {
+    all: unset;
+    font-family: "Roboto";
+}
