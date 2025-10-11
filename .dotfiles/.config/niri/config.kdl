@@ -223,10 +223,15 @@ layer-rule {
 // https://yalter.github.io/niri/Configuration:-Window-Rules
 
 window-rule {
-    opacity 0.98
+    opacity 0.96
     geometry-corner-radius 12
     clip-to-geometry true
     draw-border-with-background false
+}
+
+window-rule {
+    match is-focused=true
+    opacity 0.98
 }
 
 // Open the Firefox picture-in-picture player as floating by default.
@@ -237,6 +242,7 @@ window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     match app-id="^rpcs3$"
     match app-id="^feh$"
+    match app-id="^org.pulseaudio.pavucontrol$"
     open-floating true
 }
 
@@ -440,7 +446,7 @@ binds {
     // Mod+Shift+Space { switch-layout "prev"; }
 
     Print { screenshot-screen; }
-    Mod+Print { screenshot-screen; }
+    Mod+Print { screenshot; }
     Ctrl+Print { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
