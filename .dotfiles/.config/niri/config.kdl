@@ -207,6 +207,17 @@ layer-rule {
     place-within-backdrop true
 }
 
+layer-rule {
+    match namespace="^wlr_which_key$"
+    geometry-corner-radius 12
+    shadow {
+        on
+        softness 90
+        spread 10
+        offset x=0 y=5
+    }
+}
+
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
