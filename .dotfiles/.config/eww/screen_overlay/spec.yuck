@@ -1,0 +1,83 @@
+;; -*- lisp -*-
+
+(defpoll hostname
+    :interval "24h"
+    `hostname`)
+
+(defpoll kernel-version
+    :interval "24h"
+    `uname -r`)
+
+(defpoll compile-date
+    :interval "24h"
+    `screen_overlay/scripts/fetch_compile_date.sh`)
+
+(defpoll cpu-spec
+    :interval "24h"
+    `uname -p`)
+
+(defpoll wm-version
+    :interval "24h"
+    `screen_overlay/scripts/version.sh`)
+
+(defpoll username
+    :interval "24h"
+    `screen_overlay/scripts/whoami.sh`)
+
+(defpoll uptime
+    :interval "1m"
+    `uptime --pretty`)
+
+(defwindow spec-overlay
+    :monitor 0
+    :stacking "bg"
+    :namespace "eww_overlay"
+    :wm-ignore true
+    :geometry (geometry
+               :anchor "right center"
+               :x "7%")
+    (box
+     :orientation "vertical"
+     :class "spec-wrapper"
+     :space-evenly false
+     :spacing 20
+     (hostname-label)
+     (kernel-cpu-label)
+     (wm-user-label)))
+
+(defwidget hostname-label []
+    (box
+     :space-evenly false
+     (label :text "${hostname} " :style "font-size: 2.1rem;")
+     (label :text "on Gentoo" :style "color: #EB797B; margin-top: 0.5rem;")))
+
+(defwidget kernel-cpu-label []
+  (box
+   :space-evenly false
+   :spacing 5
+   :orientation "vertical"
+   (box
+    :space-evenly false
+    (label :text "GNU/")
+    (label :text "Linux " :style "color: #EB797B;")
+    (label :text "${kernel-version} ")
+    (label :text "${compile-date}" :style "color: #EB797B;"))
+   (box
+    :space-evenly false
+    (label :text "<${cpu-spec}>"
+           :style "font-size: 1rem; color: #BBBBBB;"))))
+
+(defwidget wm-user-label []
+    (box
+     :space-evenly false
+     :spacing 5
+     :orientation "vertical"
+     (box
+      :space-evenly false
+      (label :text "Niri ")
+      (label :text "${wm-version}" :style "color: #EB797B;"))
+     (box
+      :space-evenly false
+      (label :text "${username}, " :style "font-size: 2rem;")
+      (label :text "${uptime}"
+             :style "font-size: 1.3rem; color: #BBBBBB; margin-top: 0.7rem"))))
