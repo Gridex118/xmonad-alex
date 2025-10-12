@@ -38,12 +38,12 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
-        "interval": 30,
+        "interval": "10",
         "format": "<span color='#9ECE6A'></span> {usage}%",
         "tooltip": false
     },
     "memory": {
-        "interval": 30,
+        "interval": "10",
         "format": "<span color='#E0AF68'></span> {used}GiB ({percentage}%)",
         "tooltip": false,
     },
