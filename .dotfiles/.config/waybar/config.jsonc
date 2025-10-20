@@ -20,6 +20,8 @@
     "custom/gentoo": {
         "format": " Gentoo Linux",
         "interval": "360",
+        "tooltip": false,
+        "on-click": "alacritty --hold --class FetchWindow --command fastfetch --config neofetch.jsonc"
     },
 	"niri/workspaces": {
         "disable-scroll": true,
@@ -35,10 +37,10 @@
         // "timezone": "America/New_York",
         "format": "{:%a, %b %d - (%H:%M)}",
         "tooltip": false,
-        "format-alt": "{:%Y-%m-%d}"
+        "format-alt": false,
     },
     "cpu": {
-        "interval": "10",
+        "interval": "5",
         "format": "<span color='#9ECE6A'></span> {usage}%",
         "tooltip": false
     },
