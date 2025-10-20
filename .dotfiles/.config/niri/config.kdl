@@ -153,6 +153,7 @@ workspace "11"
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
+spawn-sh-at-startup "~/scripts/niri_alone_maximize.py"
 spawn-sh-at-startup "gammastep -l 28.6146:77.2284 -t 5400:3950"
 spawn-sh-at-startup "/usr/libexec/xdg-desktop-portal-gnome -r"
 spawn-at-startup "waybar"
