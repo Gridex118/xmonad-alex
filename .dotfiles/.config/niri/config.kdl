@@ -111,7 +111,7 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         width 2
-        active-gradient from="#e86164" to="#ffffff" angle=135 relative-to="workspace-view"
+        active-gradient from="#e86164" to="#ffffff" angle=135
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
@@ -203,9 +203,9 @@ screenshot-path "~/Screenshots/Screenshot.%Y-%m-%d.%H-%M-%S.png"
 animations {
     // Uncomment to turn off all animations.
     // off
-
-    // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
+    workspace-switch {
+        spring damping-ratio=0.75 stiffness=650 epsilon=0.0001
+    }
 }
 
 layer-rule {
@@ -249,7 +249,13 @@ window-rule {
     match app-id="^rpcs3$"
     match app-id="^feh$"
     match app-id="^org.pulseaudio.pavucontrol$"
+    match app-id="^FetchWindow$"
     open-floating true
+}
+
+window-rule {
+    match app-id="^FetchWindow$"
+    min-width 1160
 }
 
 window-rule {
@@ -270,6 +276,8 @@ window-rule {
     match app-id="^com.obsproject.Studio$"
     match app-id="^gimp$"
     match app-id="^virt-manager$"
+    match app-id="^PopupPanelBackupWindow$"
+    match app-id="^PopupPanelUpdateWindow$"
     open-maximized true
 }
 
