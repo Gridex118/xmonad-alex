@@ -118,6 +118,7 @@
     (toggle-button
      :class "action-button ${hotspot_ssid == '' ? '' : 'active'}"
      :onclick "control_panel/scripts/hotspot.sh --toggle"
+     :onrightclick ""
      :icon "󰀃" :caption "${hotspot_ssid == '' ? 'HotSpot' : hotspot_ssid}"))
 
 (defwidget kanata-toggle-button  []
@@ -157,7 +158,7 @@
 (defwidget toggle-button-tristate
     [class onclick onrightclick icon caption]
     (button
-     :class class
+     :class class :timeout "5s"
      :onclick onclick :onrightclick onrightclick
      (box
       :valign "center"
