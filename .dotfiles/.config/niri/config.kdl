@@ -315,14 +315,15 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Mod+E hotkey-overlay-title="Open Emacs" { spawn "emacsclient" "--create-frame"; }
     Mod+Shift+Return hotkey-overlay-title="Open new Browser Window: Firefox" { spawn "firefox" "--new-window"; }
     Mod+Shift+D hotkey-overlay-title="Run an Application: rofi" { spawn-sh "~/.config/rofi/implements/launcher.sh"; }
     Mod+D hotkey-overlay-title="Common Apps" { spawn-sh "~/.local/bin/wlr-which-key common_apps.yaml"; }
     Mod+A hotkey-overlay-title="Games" { spawn-sh "~/.local/bin/wlr-which-key games.yaml"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
-    Mod+MouseBack { spawn "eww" "--no-daemonize" "open" "popup-panel"; }
+    Mod+Shift+P repeat=false { toggle-window-rule-opacity; }
+
+    Mod+MouseBack { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // or do a four-finger swipe up on a touchpad.
@@ -346,9 +347,9 @@ binds {
     Mod+Ctrl+L { set-column-width "+10%"; }
 
     Mod+M { focus-column-first; }
-    Mod+End  { focus-column-last; }
+    Mod+E { focus-column-last; }
     Mod+Shift+M { move-column-to-first; }
-    Mod+Ctrl+End  { move-column-to-last; }
+    Mod+Shift+E { move-column-to-last; }
 
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
@@ -479,7 +480,7 @@ binds {
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
-    Mod+Shift+P { power-off-monitors; }
+    // Mod+Shift+P { power-off-monitors; }
 
     XF86PowerOff { spawn-sh "~/scripts/swaylock.sh"; }
 }
