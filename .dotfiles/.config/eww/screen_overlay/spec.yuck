@@ -28,6 +28,14 @@
     :interval "1m"
     `uptime --pretty`)
 
+(defpoll disk-size
+    :interval "24h"
+    "df -h /| awk 'NR==2 {print $2}'")
+
+(defpoll disk-used
+    :interval "15s"
+    "df -h /| awk 'NR==2 {print $3}'")
+
 (defwindow spec-overlay
     :monitor 0
     :stacking "bg"
@@ -43,7 +51,8 @@
      :spacing 20
      (hostname-label)
      (kernel-cpu-label)
-     (wm-user-label)))
+     (wm-user-label)
+     (disk-usage-label)))
 
 (defwidget hostname-label []
     (box
@@ -80,4 +89,12 @@
       :space-evenly false
       (label :text "${username}, " :style "font-size: 2rem;")
       (label :text "${uptime}"
-             :style "font-size: 1.3rem; color: #BBBBBB; margin-top: 0.7rem"))))
+             :style "font-size: 1.3rem; color: #BBBBBB; margin-top: 0.7rem;"))))
+
+(defwidget disk-usage-label []
+  (box
+   :space-evenly false
+   (label :text "${disk-used}" :style "font-size: 2rem;")
+   (label :text "/" :style "font-size: 3rem;")
+   (label :text "${disk-size} " :style "color: #EB797B; font-size: 2rem;")
+   (label :text "Used up" :style "color: #BBBBBB; font-size: 1.2rem; margin-top: 0.7rem;")))
