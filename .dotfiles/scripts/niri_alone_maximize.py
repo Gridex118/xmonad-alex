@@ -51,7 +51,7 @@ class NiriService:
             parsed_lines.append(json.loads(line))
         if len(last_line) > 0:
             self._incomplete_msg = last_line
-        return  parsed_lines
+        return parsed_lines
 
     def _wait_receive_json(self, client: socket.socket) -> list[dict] | None:
         rready, _, _ = select([client], [], [], self._timeout)
@@ -117,7 +117,8 @@ class NiriAloneMaximizeService(NiriService):
                 notify("Error sending request (EventStream) to client", send_notification=True)
                 return
             while True:
-                events = self._wait_receive_json(event_stream_client) or [ ]
+                events = self._wait_receive_json(event_stream_client)
+                if events is None: continue
                 open_change_events = [
                     event for event in events
                     if "WindowOpenedOrChanged" in event
