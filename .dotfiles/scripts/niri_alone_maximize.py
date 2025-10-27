@@ -97,17 +97,36 @@ class NiriAloneMaximizeService(NiriService):
         super().__post_init__()
         self._focused_service = NiriFocusedWindowService(self.addr)
         self._workspaces_service = NiriWorkspacesService(self.addr)
+        self._blacklist: list[int] = [ ]
 
-    def handle_opening(self, open_change_event: dict):
+    def maximize_if_necessary(self, open_change_event: dict):
         window = open_change_event["WindowOpenedOrChanged"]["window"]
         window_id = window.get("id")
-        if not window["is_floating"] and window_id == self._focused_service.window_id:
+        is_focused = window_id == self._focused_service.window_id
+        is_blacklisted = window_id in self._blacklist
+        if not window["is_floating"] and not is_blacklisted and is_focused:
+            self._blacklist.append(window_id)
             workspace = window.get("workspace_id")
             workspaces = self._workspaces_service.non_empty_workspaces
             if workspace in workspaces:
                 siblings = workspaces[workspace] - 1
                 if not siblings:
                     subprocess.run(["niri", "msg", "action", "set-column-width", "100%"])
+
+    def remove_from_blacklist(self, closing_event: dict):
+        window_id = closing_event["WindowClosed"].get("id")
+        if window_id in self._blacklist:
+            self._blacklist.pop(self._blacklist.index(window_id))
+
+    @staticmethod
+    def handle_event(event_name: str, events, handler):
+        selectable_events = [
+            event for event in events
+            if event_name in event
+        ]
+        selected_event = (selectable_events or [None])[0]
+        if selected_event is not None:
+            handler(selected_event)
 
     def run(self):
         with NiriService._get_new_client(self.addr) as event_stream_client:
@@ -119,13 +138,8 @@ class NiriAloneMaximizeService(NiriService):
             while True:
                 events = self._wait_receive_json(event_stream_client)
                 if events is None: continue
-                open_change_events = [
-                    event for event in events
-                    if "WindowOpenedOrChanged" in event
-                ]
-                open_change_event = (open_change_events or [None])[0]
-                if open_change_event is not None:
-                    self.handle_opening(open_change_event)
+                NiriAloneMaximizeService.handle_event("WindowOpenedOrChanged", events, self.maximize_if_necessary)
+                NiriAloneMaximizeService.handle_event("WindowClosed", events, self.remove_from_blacklist)
 
 
 if __name__ == "__main__":
