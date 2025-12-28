@@ -142,13 +142,20 @@ class NiriAloneMaximizeService(NiriService):
                 NiriAloneMaximizeService.handle_event("WindowClosed", events, self.remove_from_blacklist)
 
 
+def mainloop(socket_addr: str):
+    try:
+        niri_alone_maximize_service = NiriAloneMaximizeService(socket_addr)
+        niri_alone_maximize_service.run()
+    except Exception as e:
+        notify(f"Exception: {e}", send_notification=True)
+        mainloop(socket_addr)
+
 if __name__ == "__main__":
     socket_addr = os.getenv("NIRI_SOCKET")
     if socket_addr is None or not os.path.exists(socket_addr):
         notify("Could not obtain a valid niri socket address to listen to", send_notification=True)
         sys.exit(-1)
     try:
-        niri_alone_maximize_service = NiriAloneMaximizeService(socket_addr)
-        niri_alone_maximize_service.run()
+        mainloop(socket_addr)
     except KeyboardInterrupt:
         notify("Received KeyboardInterrupt", send_notification=True)
