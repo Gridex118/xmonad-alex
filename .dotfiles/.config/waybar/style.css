@@ -57,7 +57,7 @@ button:hover {
 #memory,
 #disk,
 #temperature,
-#custom-gentoo,
+#custom-nixos,
 #network,
 #mode {
     background-color: rgba(190, 75, 77, 0.6);
@@ -65,9 +65,9 @@ button:hover {
     color: #ffffff;
 }
 
-#custom-gentoo {
+#custom-nixos {
     font-size: 1.2rem;
-    color: #eac7fc;
+    color: #68fff7;
 }
 
 #workspaces {
@@ -102,7 +102,7 @@ button:hover {
 }
 
 #network.wifi {
-    color: #68fff7;
+    color: #eac7fc;
 }
 
 #clock {
