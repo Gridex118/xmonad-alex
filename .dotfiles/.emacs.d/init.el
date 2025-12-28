@@ -323,6 +323,11 @@
          (text-mode . emojify-mode)
          (web-mode  . emojify-mode)))
 
+(add-hook 'latex-mode-hook
+          (lambda ()
+            (auto-fill-mode)
+            (setq-local fill-column 70)))
+
 (add-hook 'latex-mode-hook 'flyspell-mode)
 
 (defun myLaTeX/is-project-root(directory counter)
@@ -508,6 +513,16 @@
 (use-package cmake-mode
   :ensure t
   :defer t)
+
+(defun myProgC++/make-simple-compile-command()
+  (interactive)
+  (let ((file-name (file-relative-name buffer-file-name)))
+    (insert (concat "g++ -g -O0 " file-name " -o "))))
+
+(add-hook 'c++-ts-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c r C")
+                           'myProgC++/make-simple-compile-command)))
 
 (defun myProg/compile()
   (interactive) (compile compile-command))

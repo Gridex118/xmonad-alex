@@ -544,6 +544,13 @@ Never save authentication sources
 
 
 ** LaTeX Mode
+*** Enable Auto Fill
+#+begin_src emacs-lisp
+  (add-hook 'latex-mode-hook
+            (lambda ()
+              (auto-fill-mode)
+              (setq-local fill-column 70)))
+#+end_src
 *** Enable Flyspell
 #+begin_src emacs-lisp
   (add-hook 'latex-mode-hook 'flyspell-mode)
@@ -793,6 +800,18 @@ Because this seemed like an appropriate point to update live server
     :defer t)
 #+end_src
 
+**** Generate a Simple Compile Command
+#+begin_src emacs-lisp
+  (defun myProgC++/make-simple-compile-command()
+    (interactive)
+    (let ((file-name (file-relative-name buffer-file-name)))
+      (insert (concat "g++ -g -O0 " file-name " -o "))))
+
+  (add-hook 'c++-ts-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c r C")
+                             'myProgC++/make-simple-compile-command)))
+#+end_src
 *** General Programming Key Binds
 **** Run Compile Command
 #+begin_src emacs-lisp
