@@ -14,7 +14,7 @@
 
 (defpoll cpu-spec
     :interval "24h"
-    `uname -p`)
+    `grep -m1 "model name" /proc/cpuinfo| awk -F':' '{print $2}'| sed -e 's/^ //'`)
 
 (defpoll wm-version
     :interval "24h"
@@ -58,7 +58,7 @@
     (box
      :space-evenly false
      (label :text "${hostname} " :style "font-size: 2.1rem;")
-     (label :text "on Gentoo" :style "color: #EB797B; margin-top: 0.5rem;")))
+     (label :text "on NixOS" :style "color: #EB797B; margin-top: 0.5rem;")))
 
 (defwidget kernel-cpu-label []
   (box
