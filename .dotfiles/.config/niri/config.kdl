@@ -165,14 +165,11 @@ spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 spawn-sh-at-startup "~/scripts/kanata-init.sh"
 spawn-sh-at-startup "emacs --daemon"
-spawn-sh-at-startup "eww daemon"
+spawn-sh-at-startup "~/.local/bin/eww_overlays.sh"
 // Need to patch wbg to use "wbg_wallpaper" as the wlr namespace hint
 spawn-sh-at-startup "wbg ~/Wallpapers/evangelion.png"
 spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion_blur.png"
 spawn-sh-at-startup "swayidle -w before-sleep ~/scripts/swaylock.sh"
-
-// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
     skip-at-startup
@@ -246,7 +243,8 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    match app-id="^rpcs3$"
+    match title="^RPCS3"
+    match title="Vulkan"
     match app-id="^feh$"
     match app-id="^org.pulseaudio.pavucontrol$"
     match app-id="^FetchWindow$"
@@ -259,7 +257,8 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^rpcs3$"
+    match title="Vulkan"
+    match title="^RPCS3"
     match app-id="^mpv$"
     opacity 1.0
     focus-ring {
@@ -317,12 +316,13 @@ binds {
     Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
     Mod+Shift+Return hotkey-overlay-title="Open new Browser Window: Firefox" { spawn "firefox" "--new-window"; }
     Mod+Shift+D hotkey-overlay-title="Run an Application: rofi" { spawn-sh "~/.config/rofi/implements/launcher.sh"; }
-    Mod+D hotkey-overlay-title="Common Apps" { spawn-sh "~/.local/bin/wlr-which-key common_apps.yaml"; }
-    Mod+A hotkey-overlay-title="Games" { spawn-sh "~/.local/bin/wlr-which-key games.yaml"; }
+    Mod+D repeat=false hotkey-overlay-title="Common Apps" { spawn-sh "~/.local/bin/wlr-which-key common_apps.yaml"; }
+    Mod+A repeat=false hotkey-overlay-title="Games" { spawn-sh "~/.local/bin/wlr-which-key games.yaml"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     Mod+Shift+P repeat=false { toggle-window-rule-opacity; }
 
+    Mod+T { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
     Mod+MouseBack { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
