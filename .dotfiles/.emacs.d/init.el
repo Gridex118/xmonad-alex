@@ -460,6 +460,10 @@
   :ensure t
   :defer  t)
 
+(use-package nix-ts-mode
+  :ensure t
+  :defer t)
+
 (use-package csv-mode
   :ensure t
   :defer t)
@@ -528,6 +532,14 @@
   (interactive) (compile compile-command))
 (add-hook 'prog-mode-hook (lambda() (local-set-key (kbd "C-c r c") 'myProg/compile)))
 
+(defun myProg/gen-from-template()
+  (interactive)
+  (let ((template (read-file-name "Template: " "/home/rosegrid/.emacs.d/templates/")))
+    (copy-file
+     template
+     (read-string "File name: " (file-name-nondirectory template)))))
+(global-set-key (kbd "C-c r t") 'myProg/gen-from-template)
+
 (use-package elpy
   :ensure t
   :hook ((python-mode    . elpy-enable)
@@ -595,7 +607,8 @@
         (bash "https://github.com/tree-sitter/tree-sitter-bash")
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
         (css "https://github.com/tree-sitter/tree-sitter-css")
-        (python "https://github.com/tree-sitter/tree-sitter-python")))
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (nix "https://github.com/nix-community/tree-sitter-nix")))
 
 (setq major-mode-remap-alist
       '((c-mode          . c-ts-mode)
@@ -603,7 +616,8 @@
         (bash-mode       . bash-ts-mode)
         (javascript-mode . js-ts-mode)
         (css-mode        . css-ts-mode)
-        (python-mode     . python-ts-mode)))
+        (python-mode     . python-ts-mode)
+        (nix-mode        . nix-ts-mode)))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
