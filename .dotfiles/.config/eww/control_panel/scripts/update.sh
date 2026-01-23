@@ -13,7 +13,7 @@ eval set -- "$GETOPTS_OUT"
 while true; do
 	case "$1" in
 		-r | --run )
-            alacritty --hold --class "PopupPanelUpdateWindow" -e sudo /usr/local/bin/sync-and-update.sh --ask
+            alacritty --hold --class "PopupPanelUpdateWindow" -e sudo /usr/local/bin/update-lunaris.sh
             exit 0 ;;
         -s | --status )
             echo "$UPDATES_RUNNING"

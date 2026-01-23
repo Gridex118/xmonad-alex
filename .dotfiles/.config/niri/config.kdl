@@ -52,6 +52,8 @@ input {
 
 cursor {
     hide-after-inactive-ms 3000
+    xcursor-theme "Future-cursors"
+    xcursor-size 32
 }
 
 gestures {
