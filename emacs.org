@@ -389,7 +389,8 @@ Binding to =C-c a= and =C-c x=
 
     :custom
     (lsp-rust-analyzer-cargo-watch-command "clippy")
-    (lsp-eldoc-render-all t))
+    (lsp-eldoc-render-all t)
+    (lsp-enable-on-type-formatting nil))
 #+end_src
 Additional UI features
 #+begin_src emacs-lisp
@@ -686,6 +687,13 @@ For languages that probably can't affect the system much, I'd rather not have to
 
 ** Programming
 
+*** Direnv
+#+begin_src emacs-lisp
+  (use-package direnv
+    :config
+    (direnv-mode))
+#+end_src
+
 *** Packages for Other Programming Major Modes
 #+begin_src emacs-lisp
   (use-package json-mode
@@ -740,7 +748,7 @@ For languages that probably can't affect the system much, I'd rather not have to
                                     (ebuild-mode))))
 #+end_src
 
-*** HTML Settings
+*** WebDev Settings
 **** Web Mode
 #+begin_src emacs-lisp
   (use-package web-mode
@@ -789,6 +797,12 @@ Because this seemed like an appropriate point to update live server
   				(save-buffer))))
 #+end_src
 
+**** Indentations
+#+begin_src emacs-lisp
+  (add-hook 'json-mode-hook
+            (lambda()
+              (setq-local js-indent-level 2)))
+#+end_src
 *** C Family Settings
 **** Indentation
 #+begin_src emacs-lisp

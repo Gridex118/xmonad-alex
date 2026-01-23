@@ -223,7 +223,8 @@
 
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t))
+  (lsp-eldoc-render-all t)
+  (lsp-enable-on-type-formatting nil))
 
 (use-package lsp-ui
   :ensure t
@@ -423,6 +424,10 @@
   :hook (org-mode
          markdown-mode))
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (use-package json-mode
   :ensure t
   :defer  t)
@@ -508,6 +513,10 @@
 			(if (or (eq major-mode 'web-mode)
                     (eq major-mode 'css-ts-mode))
 				(save-buffer))))
+
+(add-hook 'json-mode-hook
+          (lambda()
+            (setq-local js-indent-level 2)))
 
 (add-hook 'c-mode-hook
           (lambda()
