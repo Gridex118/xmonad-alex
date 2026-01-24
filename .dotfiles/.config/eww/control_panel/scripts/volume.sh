@@ -1,6 +1,11 @@
 #!/bin/bash
 
-SINK_NAME="Nirvana Ion ANC"
+SINK_NAME="Builtin Audio Analog Stereo"
+CONNECTED_DEVICES="$(bluetoothctl devices Connected)"
+if [[ -n "$CONNECTED_DEVICES" ]]; then
+    SINK_NAME="$(echo "$CONNECTED_DEVICES"| head -n+1| sed -e 's/^[^ ]\+ [^ ]\+ //')"
+fi
+
 SINK_ID=$($HOME/scripts/wpctl_audio_sinks.py -n "$SINK_NAME")
 
 GETOPTS_OUT=$(getopt -o gs -l get,set -n "volume.sh" -- "$@")
