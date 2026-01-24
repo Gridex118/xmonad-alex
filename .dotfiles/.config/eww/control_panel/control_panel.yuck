@@ -20,9 +20,9 @@
     :interval "5s"
     `control_panel/scripts/volume.sh --get`)
 
-(defpoll hotspot_ssid
+(defpoll bluetooth_status
     :interval "2s"
-    `control_panel/scripts/hotspot.sh --ssid`)
+    `control_panel/scripts/bluetooth.sh --status`)
 
 (defpoll backup_dev_status
     :interval "2s"
@@ -67,7 +67,7 @@
   (box
    :spacing 35
    (wifi-toggle-button)
-   (hotspot-toggle-button)
+   (bluetooth-toggle-button)
    (kanata-toggle-button)
    (zram-toggle-button)))
 
@@ -114,16 +114,16 @@
      :onclick "control_panel/scripts/wifi.sh --toggle"
      :icon " " :caption "${ssid == '' ? 'WiFi' : ssid}"))
 
-(defwidget hotspot-toggle-button []
+(defwidget bluetooth-toggle-button []
     (toggle-button
-     :class "action-button ${hotspot_ssid == '' ? '' : 'active'}"
-     :onclick "control_panel/scripts/hotspot.sh --toggle"
+     :class "action-button ${bluetooth_status == '' ? '' : 'active'}"
+     :onclick "control_panel/scripts/bluetooth.sh --toggle"
      :onrightclick ""
-     :icon "󰀃" :caption "${hotspot_ssid == '' ? 'HotSpot' : hotspot_ssid}"))
+     :icon "󰂯" :caption "${bluetooth_status == '' ? 'Bluetooth' : bluetooth_status}"))
 
 (defwidget kanata-toggle-button  []
     (toggle-button-tristate
-     :class "action-button  ${kanata_status == 'off' ? '' : 'active'}"
+     :class "action-button  ${kanata_status == 'Off' ? '' : 'active'}"
      :onclick "control_panel/scripts/kanata.sh --toggle"
      :onrightclick ""
      :icon "󰌌" :caption kanata_status))

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STATUS="off"
+STATUS="Off"
 
 if libinput list-devices | grep -q "Kanata-Alex" ; then
     STATUS="Kanata"
@@ -16,7 +16,7 @@ while true; do
             echo "$STATUS"
 			shift ;;
 		--toggle )
-            if [[ "$STATUS" = "off" ]]; then
+            if [[ "$STATUS" = "Off" ]]; then
                 ~/scripts/kanata-init.sh &>/dev/null
             else
                 killall kanata
