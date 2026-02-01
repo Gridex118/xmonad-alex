@@ -6,7 +6,9 @@ try_connecting () {
     done
 }
 
-if [[ $(iw dev wlan0 info| grep "ssid" -c) -eq 0 ]]; then
+if iw dev wlan0 link| grep "SSID" &>/dev/null; then
+    iwctl station wlan0  disconnect
+else
     iwctl station wlan0 scan on
     if [[ -f ~/.networks ]]; then
         for i in {1..2}; do try_connecting; done
@@ -14,6 +16,4 @@ if [[ $(iw dev wlan0 info| grep "ssid" -c) -eq 0 ]]; then
         notify-send "Required: a ~/.networks file, as a list of known networks (newline separated)"
         alacritty -e iwctl
     fi
-else
-    iwctl station wlan0  disconnect
 fi
