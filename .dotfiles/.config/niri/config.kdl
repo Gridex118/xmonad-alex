@@ -485,4 +485,6 @@ binds {
     // Mod+Shift+P { power-off-monitors; }
 
     XF86PowerOff { spawn-sh "~/scripts/swaylock.sh"; }
+    XF86AudioPlay { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
+    XF86AudioPause { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
 }
