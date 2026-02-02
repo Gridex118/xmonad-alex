@@ -52,8 +52,8 @@
   ("C-c t" . pref/new-terminal))
 
 (use-package pdf-tools
-  :ensure t
-  :hook   (doc-view-mode . pdf-tools-install))
+  :config
+  (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
 
 (use-package vertico
   :ensure t
@@ -427,6 +427,14 @@
 (use-package direnv
   :config
   (direnv-mode))
+
+(defun myProg/make-file-executable()
+  (interactive)
+  (shell-command (concat "chmod +x " (buffer-file-name))))
+
+(add-hook 'prog-mode-hook
+          (lambda()
+            (local-set-key (kbd "C-c r x") 'myProg/make-file-executable)))
 
 (use-package json-mode
   :ensure t

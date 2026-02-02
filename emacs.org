@@ -179,8 +179,8 @@ and use =smartparens-mode=
 *** Better PDF Tooling
 #+begin_src emacs-lisp
   (use-package pdf-tools
-    :ensure t
-    :hook   (doc-view-mode . pdf-tools-install))
+    :config
+    (add-to-list 'auto-mode-alist '("\\.pdf\\'" . pdf-view-mode)))
 #+end_src
 
 *** Completion and Hints
@@ -692,6 +692,17 @@ For languages that probably can't affect the system much, I'd rather not have to
   (use-package direnv
     :config
     (direnv-mode))
+#+end_src
+
+*** Make Script Executable
+#+begin_src emacs-lisp
+  (defun myProg/make-file-executable()
+    (interactive)
+    (shell-command (concat "chmod +x " (buffer-file-name))))
+
+  (add-hook 'prog-mode-hook
+            (lambda()
+              (local-set-key (kbd "C-c r x") 'myProg/make-file-executable)))
 #+end_src
 
 *** Packages for Other Programming Major Modes
