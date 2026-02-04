@@ -13,3 +13,6 @@ menu:
   - key: "r"
     desc: "RPCS3"
     cmd: rpcs3
+  - key: "l"
+    desc: "Lutris"
+    cmd: lutris
