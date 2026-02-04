@@ -71,7 +71,7 @@ And a QWERTY layout, since it's easier to use one handed
     grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc
     tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
     @msc  a    s    d    f    g    h    j    k    l    ;    '    ret
-    lsft  z    x    c    v    b    n    m    ,    .    /         rsft
+    lsft  z    x    c    v    b    n    m    ,    .    /         @shswch
     lctl  lmet lalt           spc            ralt           cmp  rctl
   )
 #+end_src
@@ -174,13 +174,14 @@ And, the alias for the layer, and a tap dance for numeric and function key layer
     1 @col
     2 @qwr)
 #+end_src
-These are permanent (non toggle) switches, though, I guess, the =QWERTY= layout has no toggle option to begin with
+These are permanent (non toggle) switches. The =QWERTY= layer also includes a tap dance for switching to the =COLEMAK= layer
 #+begin_src text
   (defalias
       col (layer-switch colemak-dh-cust)
       qwr (layer-switch qwerty)
       lswch (tap-hold-press 150 150 caps
-             (layer-toggle layoutswitch)))
+             (layer-toggle layoutswitch))
+      shswch (tap-dance 200 (rsft @col)))
 #+end_src
 
 
