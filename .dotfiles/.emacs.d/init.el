@@ -475,11 +475,15 @@
 
 (use-package nix-ts-mode
   :ensure t
-  :defer t)
+  :defer  t)
 
 (use-package csv-mode
   :ensure t
-  :defer t)
+  :defer  t)
+
+(use-package yaml-mode
+  :ensure t
+  :defer  t)
 
 (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
 (add-to-list 'auto-mode-alist

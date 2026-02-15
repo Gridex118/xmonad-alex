@@ -18,7 +18,7 @@ eval set -- "$GETOPTS_OUT"
 while true; do
 	case "$1" in
 		-r | --run-backup )
-            alacritty --hold --class "PopupPanelBackupWindow" -e sudo /usr/local/bin/backup.sh --ask
+            alacritty --hold --class "PopupPanelBackupWindow" -e sudo /usr/local/bin/backup.sh
             exit 0 ;;
         -s | --status )
             echo "$BACKUP_MOUNT_STATUS"

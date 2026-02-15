@@ -245,11 +245,16 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match title=r#"[Ss]plash"#
     match title="^RPCS3"
+    match title="^PCSX2"
     match title="Vulkan"
+    match title="Layer Select"
     match app-id="^feh$"
     match app-id="^org.pulseaudio.pavucontrol$"
     match app-id="^FetchWindow$"
+    match app-id=r#".*\.exe$"#
+    match title=r#"GLApp$"#
     open-floating true
 }
 

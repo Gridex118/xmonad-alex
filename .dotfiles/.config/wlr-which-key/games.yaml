@@ -16,3 +16,6 @@ menu:
   - key: "l"
     desc: "Lutris"
     cmd: lutris
+  - key: "p"
+    desc: "PCSX2"
+    cmd: pcsx2-qt
