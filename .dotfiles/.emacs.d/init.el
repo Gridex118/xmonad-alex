@@ -216,6 +216,7 @@
   (web-mode       . lsp-deferred)
   (js-mode        . lsp-deferred)
   (js-ts-mode     . lsp-deferred)
+  (java-mode      . lsp-deferred)
   
   :config
   (setq-default lsp-rename-use-prepare nil
@@ -247,6 +248,20 @@
 (use-package lsp-latex
   :ensure t
   :defer  t)
+
+(use-package lsp-java
+  :ensure t
+  :defer  t
+  :config
+  (setq lsp-java-vmargs
+        `("-XX:+UseParallelGC"
+          "-XX:GCTimeRatio=4"
+          "-XX:AdaptiveSizePolicyWeight=90"
+          "-Dsun.zip.disableMemoryMapping=true"
+          "-Xmx2G")
+        lsp-enable-indentation nil
+        lsp-java-completion-max-results 20
+        lsp-java-progress-reports :disabled))
 
 (use-package magit
   :ensure t

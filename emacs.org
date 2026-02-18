@@ -382,6 +382,7 @@ Binding to =C-c a= and =C-c x=
     (web-mode       . lsp-deferred)
     (js-mode        . lsp-deferred)
     (js-ts-mode     . lsp-deferred)
+    (java-mode      . lsp-deferred)
     
     :config
     (setq-default lsp-rename-use-prepare nil
@@ -422,6 +423,22 @@ Additional UI features
   (use-package lsp-latex
     :ensure t
     :defer  t)
+#+end_src
+***** Java
+#+begin_src emacs-lisp
+  (use-package lsp-java
+    :ensure t
+    :defer  t
+    :config
+    (setq lsp-java-vmargs
+          `("-XX:+UseParallelGC"
+            "-XX:GCTimeRatio=4"
+            "-XX:AdaptiveSizePolicyWeight=90"
+            "-Dsun.zip.disableMemoryMapping=true"
+            "-Xmx2G")
+          lsp-enable-indentation nil
+          lsp-java-completion-max-results 20
+          lsp-java-progress-reports :disabled))
 #+end_src
 
 *** Magit
