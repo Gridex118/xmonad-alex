@@ -45,8 +45,9 @@ def get_rofi_menu_selection(home_dir: str) -> str:
     )
     all_pdfs: str = "\n".join(get_all_pdfs_in_documents(home_dir))
     output, _ = rofi_dmenu_proc.communicate(input=all_pdfs)
-    output = f"{home_dir}/Documents/{output}"
-    return output.replace('\n', '')
+    output = f"{home_dir}/Documents/{output}".replace('\n', '')
+    return ("" if (output == f"{home_dir}/Documents/")
+            else output.replace('\n', ''))
 
 def zathura_open_pdf(pdf_file: str, log_file:str, save_to_recents: bool = True) -> None:
     if save_to_recents:
