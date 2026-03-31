@@ -25,6 +25,12 @@
     (sp-local-pair "[ " " ]" :actions '(wrap insert navigate)))
   (sp-local-pair 'prog-mode "{" nil :post-handlers '(("||\n[i]" "RET"))))
 
+(mapc (lambda (hook)
+        (add-hook hook
+                  (lambda ()
+                    (sp--remove-local-pair "<"))))
+      '(js-mode-hook js-ts-mode-hook))
+
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
   (display-line-numbers-mode))
@@ -44,10 +50,13 @@
   :init
   (defun pref/new-terminal()
     (interactive)
-    (split-window-below)
-    (other-window 1)
-    (vterm)
-    (rename-uniquely))
+    (let ((new-name (read-string "Buffer Name: ")))
+          (split-window-below)
+          (other-window 1)
+          (vterm)
+          (if (string= new-name "")
+              (rename-uniquely)
+            (rename-buffer new-name))))
   :bind
   ("C-c t" . pref/new-terminal))
 
@@ -644,7 +653,8 @@
         (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (python "https://github.com/tree-sitter/tree-sitter-python")
-        (nix "https://github.com/nix-community/tree-sitter-nix")))
+        (nix "https://github.com/nix-community/tree-sitter-nix")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 (setq major-mode-remap-alist
       '((c-mode          . c-ts-mode)
