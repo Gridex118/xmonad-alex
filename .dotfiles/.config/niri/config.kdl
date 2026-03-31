@@ -245,7 +245,11 @@ window-rule {
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id="sun-applet-Main"
+    match app-id="godotengine" title="DEBUG"
     match title=r#"[Ss]plash"#
+    match title="^Waydroid$"
+    match app-id="^waydroid"
     match title="^RPCS3"
     match title="^PCSX2"
     match title="Vulkan"
@@ -255,6 +259,7 @@ window-rule {
     match app-id="^FetchWindow$"
     match app-id=r#".*\.exe$"#
     match title=r#"GLApp$"#
+    match app-id=".virt-manager-wrapped"
     open-floating true
 }
 
