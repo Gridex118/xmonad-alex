@@ -16,6 +16,21 @@ menu:
   - key: "l"
     desc: "Lutris"
     cmd: lutris
+  - key: "L"
+    desc: "Lutris Quick Open"
+    submenu:
+      - key: "g"
+        desc: "G-Senjou no Maou"
+        cmd: "lutris 'lutris:rungame/g-senjou-no-maou'"
+      - key: "e"
+        desc: "Evenicle"
+        cmd: "lutris 'lutris:rungame/evenicle'"
+      - key: "d"
+        desc: "Dispatch"
+        cmd: "lutris 'lutris:rungame/dispatch'"
+      - key: "w"
+        desc: "White Album 2"
+        cmd: "lutris 'lutris:rungame/white-album-2'"
   - key: "p"
     desc: "PCSX2"
     cmd: pcsx2-qt
