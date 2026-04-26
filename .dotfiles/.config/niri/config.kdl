@@ -39,7 +39,11 @@ input {
         accel-speed 0.55
         // accel-profile "flat"
         // scroll-method "two-finger"
-        // disabled-on-external-mouse
+        disabled-on-external-mouse
+    }
+
+    mouse {
+        scroll-factor 0.85
     }
 
     // Uncomment this to make the mouse warp to the center of newly focused windows.
@@ -291,9 +295,15 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^firefox$" title="YouTube"
+    opacity 1.0
+}
+
+window-rule {
     match title="Vulkan"
     match title="^RPCS3"
     match app-id="^mpv$"
+    match app-id="gamescope"
     match app-id=r#".*\.exe$"#
     opacity 1.0
     focus-ring {
