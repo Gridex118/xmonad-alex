@@ -362,6 +362,12 @@ Binding to =C-c a= and =C-c x=
   (global-set-key (kbd "C-c x") 'myEvil/decrement-number-at-point)
 #+end_src
 
+*** Which Key
+#+begin_src emacs-lisp
+  (setq which-key-idle-delay 0.2)
+  (which-key-mode)
+#+end_src
+
 *** LSP Mode
 #+begin_src emacs-lisp
   (use-package lsp-mode

@@ -196,6 +196,9 @@
 (global-set-key (kbd "C-c a") 'myEvil/increment-number-at-point)
 (global-set-key (kbd "C-c x") 'myEvil/decrement-number-at-point)
 
+(setq which-key-idle-delay 0.2)
+(which-key-mode)
+
 (use-package lsp-mode
   :ensure t
   :custom

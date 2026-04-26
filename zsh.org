@@ -41,6 +41,7 @@
   alias ls="ls --color"
   alias grep="grep --color"
   alias cat="bat --theme TwoDark"
+  alias lsblkl="lsblk -o +LABEL,PARTLABEL"
 #+end_src
 
 ** Shortcuts

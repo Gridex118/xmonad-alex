@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 import socket
 from select import select

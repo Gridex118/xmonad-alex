@@ -1,6 +1,7 @@
 alias ls="ls --color"
 alias grep="grep --color"
 alias cat="bat --theme TwoDark"
+alias lsblkl="lsblk -o +LABEL,PARTLABEL"
 
 alias tmat="tmux attach -dt"
 alias t0="tmux attach -dt0"

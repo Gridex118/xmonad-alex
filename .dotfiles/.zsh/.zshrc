@@ -8,6 +8,7 @@ compinit
 
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
+eval "$(direnv hook zsh)"
 
 vterm_printf() {
     if [ -n "$TMUX" ] \
