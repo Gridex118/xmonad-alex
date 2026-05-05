@@ -249,10 +249,41 @@ The left and right buttons for zooming, and scrolling for brush size
     _     [
   )
 #+end_src
-And an alias
+
+*** Niri Shortcuts
+Tab switching can use a tap hold,
 #+begin_src text
+  (deflayermap mousetab
+    mwu tab
+    mwd S-tab)
+
   (defalias
-    mgimp (tap-hold-press 200 200
-           mbck (layer-toggle gimp)))
+    niritab (tap-hold-press 200 200
+              A-tab
+  			(multi lalt (layer-toggle mousetab))))
 #+end_src
 
+The niri shortcut layer, for overview, and tab switching
+#+begin_src text
+  (deflayer niri
+     _       M-r
+        M-o  M-q  @niritab
+     _        _
+  )
+#+end_src
+
+#+begin_src text
+  (defalias
+    mniri (tap-hold-press 200 200
+            M-c
+  		  (layer-toggle niri)))
+#+end_src
+
+*** Aliasing a Tap Dance for Niri and GIMP
+#+begin_src text
+  (defalias
+    mgimp (tap-dance 200
+    		  ((tap-hold-press 200 200
+            	  mbck (layer-toggle gimp))
+  			@mniri)))
+#+end_src
