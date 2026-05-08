@@ -1,12 +1,12 @@
 #!/bin/bash
 
-DEVICE="$(bluetoothctl devices Connected| head -n+1| sed -e 's/^[^ ]\+ //')"
+DEVICE="$(echo 'devices Connected'|bluetoothctl| grep 'Device'| tail -n1| sed -e 's/^[^ ]\+ //')"
 
 toggle_bluetooth() {
     if [[ -n "$DEVICE" ]]; then
         bluetoothctl disconnect
     else
-        TARGET="$(bluetoothctl devices Paired| head -n+1| sed -e 's/^[^ ]\+//'| awk '{print $1}')"
+        TARGET="$(echo 'devices Paired'| bluetoothctl| awk '/Device/{print $2}'| tail -n1)"
         bluetoothctl connect "$TARGET"
     fi
 }
