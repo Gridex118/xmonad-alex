@@ -1,9 +1,10 @@
 #!/bin/bash
 
 SINK_NAME="Builtin Audio Analog Stereo"
-CONNECTED_DEVICES="$(bluetoothctl devices Connected)"
+CONNECTED_DEVICES="$(echo 'devices Connected'|bluetoothctl| grep 'Device'| tail -n1| sed -e 's/^[^ ]\+ //')"
 if [[ -n "$CONNECTED_DEVICES" ]]; then
-    SINK_NAME="$(echo "$CONNECTED_DEVICES"| head -n+1| sed -e 's/^[^ ]\+ [^ ]\+ //')"
+    SINK_NAME="$(echo "$CONNECTED_DEVICES"| sed -e 's/\([0-9A-Z]\{2\}:\)\{5\}[0-9A-Z]\{2\} //')"
+    # Remove the Mac Adderss
 fi
 
 SINK_ID=$($HOME/scripts/wpctl_audio_sinks.py -n "$SINK_NAME")

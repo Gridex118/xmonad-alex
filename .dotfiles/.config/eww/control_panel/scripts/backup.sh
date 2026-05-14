@@ -1,9 +1,10 @@
 #!/bin/bash
 
-# Assume that a backup device is mounted at /mnt/backup
+BACKUP_DIVICE_LABEL="BorgBackup"
+
 BACKUP_MOUNT_STATUS=0
 
-if timeout 3s bash -c "[[ -f /mnt/backup/config ]]"; then
+if [[ -b "/dev/disk/by-label/$BACKUP_DIVICE_LABEL" ]]; then
    BACKUP_MOUNT_STATUS=1
 fi
 
