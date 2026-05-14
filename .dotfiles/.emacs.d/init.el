@@ -1,6 +1,9 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(use-package dired-x
+  :after dired)
+
 (use-package exec-path-from-shell
   :ensure t
   :init
@@ -163,6 +166,7 @@
       '(minibuffer-mode
 	    minibuffer-inactive-mode
 	    messages-buffer-mode
+        bookmark-bmenu-mode
 	    Buffer-menu-mode
 	    haskell-mode
 	    help-mode
@@ -174,7 +178,9 @@
         eshell-mode
         nix-repl-mode
 	    inferior-python-mode
+        inferior-ess-mode
         jupyter-repl-mode
+        prolog-inferior-mode
 	    fundamental-mode))
 (setq evil-normal-state-modes '(prog-mode)
       evil-insert-state-modes  nil
@@ -451,9 +457,10 @@
   :hook (org-mode
          markdown-mode))
 
-(use-package direnv
-  :config
-  (direnv-mode))
+(use-package envrc
+  :ensure t
+  :hook
+  (after-init . envrc-global-mode))
 
 (defun myProg/make-file-executable()
   (interactive)

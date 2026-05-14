@@ -99,6 +99,12 @@ Supress the  =org-element= warnings (these seem to be some sort of bug)
 
 ** Some Quality of Life Features
 
+*** Load dired-x
+#+begin_src emacs-lisp
+  (use-package dired-x
+    :after dired)
+#+end_src
+
 *** Use User's Shell Environment
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -321,6 +327,7 @@ Set some sane default modes
         '(minibuffer-mode
   	    minibuffer-inactive-mode
   	    messages-buffer-mode
+          bookmark-bmenu-mode
   	    Buffer-menu-mode
   	    haskell-mode
   	    help-mode
@@ -332,7 +339,10 @@ Set some sane default modes
           eshell-mode
           nix-repl-mode
   	    inferior-python-mode
+		inferior-octave-mode
+          inferior-ess-mode
           jupyter-repl-mode
+          prolog-inferior-mode
   	    fundamental-mode))
   (setq evil-normal-state-modes '(prog-mode)
         evil-insert-state-modes  nil
@@ -722,10 +732,12 @@ For languages that probably can't affect the system much, I'd rather not have to
 ** Programming
 
 *** Direnv
+Use the 'buffer local' fork, =envrc=
 #+begin_src emacs-lisp
-  (use-package direnv
-    :config
-    (direnv-mode))
+  (use-package envrc
+    :ensure t
+    :hook
+    (after-init . envrc-global-mode))
 #+end_src
 
 *** Make Script Executable
