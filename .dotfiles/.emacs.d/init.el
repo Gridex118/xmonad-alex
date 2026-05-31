@@ -178,6 +178,7 @@
         eshell-mode
         nix-repl-mode
 	    inferior-python-mode
+		inferior-octave-mode
         inferior-ess-mode
         jupyter-repl-mode
         prolog-inferior-mode
@@ -309,6 +310,22 @@
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
 (setq auth-source-save-behavior nil)
+
+(setq tramp-use-scp-direct-remote-copying t
+      vc-handled-backends                 '(Git)
+      remote-file-name-inhibit-locks      t
+      tramp-verbose                       1
+      shell-history-file-name             t)
+
+(connection-local-set-profile-variables
+ 'remote-direct-async-process
+ '((tramp-direct-async-process . t)))
+
+(connection-local-set-profiles
+ '(:application tramp :protocol "ssh")
+ 'remote-direct-async-process)
+
+(setq magit-tramp-pipe-stty-settings 'pty)
 
 (use-package doom-themes
   :ensure t
@@ -542,8 +559,13 @@
   (css-mode  . emmet-mode)
   :config
   (setq emmet-self-closing-tag-style "")
-  (remhash "!!!" (gethash "snippets" (gethash "html" emmet-snippets)))
-  (puthash "!!!" "<!DOCTYPE html>" (gethash "snippets" (gethash "html" emmet-snippets))))
+  (let* ((tbl (gethash "html" emmet-snippets))
+         (snippet-tbl (gethash "snippets" tbl))
+         (alias-tbl (gethash "aliases" tbl)))
+    (remhash "!!!" snippet-tbl)
+    (puthash "!!!" "<!DOCTYPE html>" snippet-tbl)
+    (remhash "doc" alias-tbl)
+    (puthash "doc" "html>(head>meta[charset=UTF-8]+meta:vp+title{Document})+body" alias-tbl)))
 
 (defun myWeb/launch-live-server ()
   (interactive)
