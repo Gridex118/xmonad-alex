@@ -418,7 +418,8 @@ Binding to =C-c a= and =C-c x=
     :custom
     (lsp-rust-analyzer-cargo-watch-command "clippy")
     (lsp-eldoc-render-all t)
-    (lsp-enable-on-type-formatting nil))
+    (lsp-enable-on-type-formatting nil)
+    (lsp-eslint-runtime "/etc/profiles/per-user/rosegrid/bin/npm"))
 #+end_src
 Additional UI features
 #+begin_src emacs-lisp
@@ -507,6 +508,11 @@ Mainly for emacs lisp, but the delimitors work for other languages too
 *** Kebinding to Kill the Server
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x M-q") 'save-buffers-kill-emacs)
+#+end_src
+
+*** Pixel Scroll Mode
+#+begin_src emacs-lisp
+  (pixel-scroll-precision-mode)
 #+end_src
 
 

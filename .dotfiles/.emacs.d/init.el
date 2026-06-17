@@ -244,7 +244,8 @@
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
-  (lsp-enable-on-type-formatting nil))
+  (lsp-enable-on-type-formatting nil)
+  (lsp-eslint-runtime "/etc/profiles/per-user/rosegrid/bin/npm"))
 
 (use-package lsp-ui
   :ensure t
@@ -306,6 +307,8 @@
 (global-set-key (kbd "C-x t 0") 'myTabs/hide-tab-bar-if-alone)
 
 (global-set-key (kbd "C-x M-q") 'save-buffers-kill-emacs)
+
+(pixel-scroll-precision-mode)
 
 (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 
