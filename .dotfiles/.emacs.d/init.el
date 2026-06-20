@@ -208,8 +208,11 @@
 
 (use-package lsp-mode
   :ensure t
+
   :custom
   (lsp-completion-provider :none)
+  (lsp-keymap-prefix       "M-s")
+
   :init
   (defun myLsp/orderless-dispatch-flex-first(_pattern index _total)
     (and (eq index 0) 'orderless-flex))
@@ -361,6 +364,7 @@
   :ensure t
   :hook
   (prog-mode-hook . indent-bars-mode)
+  (emacs-lisp-mode . (lambda () (indent-bars-mode -1)))
   :config
   (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
 		indent-bars-pattern "."
@@ -477,6 +481,10 @@
   :hook (org-mode
          markdown-mode))
 
+(add-hook 'org-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c o a") 'org-agenda-list)))
+
 (use-package envrc
   :ensure t
   :hook
@@ -575,9 +583,20 @@
   (save-window-excursion
 	(async-shell-command "live-server")))
 
+(defun myWeb/npm-run-webpack-serve ()
+  (interactive)
+  (save-window-excursion
+    (async-shell-command "npm run serve")))
+
 (add-hook 'web-mode-hook
 		  (lambda()
-			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)))
+			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
+            (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
+
+(add-hook 'js-base-mode-hook
+		  (lambda()
+			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
+            (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
 
 (add-hook 'evil-normal-state-entry-hook
 		  (lambda ()
