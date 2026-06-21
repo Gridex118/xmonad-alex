@@ -583,26 +583,29 @@
   (save-window-excursion
 	(async-shell-command "live-server")))
 
-(defun myWeb/npm-run-webpack-serve ()
+(defun myWeb/npm-run-dev ()
   (interactive)
   (save-window-excursion
-    (async-shell-command "npm run serve")))
+    (async-shell-command "npm run dev")))
 
-(add-hook 'web-mode-hook
-		  (lambda()
-			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
-            (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
-
-(add-hook 'js-base-mode-hook
-		  (lambda()
-			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
-            (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
+(dolist (mode-hook '(web-mode-hook js-base-mode-hook))
+  (add-hook mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
+              (local-set-key (kbd "C-c w nd") 'myWeb/npm-run-dev))))
 
 (add-hook 'evil-normal-state-entry-hook
 		  (lambda ()
 			(if (or (eq major-mode 'web-mode)
                     (eq major-mode 'css-ts-mode))
 				(save-buffer))))
+
+(use-package rjsx-mode
+  :ensure t
+  :hook
+  (rjsx-mode . (lambda ()
+                 (setq-local sgml-basic-offset 2
+                             js-indent-level 2))))
 
 (add-hook 'json-mode-hook
           (lambda()

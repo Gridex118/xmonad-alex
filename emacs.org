@@ -894,20 +894,16 @@ Use the 'buffer local' fork, =envrc=
     (save-window-excursion
   	(async-shell-command "live-server")))
 
-  (defun myWeb/npm-run-webpack-serve ()
+  (defun myWeb/npm-run-dev ()
     (interactive)
     (save-window-excursion
-      (async-shell-command "npm run serve")))
+      (async-shell-command "npm run dev")))
 
-  (add-hook 'web-mode-hook
-  		  (lambda()
-  			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
-              (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
-
-  (add-hook 'js-base-mode-hook
-  		  (lambda()
-  			(local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
-              (local-set-key (kbd "C-c w wp") 'myWeb/npm-run-webpack-serve)))
+  (dolist (mode-hook '(web-mode-hook js-base-mode-hook))
+    (add-hook mode-hook
+              (lambda ()
+                (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
+                (local-set-key (kbd "C-c w nd") 'myWeb/npm-run-dev))))
 #+end_src
 **** Save on Switching to Normal Mode
 Because this seemed like an appropriate point to update live server
@@ -920,7 +916,18 @@ Because this seemed like an appropriate point to update live server
   				(save-buffer))))
 #+end_src
 
+**** JSX Mode
+#+begin_src emacs-lisp
+  (use-package rjsx-mode
+    :ensure t
+    :hook
+    (rjsx-mode . (lambda ()
+                   (setq-local sgml-basic-offset 2
+                               js-indent-level 2))))
+#+end_src
+
 **** Indentations
+JSON and JSX files should set JS indent to 2
 #+begin_src emacs-lisp
   (add-hook 'json-mode-hook
             (lambda()
