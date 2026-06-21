@@ -569,6 +569,9 @@ Use the new direct async process options
     (set-face-italic 'font-lock-comment-face t)
     (load-theme 'doom-tokyo-night t)
     (doom-themes-org-config)
+    (doom-themes-treemacs-config)
+    (with-eval-after-load 'treemacs
+      (treemacs-load-theme "doom-atom"))
     (set-face-foreground 'font-lock-property-name-face "#6dcec0")
     (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
     (set-face-foreground 'font-lock-type-face "#2698b0")
@@ -697,7 +700,10 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
 
 
 ** Org Mode
-
+#+begin_src emacs-lisp
+  (use-package org-mouse
+    :after org)
+#+end_src
 *** Performance Improvements
 Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp

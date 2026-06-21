@@ -341,6 +341,9 @@
   (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-tokyo-night t)
   (doom-themes-org-config)
+  (doom-themes-treemacs-config)
+  (with-eval-after-load 'treemacs
+    (treemacs-load-theme "doom-atom"))
   (set-face-foreground 'font-lock-property-name-face "#6dcec0")
   (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
   (set-face-foreground 'font-lock-type-face "#2698b0")
@@ -433,6 +436,9 @@
 	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
 	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
 	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
+
+(use-package org-mouse
+  :after org)
 
 (add-hook 'org-mode-hook
           (lambda() (setq jit-lock-defer-time 0.15)))
