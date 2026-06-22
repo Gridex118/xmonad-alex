@@ -483,10 +483,13 @@ Additional UI features
 #+end_src
 
 *** Magit
+[[https://docs.magit.vc/devel/magit/Options-used-by-commit-commands.html#index-magit_002dcommit_002ddiff_002dinhibit_002dsame_002dwindow][Magit]] provides an option to force [[*Prevent Layout Restructuring By emacs][layout restructuring]] while commiting.
 #+begin_src emacs-lisp
-    (use-package magit
-      :ensure t
-      :defer  t)
+  (use-package magit
+    :ensure t
+    :defer  t
+    :custom
+    (magit-commit-diff-inhibit-same-window t))
 #+end_src
 
 *** Projectile
@@ -494,6 +497,32 @@ Additional UI features
   (use-package projectile
     :ensure t
     :bind ("C-c p" . projectile-command-map))
+#+end_src
+
+*** Prevent Layout Restructuring By emacs
+(Snippet copied from [[https://github.com/nex3/perspective-el#some-musings-on-emacs-window-layouts][perspective-el's github page]])
+Try to reuse buffers as much as possible.
+#+begin_src emacs-lisp
+  (setq display-buffer-base-action
+        '((display-buffer-reuse-window display-buffer-same-window)
+          (reusable-frames . t)))
+  (setq even-window-sizes nil)
+#+end_src
+
+*** Persp Mode
+[[https://github.com/Bad-ptr/persp-mode.el][GitHub]]
+For saving and restoring 'workspaces'
+#+begin_src emacs-lisp
+  (use-package persp-mode
+    :ensure t
+    :custom
+    (persp-autokill-buffer-on-remove 'kill-weak)
+    (persp-keymap-prefix (kbd "C-c M-p"))
+    (doom-modeline-display-default-persp-name t)
+    (persp-auto-save-opt 1)
+    (persp-auto-resume-time 0)
+    :init
+    (persp-mode))
 #+end_src
 
 *** Rainbows

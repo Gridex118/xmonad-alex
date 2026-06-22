@@ -294,11 +294,29 @@
 
 (use-package magit
   :ensure t
-  :defer  t)
+  :defer  t
+  :custom
+  (magit-commit-diff-inhibit-same-window t))
 
 (use-package projectile
   :ensure t
   :bind ("C-c p" . projectile-command-map))
+
+(setq display-buffer-base-action
+      '((display-buffer-reuse-window display-buffer-same-window)
+        (reusable-frames . t)))
+(setq even-window-sizes nil)
+
+(use-package persp-mode
+  :ensure t
+  :custom
+  (persp-autokill-buffer-on-remove 'kill-weak)
+  (persp-keymap-prefix (kbd "C-c M-p"))
+  (doom-modeline-display-default-persp-name t)
+  (persp-auto-save-opt 1)
+  (persp-auto-resume-time 0)
+  :init
+  (persp-mode))
 
 (use-package rainbow-delimiters
   :ensure t
