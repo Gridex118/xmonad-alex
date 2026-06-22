@@ -12,6 +12,12 @@
 (recentf-mode 1)
 (global-set-key "\C-xf" 'recentf-open-files)
 
+(defun myFiles/find-file-privately(&optional file)
+  (interactive)
+  (let ((find-file-hook (remq 'recentf-track-opened-file find-file-hook)))
+    (find-file
+     (read-file-name "Find file (p): " default-directory))))
+
 (global-set-key "\C-xwb" 'switch-to-buffer-other-window)
 
 (add-hook 'prog-mode-hook

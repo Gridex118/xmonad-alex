@@ -120,6 +120,14 @@ Supress the  =org-element= warnings (these seem to be some sort of bug)
   (recentf-mode 1)
   (global-set-key "\C-xf" 'recentf-open-files)
 #+end_src
+To visit files without saving to recentf,
+#+begin_src emacs-lisp
+  (defun myFiles/find-file-privately(&optional file)
+    (interactive)
+    (let ((find-file-hook (remq 'recentf-track-opened-file find-file-hook)))
+      (find-file
+       (read-file-name "Find file (p): " default-directory))))
+#+end_src
 
 *** Buffer Switching Keybinds
 #+begin_src emacs-lisp
