@@ -315,6 +315,12 @@
   (doom-modeline-display-default-persp-name t)
   (persp-auto-save-opt 1)
   (persp-auto-resume-time 0)
+  :config
+  (add-to-list 'persp-filter-save-buffers-functions
+               (lambda (buffer)
+                 (let ((bname (file-name-nondirectory (buffer-name buffer))))
+                   (or (string-prefix-p "magit" bname)
+                       (string-prefix-p "*"     bname)))))
   :init
   (persp-mode))
 
