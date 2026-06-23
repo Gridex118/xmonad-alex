@@ -67,18 +67,20 @@
 
 (deflayer mousekeys
   XX
-  XX  XX   XX   XX   XX  XX  XX   XX   XX   XX   XX  XX  XX  XX
-  XX  mwu  XX   XX   XX  XX  XX   mrgt XX   XX   XX  XX  XX  XX
-  XX  mlft mrgt lsft XX  XX  @msh @msj @msk @msl XX  XX  XX
-  XX  mwd  XX   XX   XX  XX  XX   mlft XX   XX   XX      XX
-  XX  XX   XX   XX           XX                  XX      XX
+  XX  XX    XX   XX   XX  XX  XX   XX   XX   XX   XX  XX  XX  XX
+  XX  @msup XX   XX   XX  XX  XX   mrgt XX   XX   XX  XX  XX  XX
+  XX  mlft  mrgt lsft XX  XX  @msh @msj @msk @msl XX  XX  XX
+  XX  @msdw XX   XX   XX  XX  XX   mlft XX   XX   XX      XX
+  XX  XX    XX   XX           XX                  XX      XX
 )
 
 (defalias
-  msh (movemouse-accel-left  3 500 1 3)
-  msj (movemouse-accel-down  3 500 1 3)
-  msk (movemouse-accel-up    3 500 1 3)
-  msl (movemouse-accel-right 3 500 1 3)
+  msh  (movemouse-accel-left  3 500 1 3)
+  msj  (movemouse-accel-down  3 500 1 3)
+  msk  (movemouse-accel-up    3 500 1 3)
+  msl  (movemouse-accel-right 3 500 1 3)
+  msup (mwheel-accel-up       3 600 1.1 0.9)
+  msdw (mwheel-accel-down     3 600 1.1 0.9)
 )
 
 (defalias
