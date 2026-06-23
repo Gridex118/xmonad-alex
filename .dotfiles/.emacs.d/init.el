@@ -26,7 +26,7 @@
 
 (use-package smartparens
   :ensure t
-  :hook  (prog-mode latex-mode)
+  :hook (prog-mode latex-mode)
   :config
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
@@ -158,7 +158,9 @@
   :config
   (evil-collection-init)
   (evil-define-key 'normal org-mode-map (kbd "gj") 'evil-next-visual-line)
-  (evil-define-key 'normal org-mode-map (kbd "gk") 'evil-previous-visual-line))
+  (evil-define-key 'normal org-mode-map (kbd "gk") 'evil-previous-visual-line)
+  :custom
+  (evil-collection-magit-state 'emacs))
 
 (use-package evil-surround
   :after evil
@@ -170,26 +172,26 @@
 (require 'vterm)
 (setq prefs/evil-emacs-state-modes
       '(minibuffer-mode
-	    minibuffer-inactive-mode
-	    messages-buffer-mode
+        minibuffer-inactive-mode
+        messages-buffer-mode
         bookmark-bmenu-mode
-	    Buffer-menu-mode
-	    haskell-mode
-	    help-mode
-	    compilation-mode
+        Buffer-menu-mode
+        haskell-mode
+        help-mode
+        compilation-mode
         emacs-lisp-mode
-	    lisp-mode
-	    dired-mode
-	    vterm-mode
+        lisp-mode
+        dired-mode
+        vterm-mode
         eshell-mode
         nix-repl-mode
-	    inferior-python-mode
-		inferior-octave-mode
+        inferior-python-mode
+        inferior-octave-mode
         inferior-ess-mode
         jupyter-repl-mode
         prolog-inferior-mode
-	    fundamental-mode))
-(setq evil-normal-state-modes '(prog-mode)
+        fundamental-mode))
+(setq evil-normal-state-modes '(prog-mode org-agenda-mode magit-status-mode)
       evil-insert-state-modes  nil
       evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
 				                       evil-emacs-state-modes))
