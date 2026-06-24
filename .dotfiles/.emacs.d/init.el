@@ -565,10 +565,6 @@
 		lsp-enable-symbol-highlighting nil
 		lsp-signature-auto-activate    nil))
 
-(use-package portage-modes
-  :ensure t
-  :defer  t)
-
 (use-package nix-mode
   :ensure t
   :defer  t)
@@ -584,6 +580,10 @@
 (use-package yaml-mode
   :ensure t
   :defer  t)
+
+(use-package typescript-mode
+  :ensure t
+  :defer t)
 
 (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
 (add-to-list 'auto-mode-alist
@@ -616,15 +616,23 @@
     (remhash "doc" alias-tbl)
     (puthash "doc" "html>(head>meta[charset=UTF-8]+meta:vp+title{Document})+body" alias-tbl)))
 
+(defun myWeb/launch-server-generic (command)
+  (let* ((current-project-name-maybe (project-current))
+         (server-dir-name (if current-project-name-maybe
+                              (project-name current-project-name-maybe)
+                            "anonymous")))
+    (async-shell-command command (format "*Async: (%s) %s*"
+                                         server-dir-name command))))
+
 (defun myWeb/launch-live-server ()
   (interactive)
   (save-window-excursion
-	(async-shell-command "live-server")))
+    (myWeb/launch-server-generic "live-server")))
 
 (defun myWeb/npm-run-dev ()
   (interactive)
   (save-window-excursion
-    (async-shell-command "npm run dev")))
+    (myWeb/launch-server-generic "npm run dev")))
 
 (dolist (mode-hook '(web-mode-hook js-base-mode-hook))
   (add-hook mode-hook
