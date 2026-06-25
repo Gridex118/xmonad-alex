@@ -191,7 +191,7 @@
         jupyter-repl-mode
         prolog-inferior-mode
         fundamental-mode))
-(setq evil-normal-state-modes '(prog-mode org-agenda-mode magit-status-mode)
+(setq evil-normal-state-modes '(prog-mode org-agenda-mode)
       evil-insert-state-modes  nil
       evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
 				                       evil-emacs-state-modes))
@@ -383,9 +383,6 @@
   (with-eval-after-load 'org
     (set-face-foreground 'org-level-3 "Skyblue")))
 
-(custom-set-faces
- '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
-
 (use-package doom-modeline
   :ensure t
   :init
@@ -399,15 +396,16 @@
   :hook
   (prog-mode-hook . indent-bars-mode)
   (emacs-lisp-mode . (lambda () (indent-bars-mode -1)))
-  :config
-  (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
-		indent-bars-pattern "."
-		indent-bars-width-frac 0.1
-		indent-bars-pad-frac 0.1
-		indent-bars-zigzag nil
-		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
-		indent-bars-highlight-current-depth '(:blend 0.5)
-		indent-bars-display-on-blank-lines t))
+  :custom
+  (indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1))
+  (indent-bars-color '(highlight :face-bg t :blend 0.15))
+  (indent-bars-highlight-current-depth '(:blend 0.5))
+  (indent-bars-starting-column 0)
+  (indent-bars-pattern ".")
+  (indent-bars-width-frac 0.2)
+  (indent-bars-pad-frac 0.1)
+  (indent-bars-zigzag nil)
+  (indent-bars-display-on-blank-lines t))
 
 (use-package emojify
   :ensure t

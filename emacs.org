@@ -356,7 +356,7 @@ Set some sane default modes
           jupyter-repl-mode
           prolog-inferior-mode
           fundamental-mode))
-  (setq evil-normal-state-modes '(prog-mode org-agenda-mode magit-status-mode)
+  (setq evil-normal-state-modes '(prog-mode org-agenda-mode)
         evil-insert-state-modes  nil
         evil-emacs-state-modes   (append prefs/evil-emacs-state-modes
   				                       evil-emacs-state-modes))
@@ -625,12 +625,6 @@ Use the new direct async process options
       (set-face-foreground 'org-level-3 "Skyblue")))
 #+end_src
 
-*** Font
-#+begin_src emacs-lisp
-  (custom-set-faces
-   '(default ((t (:family "JetBrains Mono" :foundry "JB" :slant normal :weight regular :height 143 :width normal)))))
-#+end_src
-
 *** A Better Looking Modeline
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -649,15 +643,16 @@ Use the new direct async process options
     :hook
     (prog-mode-hook . indent-bars-mode)
     (emacs-lisp-mode . (lambda () (indent-bars-mode -1)))
-    :config
-    (setq indent-bars-color '(highlight :face-bg t :blend 0.15)
-  		indent-bars-pattern "."
-  		indent-bars-width-frac 0.1
-  		indent-bars-pad-frac 0.1
-  		indent-bars-zigzag nil
-  		indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1)
-  		indent-bars-highlight-current-depth '(:blend 0.5)
-  		indent-bars-display-on-blank-lines t))
+    :custom
+    (indent-bars-color-by-depth '(:regexp "outline-\\([0-9]+\\)" :blend 1))
+    (indent-bars-color '(highlight :face-bg t :blend 0.15))
+    (indent-bars-highlight-current-depth '(:blend 0.5))
+    (indent-bars-starting-column 0)
+    (indent-bars-pattern ".")
+    (indent-bars-width-frac 0.2)
+    (indent-bars-pad-frac 0.1)
+    (indent-bars-zigzag nil)
+    (indent-bars-display-on-blank-lines t))
 #+end_src
 
 *** Emoji Support
