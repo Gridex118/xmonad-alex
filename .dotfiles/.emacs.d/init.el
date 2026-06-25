@@ -311,6 +311,7 @@
 
 (use-package persp-mode
   :ensure t
+  :defer t
   :custom
   (persp-autokill-buffer-on-remove 'kill-weak)
   (persp-keymap-prefix (kbd "C-c M-p"))
@@ -322,9 +323,7 @@
                (lambda (buffer)
                  (let ((bname (file-name-nondirectory (buffer-name buffer))))
                    (or (string-prefix-p "magit" bname)
-                       (string-prefix-p "*"     bname)))))
-  :init
-  (persp-mode))
+                       (string-prefix-p "*"     bname))))))
 
 (use-package rainbow-delimiters
   :ensure t

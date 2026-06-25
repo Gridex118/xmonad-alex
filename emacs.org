@@ -513,10 +513,11 @@ Try to reuse buffers as much as possible.
 
 *** Persp Mode
 [[https://github.com/Bad-ptr/persp-mode.el][GitHub]]
-For saving and restoring 'workspaces'
+For saving and restoring 'workspaces'. /Do not save =magit= buffers, or buffers starting with "*"./
 #+begin_src emacs-lisp
   (use-package persp-mode
     :ensure t
+    :defer t
     :custom
     (persp-autokill-buffer-on-remove 'kill-weak)
     (persp-keymap-prefix (kbd "C-c M-p"))
@@ -528,9 +529,7 @@ For saving and restoring 'workspaces'
                  (lambda (buffer)
                    (let ((bname (file-name-nondirectory (buffer-name buffer))))
                      (or (string-prefix-p "magit" bname)
-                         (string-prefix-p "*"     bname)))))
-    :init
-    (persp-mode))
+                         (string-prefix-p "*"     bname))))))
 #+end_src
 
 *** Rainbows
