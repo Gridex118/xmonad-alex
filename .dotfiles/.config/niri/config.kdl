@@ -17,6 +17,7 @@ environment {
 // https://yalter.github.io/niri/Configuration:-Input
 input {
     disable-power-key-handling
+    workspace-auto-back-and-forth
 
     keyboard {
         // Enable numlock on startup, omitting this setting disables it.
@@ -28,20 +29,6 @@ input {
     // Next sections include libinput settings.
     // Omitting settings disables them, or leaves them at their default values.
     // All commented-out settings here are examples, not defaults.
-    touchpad {
-        // off
-        tap
-        // dwt
-        // dwtp
-        // drag false
-        // drag-lock
-        // natural-scroll
-        accel-speed 0.55
-        // accel-profile "flat"
-        // scroll-method "two-finger"
-        disabled-on-external-mouse
-    }
-
     mouse {
         scroll-factor 0.85
     }
@@ -53,6 +40,8 @@ input {
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     // focus-follows-mouse max-scroll-amount="0%"
 }
+
+include "./touchpad.kdl"
 
 cursor {
     hide-after-inactive-ms 3000
@@ -530,7 +519,6 @@ binds {
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+Escape { quit; }
-    Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
