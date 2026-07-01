@@ -338,9 +338,11 @@
   :config
   (add-to-list 'persp-filter-save-buffers-functions
                (lambda (buffer)
-                 (let ((bname (file-name-nondirectory (buffer-name buffer))))
+                 (let ((bname (file-name-nondirectory (buffer-name buffer)))
+                       (bfilename (buffer-file-name buffer)))
                    (or (string-prefix-p "magit" bname)
-                       (string-prefix-p "*"     bname))))))
+                       (string-prefix-p "*"     bname)
+                       (tramp-tramp-file-p      bfilename))))))
 
 (use-package rainbow-delimiters
   :ensure t
