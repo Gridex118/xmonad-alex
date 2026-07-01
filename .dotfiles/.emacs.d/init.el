@@ -773,3 +773,16 @@
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+(defun myFiles/open-image-in-feh (&optional IMAGE)
+  (interactive)
+  (let ((image-location
+         (expand-file-name
+          (if (not (eq IMAGE nil))
+              IMAGE
+            (read-file-name "Open Image: ")))))
+    (save-window-excursion
+      (async-shell-command (format "feh -F \"%s\"" image-location)
+                           (format "*Async: (feh) %s*" image-location)))))
+
+(global-set-key (kbd "C-c M-i") 'myFiles/open-image-in-feh)
