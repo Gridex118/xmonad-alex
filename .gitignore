@@ -5,3 +5,4 @@
 /.dotfiles/.config/zathura/recent.log
 /.dotfiles/.config/xmonad/dist-newstyle/
 *.elc
+/.dotfiles/.zsh/plugins/
