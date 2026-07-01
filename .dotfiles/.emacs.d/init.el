@@ -91,12 +91,12 @@
   :ensure t
   :after  orderless
   :custom
+  (corfu-on-exact-match 'show)
   (corfu-cycle t)
+  (corfu-auto  t)
   :init
   (global-corfu-mode)
   :config
-  (setq corfu-auto           t
-	    corfu-on-exact-match nil)
   (keymap-unset corfu-map "RET"))
 
 (use-package yasnippet
@@ -119,9 +119,14 @@
 
 (global-set-key (kbd "C-c c e") 'hippie-expand)
 
+(use-package cape
+  :ensure t
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file))
+
 (use-package orderless
   :ensure t
-  :defer  t
   :custom
   (completion-category-defaults    nil)
   (completion-styles             '(orderless basic))

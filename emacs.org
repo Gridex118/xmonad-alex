@@ -235,12 +235,12 @@ Corfu, for auto completion popups
     :ensure t
     :after  orderless
     :custom
+    (corfu-on-exact-match 'show)
     (corfu-cycle t)
+    (corfu-auto  t)
     :init
     (global-corfu-mode)
     :config
-    (setq corfu-auto           t
-  	    corfu-on-exact-match nil)
     (keymap-unset corfu-map "RET"))
 #+end_src
 Yasnippet, for snippets
@@ -267,12 +267,19 @@ Hippie Expansion: mostly for file name expansion
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-c c e") 'hippie-expand)
 #+end_src
+[[https://github.com/minad/cape][Cape]] for additional capf backends
+#+begin_src emacs-lisp
+  (use-package cape
+    :ensure t
+    :init
+    (add-hook 'completion-at-point-functions #'cape-dabbrev)
+    (add-hook 'completion-at-point-functions #'cape-file))
+#+end_src
 
 *** Orderless
 #+begin_src emacs-lisp
   (use-package orderless
     :ensure t
-    :defer  t
     :custom
     (completion-category-defaults    nil)
     (completion-styles             '(orderless basic))
