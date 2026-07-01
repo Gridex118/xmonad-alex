@@ -527,4 +527,7 @@ binds {
     XF86PowerOff { spawn-sh "~/scripts/swaylock.sh"; }
     XF86AudioPlay { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
     XF86AudioPause { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
+
+    // Touchpad Toggle
+    F9 { spawn-sh "~/scripts/toggle_niri_touchpad.sh"; }
 }
