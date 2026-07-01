@@ -978,7 +978,7 @@ Use the 'buffer local' fork, =envrc=
     (save-window-excursion
       (myWeb/launch-server-generic "npm run dev")))
 
-  (dolist (mode-hook '(web-mode-hook js-base-mode-hook))
+  (dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook))
     (add-hook mode-hook
               (lambda ()
                 (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)

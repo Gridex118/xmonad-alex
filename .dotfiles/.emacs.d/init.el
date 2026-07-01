@@ -141,6 +141,7 @@
   ("C-c c w" . consult-buffer-other-window)
   ("C-c c /" . consult-ripgrep)
   ("C-c c i" . consult-imenu))
+
 (add-hook 'org-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
@@ -650,7 +651,7 @@
   (save-window-excursion
     (myWeb/launch-server-generic "npm run dev")))
 
-(dolist (mode-hook '(web-mode-hook js-base-mode-hook))
+(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook))
   (add-hook mode-hook
             (lambda ()
               (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
