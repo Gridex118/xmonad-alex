@@ -140,6 +140,18 @@
 	  (lambda()
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
 
+(with-eval-after-load 'persp-mode
+  (defun myConsult/switch-to-buffer-other-window ()
+    (interactive)
+    (with-persp-buffer-list () (consult-buffer)))
+  (defun myConsult/switch-to-buffer ()
+    (interactive)
+    (with-persp-buffer-list () (consult-buffer)))
+  (global-set-key (kbd "C-c c w")
+                  'myConsult/switch-to-buffer-other-window)
+  (global-set-key (kbd "C-c c b")
+                  'myConsult/switch-to-buffer))
+
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 

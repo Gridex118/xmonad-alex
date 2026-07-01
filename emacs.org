@@ -290,9 +290,26 @@ Hippie Expansion: mostly for file name expansion
     ("C-c c w" . consult-buffer-other-window)
     ("C-c c /" . consult-ripgrep)
     ("C-c c i" . consult-imenu))
+#+end_src
+=consult-outline= should be key bound in Org files
+#+begin_src emacs-lisp
   (add-hook 'org-mode-hook
   	  (lambda()
   	    (local-set-key (kbd "C-c c o") 'consult-outline)))
+#+end_src
+When =persp-mode= is available, augment =consult= with the selected perspective's buffer list.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'persp-mode
+    (defun myConsult/switch-to-buffer-other-window ()
+      (interactive)
+      (with-persp-buffer-list () (consult-buffer)))
+    (defun myConsult/switch-to-buffer ()
+      (interactive)
+      (with-persp-buffer-list () (consult-buffer)))
+    (global-set-key (kbd "C-c c w")
+                    'myConsult/switch-to-buffer-other-window)
+    (global-set-key (kbd "C-c c b")
+                    'myConsult/switch-to-buffer))
 #+end_src
 Swap =isearch= with =isearch-regexp=
 #+begin_src emacs-lisp
