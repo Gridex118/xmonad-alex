@@ -336,14 +336,20 @@
   (doom-modeline-display-default-persp-name t)
   (persp-auto-save-opt 1)
   (persp-auto-resume-time 0)
+  (persp-add-buffer-on-after-change-major-mode t)
   :config
   (add-to-list 'persp-filter-save-buffers-functions
                (lambda (buffer)
-                 (let ((bname (file-name-nondirectory (buffer-name buffer)))
-                       (bfilename (buffer-file-name buffer)))
+                 (let ((bname (file-name-nondirectory (buffer-name buffer))))
                    (or (string-prefix-p "magit" bname)
                        (string-prefix-p "*"     bname)
-                       (tramp-tramp-file-p      bfilename))))))
+                       (with-current-buffer buffer
+                         (file-remote-p default-directory))))))
+  (add-to-list 'persp-common-buffer-filter-functions
+               (lambda (buffer)
+                 (let ((bname (buffer-name buffer)))
+                   (or (string-prefix-p "magit" bname)
+                       (string-prefix-p "*"     bname))))))
 
 (use-package rainbow-delimiters
   :ensure t
