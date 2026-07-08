@@ -117,16 +117,18 @@ layout {
     // You can change how the focus ring looks.
     focus-ring {
         width 2
-        active-gradient from="#e86164" to="#ffffff" angle=135
+        active-gradient from="#06A4E0" to="#ffffff" angle=135
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
     tab-indicator {
         position "top"
+        active-color "#06A4E0"
+        inactive-color "#79d4f7"
     }
 
     insert-hint {
-        gradient from="#e8616480" to="#ffffff80" angle=90 relative-to="workspace-view"
+        gradient from="#0A3754" to="#06A4E080" angle=90 relative-to="workspace-view"
     }
 
     // You can enable drop shadows for windows.
@@ -172,10 +174,9 @@ spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 spawn-sh-at-startup "~/scripts/kanata-init.sh"
 spawn-sh-at-startup "emacs --daemon"
-spawn-sh-at-startup "~/.local/bin/eww_overlays.sh"
 // Need to patch wbg to use "wbg_wallpaper" as the wlr namespace hint
-spawn-sh-at-startup "wbg ~/Wallpapers/evangelion.png"
-spawn-sh-at-startup "swaybg -i ~/Wallpapers/evangelion_blur.png"
+spawn-sh-at-startup "wbg ~/Wallpapers/Persona/p3-makoto-train.jpeg"
+spawn-sh-at-startup "swaybg -i ~/Wallpapers/Persona/p3-makoto.png"
 spawn-sh-at-startup "swayidle -w before-sleep ~/scripts/swaylock.sh"
 
 hotkey-overlay {

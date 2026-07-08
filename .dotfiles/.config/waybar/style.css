@@ -6,7 +6,7 @@
 }
 
 window#waybar {
-    background-color: rgba(190, 75, 77, 0.1);
+    background-color: rgba(4, 3, 9, 0.3);
     color: #ffffff;
 }
 
@@ -42,7 +42,7 @@ button:hover {
 }
 
 #workspaces button.urgent {
-    color: #eb4d4b;
+    color: #040309;
 }
 
 #mode {
@@ -60,7 +60,7 @@ button:hover {
 #custom-nixos,
 #network,
 #mode {
-    background-color: rgba(190, 75, 77, 0.6);
+    background-color: rgba(4, 3, 9, 0.7);
     padding: 2px 15px;
     color: #ffffff;
 }
