@@ -114,7 +114,9 @@ PanelWindow {
                 let total = Number(p[1]) || 1
                 let used = Number(p[2]) || 0
                 let memUsage = Math.round(100 * used / total)
-                mem_usage.entryValue = memUsage + "%"
+                let totalPretty = (total / (1024 * 1024)).toPrecision(3)
+                let usedPretty = (used / (1024 * 1024)).toPrecision(3)
+                mem_usage.entryValue = `${usedPretty}GiB / ${totalPretty}GiB (${memUsage}%)`
             }
         }
         Component.onCompleted: running = true
