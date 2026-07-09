@@ -14,7 +14,7 @@ PanelWindow {
     anchors.right: true
     margins.right: 80
     anchors.top: true
-    margins.top: 200
+    margins.top: 150
     exclusiveZone: 0
 
     WlrLayershell.layer: WlrLayer.Background
@@ -132,19 +132,9 @@ PanelWindow {
         stdout: SplitParser {
             onRead: data => {
                 if (!data) return
-                let p = data.trim().split(/\s+/)
-                let total = p[1]
-                let used = p[2]
-                disk_usage.entryValue = `${used}iB / ${total}iB`
             }
         }
         Component.onCompleted: running = true
-    }
-    Timer {
-        interval: 15000
-        running: true
-        repeat: true
-        onTriggered: disk_usage_proc.running = true
     }
 
     Column {

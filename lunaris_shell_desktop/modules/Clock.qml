@@ -13,7 +13,7 @@ PanelWindow {
     anchors.left: true
     margins.left: 70
     anchors.bottom: true
-    margins.bottom: 80
+    margins.bottom: -50
     exclusiveZone: 0
 
     WlrLayershell.layer: WlrLayer.Background
@@ -25,10 +25,13 @@ PanelWindow {
     }
 
     ColumnLayout {
-        anchors.fill: parent
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        spacing: -30
         RowLayout {
             id: clock_time
-            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             spacing: 0
             Text {
                 id: clock_hours
