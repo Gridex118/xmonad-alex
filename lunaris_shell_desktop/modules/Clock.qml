@@ -11,9 +11,8 @@ PanelWindow {
     implicitHeight: 375
 
     anchors.left: true
-    margins.left: 70
+    margins.left: 120
     anchors.bottom: true
-    margins.bottom: -50
     exclusiveZone: 0
 
     WlrLayershell.layer: WlrLayer.Background
