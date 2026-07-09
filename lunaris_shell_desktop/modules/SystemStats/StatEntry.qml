@@ -38,10 +38,16 @@ Rectangle {
         Rectangle {
             id: entry_value
             property int padding: 8
-            color: "#51c0d3"
             implicitWidth: value_text.width + padding * 2
             implicitHeight: value_text.height
             anchors.verticalCenter: parent.verticalCenter
+
+            gradient: Gradient {
+                orientation: Gradient.Horizontal
+                GradientStop { position: 0.0; color: "#51c0d3" }
+                GradientStop { position: 0.8; color: "#afe2eb" }
+                GradientStop { position: 1.0; color: "#ffffff" }
+            }
 
             Text {
                 id: value_text
