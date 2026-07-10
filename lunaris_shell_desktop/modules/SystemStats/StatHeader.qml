@@ -29,7 +29,7 @@ Item {
             }
             strokeColor: "transparent"
             PathLine {
-                x: root.width
+                x: root.width - 10
                 y: 0
             }
             PathLine {

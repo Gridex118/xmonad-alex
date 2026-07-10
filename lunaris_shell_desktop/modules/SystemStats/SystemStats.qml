@@ -85,8 +85,8 @@ PanelWindow {
                 let idle = Number(p[4]) + Number(p[5])
                 let total = p.slice(1, 8).reduce((a, b) => a + Number(b), 0)
                 if (lastCpuTotal > 0) {
-                    let usage = Math.round(100 * (1 - (idle - lastCpuIdle)
-                                                  / (total - lastCpuTotal)))
+                    let usage = (100 * (1 - (idle - lastCpuIdle)
+                                        / (total - lastCpuTotal))).toPrecision(1)
                     cpu_usage.entryValue = usage + "%"
                 } else {
                     cpu_usage.entryValue = "0%"
@@ -167,8 +167,8 @@ PanelWindow {
             Column {
                 spacing: 10
                 anchors.fill: parent
-                anchors.topMargin: 20
-                anchors.bottomMargin: 20
+                anchors.topMargin: 15
+                anchors.bottomMargin: 15
                 StatEntry {
                     id: os
                     container: stats_container
