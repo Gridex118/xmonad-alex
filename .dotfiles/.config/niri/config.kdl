@@ -526,8 +526,13 @@ binds {
     // Mod+Shift+P { power-off-monitors; }
 
     XF86PowerOff { spawn-sh "~/scripts/swaylock.sh"; }
-    XF86AudioPlay { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
-    XF86AudioPause { spawn-sh "~/scripts/cycle-mpvmusic.sh"; }
+    XF86AudioPlay { spawn-sh "~/scripts/playctl_play_or_mpv.sh"; }
+    XF86AudioPause { spawn-sh "~/scripts/playctl_play_or_mpv.sh"; }
+    Mod+F4 { spawn-sh "playerctl stop"; }
+    XF86AudioNext { spawn-sh "playerctl next"; }
+    Shift+XF86AudioNext { spawn-sh "playerctld shift"; }
+    XF86AudioPrev { spawn-sh "playerctl previous"; }
+    Shift+XF86AudioPrev { spawn-sh "playerctld unshift"; }
 
     // Touchpad Toggle
     F9 { spawn-sh "~/scripts/toggle_niri_touchpad.sh"; }
