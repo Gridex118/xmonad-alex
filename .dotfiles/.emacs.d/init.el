@@ -149,7 +149,7 @@
 (with-eval-after-load 'persp-mode
   (defun myConsult/switch-to-buffer-other-window ()
     (interactive)
-    (with-persp-buffer-list () (consult-buffer)))
+    (with-persp-buffer-list () (consult-buffer-other-window)))
   (defun myConsult/switch-to-buffer ()
     (interactive)
     (with-persp-buffer-list () (consult-buffer)))
@@ -317,6 +317,19 @@
   :defer  t
   :custom
   (magit-commit-diff-inhibit-same-window t))
+
+(use-package git-gutter-fringe
+  :ensure t)
+
+(use-package git-gutter
+  :ensure t
+  :after git-gutter-fringe
+  :hook (prog-mode . git-gutter-mode)
+  :custom
+  (git-gutter:update-interval 0.04)
+  :config
+  (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+  (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated)))
 
 (use-package projectile
   :ensure t
@@ -504,7 +517,6 @@
                   org-latex-listings-options  '(("numbers" "left")
                                                 ("breaklines" "true")
                                                 ("upquote" "true")
-                                                ("autogobble" "true")
                                                 ("showstringspaces" "false")
                                                 ("basicstyle" "\\ttfamily")))))
 
@@ -545,6 +557,11 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c o a") 'org-agenda-list)))
+
+(use-package quickrun
+  :ensure t
+  :config
+  (require 'quickrun))
 
 (use-package envrc
   :ensure t
@@ -608,6 +625,13 @@
   :ensure t
   :defer t)
 
+(use-package qml-mode
+  :ensure t
+  :defer t)
+
+(add-to-list 'load-path "~/.emacs.d/src/qml-ts-mode")
+(add-hook 'qml-mode-hook (lambda () (require 'qml-ts-mode)))
+
 (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
 (add-to-list 'auto-mode-alist
              '("\\.ebuild\\'" . (lambda ()
@@ -628,7 +652,7 @@
   :ensure t
   :hook
   (web-mode  . emmet-mode)
-  (css-mode  . emmet-mode)
+  (rjsx-mode . emmet-mode)
   :config
   (setq emmet-self-closing-tag-style "")
   (let* ((tbl (gethash "html" emmet-snippets))

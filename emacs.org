@@ -309,7 +309,7 @@ When =persp-mode= is available, augment =consult= with the selected perspective'
   (with-eval-after-load 'persp-mode
     (defun myConsult/switch-to-buffer-other-window ()
       (interactive)
-      (with-persp-buffer-list () (consult-buffer)))
+      (with-persp-buffer-list () (consult-buffer-other-window)))
     (defun myConsult/switch-to-buffer ()
       (interactive)
       (with-persp-buffer-list () (consult-buffer)))
@@ -508,7 +508,7 @@ Additional UI features
           lsp-java-progress-reports :disabled))
 #+end_src
 
-*** Magit
+*** Git
 [[https://docs.magit.vc/devel/magit/Options-used-by-commit-commands.html#index-magit_002dcommit_002ddiff_002dinhibit_002dsame_002dwindow][Magit]] provides an option to force [[*Prevent Layout Restructuring By emacs][layout restructuring]] while commiting.
 #+begin_src emacs-lisp
   (use-package magit
@@ -516,6 +516,22 @@ Additional UI features
     :defer  t
     :custom
     (magit-commit-diff-inhibit-same-window t))
+#+end_src
+
+[[https://github.com/emacsorphanage/git-gutter][git-gutter]] and [[https://github.com/syohex/emacs-git-gutter-fringe][git-gutter-fringe]] Provide fringe git changes. It appears that both are required to be present for multiline, connected markings to function
+#+begin_src emacs-lisp
+  (use-package git-gutter-fringe
+    :ensure t)
+
+  (use-package git-gutter
+    :ensure t
+    :after git-gutter-fringe
+    :hook (prog-mode . git-gutter-mode)
+    :custom
+    (git-gutter:update-interval 0.04)
+    :config
+    (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
+    (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated)))
 #+end_src
 
 *** Projectile
@@ -790,7 +806,6 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
                     org-latex-listings-options  '(("numbers" "left")
                                                   ("breaklines" "true")
                                                   ("upquote" "true")
-                                                  ("autogobble" "true")
                                                   ("showstringspaces" "false")
                                                   ("basicstyle" "\\ttfamily")))))
 #+end_src
@@ -853,6 +868,14 @@ Keybinding for agenda list, if inside an org buffer
 
 ** Programming
 
+
+*** Runner for Simple Programs
+#+begin_src emacs-lisp
+  (use-package quickrun
+    :ensure t
+    :config
+    (require 'quickrun))
+#+end_src
 
 *** Direnv
 Use the 'buffer local' fork, =envrc=
@@ -925,6 +948,13 @@ Use the 'buffer local' fork, =envrc=
     :ensure t
     :defer t)
 
+  (use-package qml-mode
+    :ensure t
+    :defer t)
+
+  (add-to-list 'load-path "~/.emacs.d/src/qml-ts-mode")
+  (add-hook 'qml-mode-hook (lambda () (require 'qml-ts-mode)))
+
   (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
   (add-to-list 'auto-mode-alist
                '("\\.ebuild\\'" . (lambda ()
@@ -953,7 +983,7 @@ Use the 'buffer local' fork, =envrc=
     :ensure t
     :hook
     (web-mode  . emmet-mode)
-    (css-mode  . emmet-mode)
+    (rjsx-mode . emmet-mode)
     :config
     (setq emmet-self-closing-tag-style "")
     (let* ((tbl (gethash "html" emmet-snippets))
