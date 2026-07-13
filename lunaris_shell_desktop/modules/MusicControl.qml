@@ -47,14 +47,22 @@ PanelWindow {
         running: true
         stdout: SplitParser {
             onRead: data => {
-                if (data) {
+                if (data && !media_progress.pressed) {
                     let [position, length] = data.trim().split(/\s+/)
-                    media_progress.value = (
-                        Number(position) / Number(length)
-                    ).toPrecision(3)
+                    media_progress.value = Number(position)
+                    media_progress.to = Number(length)
                 }
             }
         }
+    }
+
+    Process {
+        id: media_progress_set_proc
+        command: !media_progress.pressed? [
+            "playerctl", "position",
+            (media_progress.value / 1000000)
+            // µs (metadata -f 'position') to s (position)
+        ] : [ ]
     }
 
     Rectangle {
@@ -83,14 +91,13 @@ PanelWindow {
             }
         }
 
-        ProgressBar {
+        Slider {
             id: media_progress
             width: parent.width - 50
             height: 8
             anchors.top: media_track_name_container.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 20
-            value: 0.1
             background: Rectangle {
                 color: "#b0ffffff"
                 radius: 0
@@ -102,6 +109,10 @@ PanelWindow {
                     radius: 0
                     color: "deepskyblue"
                 }
+            }
+            handle: null
+            onMoved: () => {
+                media_progress_set_proc.running = true
             }
         }
     }
