@@ -86,7 +86,7 @@ PanelWindow {
                 let total = p.slice(1, 8).reduce((a, b) => a + Number(b), 0)
                 if (lastCpuTotal > 0) {
                     let usage = (100 * (1 - (idle - lastCpuIdle)
-                                        / (total - lastCpuTotal))).toPrecision(1)
+                                        / (total - lastCpuTotal))).toPrecision(2)
                     cpu_usage.entryValue = usage + "%"
                 } else {
                     cpu_usage.entryValue = "0%"

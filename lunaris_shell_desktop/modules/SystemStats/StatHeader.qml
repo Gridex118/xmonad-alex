@@ -12,7 +12,7 @@ Item {
         anchors.fill: parent
         antialiasing: true
         layer.enabled: true
-        layer.samples: 8
+        layer.samples: 16
 
         ShapePath {
             fillGradient: LinearGradient {
