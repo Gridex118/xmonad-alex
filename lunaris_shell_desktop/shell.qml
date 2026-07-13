@@ -9,4 +9,5 @@ ShellRoot {
     id: desktop
     SystemStats { }
     Clock { }
+    MusicControl { }
 }
