@@ -83,9 +83,11 @@ PanelWindow {
                 anchors.centerIn: parent
                 Text {
                     id: media_track_name
+                    width: parent.width
                     elide: Text.ElideRight
                     font.pixelSize: 22
                     anchors.centerIn: parent
+                    horizontalAlignment: Text.AlignHCenter
                     color: "deepskyblue"
                 }
             }
