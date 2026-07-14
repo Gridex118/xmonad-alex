@@ -20,32 +20,11 @@ PanelWindow {
     WlrLayershell.layer: WlrLayer.Background
     color: "transparent";
 
-    Process {
-        id: media_progress_proc
-        command: [
-            "playerctl", "metadata",
-            "--format", "{{position}} {{mpris:length}}",
-            "--follow"
-        ]
+    Timer {
+        interval: 1000
         running: true
-        stdout: SplitParser {
-            onRead: data => {
-                if (data && !media_progress.pressed) {
-                    let [position, length] = data.trim().split(/\s+/)
-                    media_progress.value = Number(position)
-                    media_progress.to = Number(length)
-                }
-            }
-        }
-    }
-
-    Process {
-        id: media_progress_set_proc
-        command: !media_progress.pressed? [
-            "playerctl", "position",
-            (media_progress.value / 1000000)
-            // µs (metadata -f 'position') to s (position)
-        ] : [ ]
+        repeat: true
+        onTriggered: () => ActivePlayer.player.positionChanged()
     }
 
     Rectangle {
@@ -61,29 +40,11 @@ PanelWindow {
             anchors.verticalCenterOffset: - 20
         }
 
-        Slider {
+        MediaProgress {
             id: media_progress
-            width: parent.width - 50
-            height: 8
             anchors.top: media_name_line.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: 20
-            background: Rectangle {
-                color: "#b0ffffff"
-                radius: 0
-            }
-            contentItem: Item {
-                Rectangle {
-                    width: media_progress.visualPosition * parent.width
-                    height: parent.height
-                    radius: 0
-                    color: "deepskyblue"
-                }
-            }
-            handle: null
-            onMoved: () => {
-                media_progress_set_proc.running = true
-            }
         }
     }
 }
