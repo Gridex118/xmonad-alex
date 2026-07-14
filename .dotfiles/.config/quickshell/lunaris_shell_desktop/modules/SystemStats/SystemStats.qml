@@ -1,0 +1,214 @@
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import Quickshell.Wayland
+import QtQuick.Shapes
+
+PanelWindow {
+    property var lastCpuTotal: 0
+    property var lastCpuIdle: 0
+    id: root
+    implicitWidth: 781
+    implicitHeight: 691
+
+    anchors.right: true
+    margins.right: 80
+    anchors.top: true
+    margins.top: 200
+    exclusiveZone: 0
+
+    WlrLayershell.layer: WlrLayer.Background
+    color: "transparent"
+
+    Process {
+        command: [Quickshell.shellDir + "/scripts/os-name.sh"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: os.entryValue = this.text.trim()
+        }
+    }
+
+    Process {
+        command: [Quickshell.shellDir + "/scripts/kernel-name.sh"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: kernel.entryValue = this.text.trim()
+        }
+    }
+
+    Process {
+        command: [Quickshell.shellDir + "/scripts/chipset-name.sh"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: chipset.entryValue = this.text.trim()
+        }
+    }
+
+    Process {
+        command: ["niri", "--version"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: wm_de.entryValue = this.text.trim()
+        }
+    }
+
+    Process {
+        command: ["whoami"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: user_uptime.entryTitle = this.text.trim()
+        }
+    }
+    Process {
+        id: user_uptime_proc
+        command: ["uptime", "--pretty"]
+        running: true
+        stdout: StdioCollector {
+            onStreamFinished: user_uptime.entryValue = this.text.trim()
+        }
+    }
+    Timer {
+        interval: 30000
+        running: true
+        repeat: true
+        onTriggered: user_uptime_proc.running = true
+    }
+
+    //https://www.tonybtw.com/tutorial/quickshell/
+    Process {
+        id: cpu_usage_proc
+        command: ["head", "-1", "/proc/stat"]
+        stdout: SplitParser {
+            onRead: data => {
+                if (!data) return
+                let p = data.trim().split(/\s+/)
+                let idle = Number(p[4]) + Number(p[5])
+                let total = p.slice(1, 8).reduce((a, b) => a + Number(b), 0)
+                if (lastCpuTotal > 0) {
+                    let usage = (100 * (1 - (idle - lastCpuIdle)
+                                        / (total - lastCpuTotal))).toPrecision(2)
+                    cpu_usage.entryValue = usage + "%"
+                } else {
+                    cpu_usage.entryValue = "0%"
+                }
+                lastCpuTotal = total
+                lastCpuIdle = idle
+            }
+        }
+        Component.onCompleted: running = true
+    }
+    Timer {
+        interval: 3000
+        running: true
+        repeat: true
+        onTriggered: cpu_usage_proc.running = true
+    }
+
+    Process {
+        id: mem_usage_proc
+        command: ["bash", "-c", "free | grep Mem"]
+        stdout: SplitParser {
+            onRead: data => {
+                if (!data) return
+                let p = data.trim().split(/\s+/)
+                let total = Number(p[1]) || 1
+                let used = Number(p[2]) || 0
+                let memUsage = Math.round(100 * used / total)
+                let totalPretty = (total / (1024 * 1024)).toPrecision(3)
+                let usedPretty = (used / (1024 * 1024)).toPrecision(3)
+                mem_usage.entryValue = `${usedPretty}GiB / ${totalPretty}GiB (${memUsage}%)`
+            }
+        }
+        Component.onCompleted: running = true
+    }
+    Timer {
+        interval: 3000
+        running: true
+        repeat: true
+        onTriggered: mem_usage_proc.running = true
+    }
+
+    Process {
+        id: disk_usage_proc
+        command: ["bash", "-c", "df -h / | grep '/dev/'"]
+        stdout: SplitParser {
+            onRead: data => {
+                if (!data) return
+                let p = data.trim().split(/\s+/)
+                let total = p[1]
+                let used = p[2]
+                disk_usage.entryValue = `${used}iB / ${total}iB`
+            }
+        }
+        Component.onCompleted: running = true
+    }
+    Timer {
+        interval: 15000
+        running: true
+        repeat: true
+        onTriggered: disk_usage_proc.running = true
+    }
+
+    Column {
+        anchors.fill: parent
+        spacing: 5
+        StatHeader {
+            id: stat_header
+            root: root
+            width: parent.width
+            height: 100
+        }
+        Rectangle {
+            id: stats_container
+            height: parent.height - stat_header.height - 100
+            width: parent.width - 30
+            color: "#88152d59"
+            property int itemCount: 8
+            Column {
+                spacing: 10
+                anchors.fill: parent
+                anchors.topMargin: 15
+                anchors.bottomMargin: 15
+                StatEntry {
+                    id: os
+                    container: stats_container
+                    entryTitle: "OS"
+                }
+                StatEntry {
+                    id: kernel
+                    container: stats_container
+                    entryTitle: "Kernel"
+                }
+                StatEntry {
+                    id: chipset
+                    container: stats_container
+                    entryTitle: "Chip"
+                }
+                StatEntry {
+                    id: wm_de
+                    container: stats_container
+                    entryTitle: "WM/DE"
+                }
+                StatEntry {
+                    id: user_uptime
+                    container: stats_container
+                }
+                StatEntry {
+                    id: cpu_usage
+                    container: stats_container
+                    entryTitle: "CPU"
+                }
+                StatEntry {
+                    id: mem_usage
+                    container: stats_container
+                    entryTitle: "Memory"
+                }
+                StatEntry {
+                    id: disk_usage
+                    container: stats_container
+                    entryTitle: "Disk"
+                }
+            }
+        }
+    }
+}
