@@ -173,6 +173,7 @@ spawn-sh-at-startup "/usr/libexec/xdg-desktop-portal-gnome -r"
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 spawn-sh-at-startup "~/scripts/kanata-init.sh"
+spawn-sh-at-startup "qs --config ~/.config/quickshell/lunaris_shell_desktop"
 spawn-sh-at-startup "emacs --daemon"
 // Need to patch wbg to use "wbg_wallpaper" as the wlr namespace hint
 spawn-sh-at-startup "wbg ~/Wallpapers/Persona/p3-makoto-train.jpeg"
@@ -365,9 +366,6 @@ binds {
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     Mod+Shift+P repeat=false { toggle-window-rule-opacity; }
-
-    Mod+T { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
-    Mod+MouseBack { spawn-sh "~/scripts/toggle_eww_control_panel.sh"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // or do a four-finger swipe up on a touchpad.
