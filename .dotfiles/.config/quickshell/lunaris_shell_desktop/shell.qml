@@ -1,13 +1,12 @@
 import QtQuick
 import Quickshell
-import Quickshell.Wayland
-import QtQuick.Shapes
 import "modules"
 import "modules/SystemStats"
+import "modules/MediaPlayer"
 
 ShellRoot {
     id: desktop
     SystemStats { }
     Clock { }
-    MusicControl { }
+    MediaController { }
 }
