@@ -523,7 +523,7 @@
 (add-hook 'org-mode-hook
           (lambda()
             (setq org-preview-latex-default-process 'dvipng
-                  org-startup-with-latex-preview     t
+                  org-startup-with-latex-preview     nil
                   org-format-latex-options           (plist-put org-format-latex-options :scale 2.0))))
 
 (add-hook 'org-mode-hook
@@ -698,7 +698,10 @@
   :hook
   (rjsx-mode . (lambda ()
                  (setq-local sgml-basic-offset 2
-                             js-indent-level 2))))
+                             js-indent-level 2)))
+  :custom
+  (js-jsx-detect-syntax nil)
+  :mode ("\\.jsx\\'" . rjsx-mode))
 
 (add-hook 'json-mode-hook
           (lambda()
