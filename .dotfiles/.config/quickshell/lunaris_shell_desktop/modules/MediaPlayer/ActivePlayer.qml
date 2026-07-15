@@ -18,7 +18,6 @@ Singleton {
     readonly property string name: player?.identity ?? ""
     readonly property string dbusName: player?.dbusName ?? ""
     readonly property string trackTitle: player?.trackTitle ?? ""
-
     readonly property real trackLength: player?.length ?? 1
     property real trackPosition: player?.position ?? 0
 
