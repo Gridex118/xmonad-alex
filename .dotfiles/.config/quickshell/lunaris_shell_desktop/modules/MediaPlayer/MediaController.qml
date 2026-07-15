@@ -24,7 +24,11 @@ PanelWindow {
         interval: 1000
         running: true
         repeat: true
-        onTriggered: () => ActivePlayer.player.positionChanged()
+        onTriggered: () => {
+            if (ActivePlayer.isPlaying() && !media_progress.pressed) {
+                ActivePlayer.player.positionChanged();
+            }
+        }
     }
 
     Rectangle {

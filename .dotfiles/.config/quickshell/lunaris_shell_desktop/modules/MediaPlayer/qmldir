@@ -1,0 +1,8 @@
+module MediaPlayer
+
+singleton ActivePlayer 1.0 ActivePlayer.qml
+MediaController 1.0 MediaController.qml
+internal MediaProgress 1.0 MediaProgress.qml
+internal MediaNameLine 1.0 MediaNameLine.qml
+
+import QtQuick

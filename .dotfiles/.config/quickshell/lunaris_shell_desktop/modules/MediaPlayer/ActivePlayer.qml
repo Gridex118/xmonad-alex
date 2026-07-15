@@ -22,6 +22,16 @@ Singleton {
     readonly property real trackLength: player?.length ?? 1
     property real trackPosition: player?.position ?? 0
 
+    function seekPosition(value) {
+        if (player) {
+            player.position = value;
+        }
+    }
+
+    function isPlaying() {
+        return player?.playbackState === MprisPlaybackState.Playing
+    }
+
     onPlayerListChanged: {
         if (dbusName !== "") {
             const index = playerList
