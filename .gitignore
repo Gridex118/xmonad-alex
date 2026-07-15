@@ -6,3 +6,5 @@
 /.dotfiles/.config/xmonad/dist-newstyle/
 *.elc
 /.dotfiles/.zsh/plugins/
+/.dotfiles/.config/quickshell/.direnv/
+/.dotfiles/.config/quickshell/.envrc
