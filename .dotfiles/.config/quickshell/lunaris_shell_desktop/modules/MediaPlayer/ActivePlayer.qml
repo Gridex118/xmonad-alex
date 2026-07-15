@@ -32,6 +32,10 @@ Singleton {
         return player?.playbackState === MprisPlaybackState.Playing
     }
 
+    function cyclePlayer() {
+        activeIndex = (activeIndex + 1) % playerList.length;
+    }
+
     onPlayerListChanged: {
         if (dbusName !== "") {
             const index = playerList
