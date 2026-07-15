@@ -63,10 +63,10 @@ PanelWindow {
                 width: player_cycle_button.width
                 height: width
                 anchors.rightMargin: 10
-                readonly property string icon_play: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="deepskyblue"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>`
-                readonly property string icon_play_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="skyblue"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>`
-                readonly property string icon_pause: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="deepskyblue"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></svg>`
-                readonly property string icon_pause_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="skyblue"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></svg>`
+                readonly property string icon_play: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="deepskyblue"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>`
+                readonly property string icon_play_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="skyblue"><path d="M320-200v-560l440 280-440 280Zm80-280Zm0 134 210-134-210-134v268Z"/></svg>`
+                readonly property string icon_pause: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="deepskyblue"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></svg>`
+                readonly property string icon_pause_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="skyblue"><path d="M520-200v-560h240v560H520Zm-320 0v-560h240v560H200Zm400-80h80v-400h-80v400Zm-320 0h80v-400h-80v400Zm0-400v400-400Zm320 0v400-400Z"/></svg>`
                 property string icon: ActivePlayer.isPlaying()?
                     icon_pause : icon_play;
                 property string icon_hover: ActivePlayer.isPlaying()?
@@ -79,6 +79,7 @@ PanelWindow {
                     id: hover_handler_play_pause
                 }
                 Image {
+                    anchors.centerIn: parent
                     source: hover_handler_play_pause.hovered?
                         parent.icon_hover : parent.icon
                 }
@@ -89,8 +90,8 @@ PanelWindow {
                 width: parent.height - 5
                 height: width
                 anchors.rightMargin: 20
-                readonly property string icon: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="deepskyblue"><path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z"/></svg>`;
-                readonly property string icon_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="skyblue"><path d="M280-120 80-320l200-200 57 56-104 104h607v80H233l104 104-57 56Zm400-320-57-56 104-104H120v-80h607L623-784l57-56 200 200-200 200Z"/></svg>`;
+                readonly property string icon: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="deepskyblue"><path d="m780-60-60-60 120-120-120-120 60-60 180 180L780-60Zm-460-60v-80H160q-33 0-56.5-23.5T80-280v-480q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v280h-80v-280H160v480h520v80h-80v80H320ZM160-280v-480 480Z"/></svg>`;
+                readonly property string icon_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="skyblue"><path d="m780-60-60-60 120-120-120-120 60-60 180 180L780-60Zm-460-60v-80H160q-33 0-56.5-23.5T80-280v-480q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v280h-80v-280H160v480h520v80h-80v80H320ZM160-280v-480 480Z"/></svg>`;
                 MouseArea {
                     anchors.fill: parent
                     onClicked: () => ActivePlayer.cyclePlayer()
@@ -99,6 +100,7 @@ PanelWindow {
                     id: hover_handler_cycle
                 }
                 Image {
+                    anchors.centerIn: parent
                     source: hover_handler_cycle.hovered?
                         parent.icon_hover : parent.icon
                 }
