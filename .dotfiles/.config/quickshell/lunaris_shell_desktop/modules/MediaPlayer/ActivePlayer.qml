@@ -18,12 +18,14 @@ Singleton {
     readonly property string name: player?.identity ?? ""
     readonly property string dbusName: player?.dbusName ?? ""
     readonly property string trackTitle: player?.trackTitle ?? ""
-    readonly property real trackLength: player?.length ?? 1
-    property real trackPosition: player?.position ?? 0
 
-    function seekPosition(value) {
+    function getTrackRatio() {
+        return (player?.position ?? 0) / (player?.length ?? 1)
+    }
+
+    function seekPosition(ratio) {
         if (player) {
-            player.position = value;
+            player.position = ratio * (player?.length ?? 1);
         }
     }
 

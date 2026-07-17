@@ -7,8 +7,8 @@ Slider {
     id: root
     width: parent.width - 50
     height: 8
-    from: 0; to: ActivePlayer.trackLength
-    value: ActivePlayer.trackPosition
+    from: 0; to: 1
+    value: ActivePlayer.getTrackRatio()
 
     background: Rectangle {
         color: "#b0ffffff"
