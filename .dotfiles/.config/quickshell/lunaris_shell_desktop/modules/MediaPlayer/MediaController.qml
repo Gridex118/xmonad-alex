@@ -36,6 +36,8 @@ PanelWindow {
         color: "#b0ffffff"
         radius: 16
 
+        MediaCover { }
+
         MediaNameLine {
             id: media_name_line
             width: parent.width

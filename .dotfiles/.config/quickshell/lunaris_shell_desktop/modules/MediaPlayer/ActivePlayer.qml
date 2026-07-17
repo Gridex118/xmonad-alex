@@ -18,6 +18,14 @@ Singleton {
     readonly property string name: player?.identity ?? ""
     readonly property string dbusName: player?.dbusName ?? ""
     readonly property string trackTitle: player?.trackTitle ?? ""
+    readonly property string trackCover: player?.trackArtUrl ?? ""
+
+    function getTrackCover() {
+        let trackCoverRaw = player?.trackArtUrl;
+        return trackCoverRaw?.startsWith("data:")?
+            trackCoverRaw.replace(/[\r\n\s]/g, "")
+            : "./fallback-music-cover.jpeg"
+    }
 
     function getTrackRatio() {
         return (player?.position ?? 0) / (player?.length ?? 1)
