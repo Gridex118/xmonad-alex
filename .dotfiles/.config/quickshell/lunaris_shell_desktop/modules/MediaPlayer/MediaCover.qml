@@ -15,7 +15,7 @@ Item {
         visible: false
         onStatusChanged: {
             if (status == Image.Error) {
-                source = ActivePlayer?.getTrackCover() ?? "";
+                source = ActivePlayer.getTrackCover();
             }
         }
     }

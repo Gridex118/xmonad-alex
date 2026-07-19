@@ -21,7 +21,8 @@ Singleton {
     readonly property string trackCover: player?.trackArtUrl ?? ""
 
     function getTrackCover() {
-        let trackCoverRaw = player?.trackArtUrl;
+        if (!player) return "";
+        let trackCoverRaw = player.trackArtUrl;
         return trackCoverRaw?.startsWith("data:")?
             trackCoverRaw.replace(/[\r\n\s]/g, "")
             : "./fallback-music-cover.jpeg"
