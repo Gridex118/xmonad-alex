@@ -313,11 +313,6 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^mpv$"
-    open-fullscreen true
-}
-
-window-rule {
     match app-id="^com.obsproject.Studio$"
     match app-id="^gimp$"
     match app-id="^virt-manager$"
