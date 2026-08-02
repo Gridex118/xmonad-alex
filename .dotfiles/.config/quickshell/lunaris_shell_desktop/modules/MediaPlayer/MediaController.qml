@@ -60,6 +60,28 @@ PanelWindow {
             height: 35
             anchors.topMargin: 5
             Item {
+                visible: ActivePlayer.player !== null;
+                id: player_close_button
+                anchors.right: player_play_pause_button.left
+                width: parent.height - 5
+                height: width
+                anchors.rightMargin: 10
+                readonly property string icon: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="deepskyblue"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>`;
+                readonly property string icon_hover: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="skyblue"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>`;
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: () => ActivePlayer.player?.stop();
+                }
+                HoverHandler {
+                    id: hover_handler_close
+                }
+                Image {
+                    anchors.centerIn: parent
+                    source: hover_handler_close.hovered?
+                        parent.icon_hover : parent.icon
+                }
+            }
+            Item {
                 id: player_play_pause_button
                 anchors.right: player_cycle_button.left
                 width: player_cycle_button.width
