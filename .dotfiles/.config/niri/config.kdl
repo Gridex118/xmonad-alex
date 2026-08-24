@@ -259,6 +259,7 @@ window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     match app-id="sun-applet-Main"
     match app-id="godotengine" title="DEBUG"
+    match app-id="Zenity"
     match title=r#"[Ss]plash"#
     match title="^Waydroid$"
     match app-id="^waydroid"
@@ -524,9 +525,11 @@ binds {
     XF86AudioPause { spawn-sh "~/scripts/playctl_play_or_mpv.sh"; }
     Mod+F4 { spawn-sh "playerctl stop"; }
     XF86AudioNext { spawn-sh "playerctl next"; }
-    Shift+XF86AudioNext { spawn-sh "playerctld shift"; }
     XF86AudioPrev { spawn-sh "playerctl previous"; }
+    Shift+XF86AudioNext { spawn-sh "playerctld shift"; }
+    Ctrl+F4 { spawn-sh "playerctld shift"; }
     Shift+XF86AudioPrev { spawn-sh "playerctld unshift"; }
+    Ctrl+Shift+F4 { spawn-sh "playerctld unshift"; }
 
     // Touchpad Toggle
     F9 { spawn-sh "~/scripts/toggle_niri_touchpad.sh"; }

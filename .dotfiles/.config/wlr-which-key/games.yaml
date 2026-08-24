@@ -40,6 +40,9 @@ menu:
       - key: "s"
         desc: "Summer Pockets"
         cmd: "lutris 'lutris:rungame/summer-pockets'"
+      - key: "a"
+        desc: "Arknights"
+        cmd: "lutris 'lutris:rungame/arknights'"
   - key: "p"
     desc: "PCSX2"
     cmd: pcsx2-qt
