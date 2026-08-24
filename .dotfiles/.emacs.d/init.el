@@ -545,7 +545,8 @@
 
 (add-hook 'org-mode-hook
           (lambda()
-            (setq org-startup-indented  t)))
+            (setq org-startup-indented  t)
+            (org-num-mode)))
 
 (use-package olivetti
   :ensure t
@@ -738,31 +739,6 @@
      (read-string "File name: " (file-name-nondirectory template)))))
 (global-set-key (kbd "C-c r t") 'myProg/gen-from-template)
 
-(use-package elpy
-  :ensure t
-  :hook ((python-mode    . elpy-enable)
-         (python-ts-mode . elpy-enable))
-  :config
-  (setenv "WORKON_HOME" "~/.venvs")
-  (delete 'elpy-module-highlight-indentation elpy-modules)
-  :init
-  (add-hook 'python-ts-mode-hook
-            (lambda () (elpy-mode 1))))
-
-(add-hook 'elpy-mode-hook
-          (lambda() (company-mode -1)))
-
-(defun myProg/switch-workon-dir(&optional workon-home)
-  (interactive)
-  (if workon-home
-      (setenv "WORKON_HOME" workon-home)
-    (if (string-equal (getenv "WORKON_HOME") "~/.venvs")
-        (setenv "WORKON_HOME" "~/.opt/miniconda3/envs")
-      (setenv "WORKON_HOME" "~/.venvs")))
-  (message "Switched to %s" (getenv "WORKON_HOME")))
-
-(global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
-
 (use-package zmq
   :ensure t
   :defer t)
@@ -807,7 +783,11 @@
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (python "https://github.com/tree-sitter/tree-sitter-python")
         (nix "https://github.com/nix-community/tree-sitter-nix")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+        (docker "https://github.com/camdencheek/tree-sitter-dockerfile")))
+
+(setq treesit-load-name-override-list
+      '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
 
 (setq major-mode-remap-alist
       '((c-mode          . c-ts-mode)
