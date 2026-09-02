@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
@@ -268,7 +270,8 @@
   
   :config
   (setq-default lsp-rename-use-prepare nil
-                lsp-enable-indentation nil)
+                lsp-enable-indentation nil
+                lsp-enable-symbol-highlighting t)
 
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
@@ -406,19 +409,28 @@
 (use-package doom-themes
   :ensure t
   :config
-  (setq doom-themes-enable-bold   t
+  ;; Emacs 31: prevent circular Gnus face inheritance.
+  (setcdr (assq 'gnus-group-news-low-empty doom-themes-base-faces)
+          '(:inherit 'gnus-group-mail-1-empty :weight 'normal))
+
+  (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
+
   (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-tokyo-night t)
+
   (doom-themes-org-config)
   (doom-themes-treemacs-config)
+
   (with-eval-after-load 'treemacs
     (treemacs-load-theme "doom-atom"))
+
   (set-face-foreground 'font-lock-property-name-face "#6dcec0")
   (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
   (set-face-foreground 'font-lock-type-face "#2698b0")
   (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
+
   (with-eval-after-load 'org
     (set-face-foreground 'org-level-3 "Skyblue")))
 
@@ -769,34 +781,18 @@
   (insert (concat "javac " (file-relative-name buffer-file-name))))
 (add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c r C") 'myJava/insert-compile-command)))
 
-(add-hook 'prog-mode-hook
-          (lambda()
-            (setq treesit-font-lock-level 4
-                  c-ts-mode-indent-style 'k&r
-                  c-ts-mode-indent-offset 4)))
-
-(setq treesit-language-source-alist
-      '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (c "https://github.com/tree-sitter/tree-sitter-c")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (nix "https://github.com/nix-community/tree-sitter-nix")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-        (docker "https://github.com/camdencheek/tree-sitter-dockerfile")))
-
-(setq treesit-load-name-override-list
-      '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
-
-(setq major-mode-remap-alist
-      '((c-mode          . c-ts-mode)
-        (c++-mode        . c++-ts-mode)
-        (bash-mode       . bash-ts-mode)
-        (javascript-mode . js-ts-mode)
-        (css-mode        . css-ts-mode)
-        (python-mode     . python-ts-mode)
-        (nix-mode        . nix-ts-mode)))
+(use-package treesit
+  :custom
+  (treesit-auto-install-grammar 'ask)
+  (treesit-enabled-modes t)
+  (treesit-font-lock-level 4)
+  (treesit-load-name-override-list
+   '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
+  :config
+  (add-hook 'prog-made-hook
+            (lambda ()
+              (setq c-ts-mode-indent-style 'k&r
+                    c-ts-mode-indent-offset 4))))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))
