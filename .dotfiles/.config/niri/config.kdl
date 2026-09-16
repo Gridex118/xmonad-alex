@@ -277,6 +277,9 @@ window-rule {
     match title="Lutris"
     match app-id="GParted"
     match title="Authentication Required"
+    match app-id="java"
+    match app-id="^Minecraft.*"
+    match title="^SKlauncher"
     open-floating true
 }
 
@@ -287,7 +290,7 @@ window-rule {
 
 window-rule {
     match title="Lutris" is-focused=true
-    opacity 0.75
+    opacity 0.77
 }
 
 window-rule {
@@ -302,6 +305,7 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^Minecraft.*"
     match title="Vulkan"
     match title="^RPCS3"
     match app-id="^mpv$"
@@ -319,6 +323,7 @@ window-rule {
     match app-id="^virt-manager$"
     match app-id="^PopupPanelBackupWindow$"
     match app-id="^PopupPanelUpdateWindow$"
+    match app-id="^DBeaver"
     open-maximized true
 }
 
