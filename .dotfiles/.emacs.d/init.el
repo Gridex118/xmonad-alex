@@ -234,46 +234,44 @@
 (setq which-key-idle-delay 0.2)
 (which-key-mode)
 
+(use-package flycheck :ensure t)
+
 (use-package lsp-mode
   :ensure t
-
-  :custom
-  (lsp-completion-provider :none)
-  (lsp-keymap-prefix       "M-s")
-
+  :after flycheck
   :init
   (defun myLsp/orderless-dispatch-flex-first(_pattern index _total)
     (and (eq index 0) 'orderless-flex))
-  
   (defun myLsp/lsp-mode-setup-completion()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
 	  '(orderless))
     (add-hook 'orderless-style-dispatchers #'myLsp/orderless-dispatch-flex-first nil 'local))
-  
   :hook
   (lsp-completion-mode . myLsp/lsp-mode-setup-completion)
-  
-  (c-mode         . lsp-deferred)
-  (c-ts-mode      . lsp-deferred)
-  (haskell-mode   . lsp-deferred)
-  (c++-mode       . lsp-deferred)
-  (c++-ts-mode    . lsp-deferred)
-  (java-ts-mode   . lsp-deferred)
-  (lua-mode       . lsp-deferred)
-  (python-mode    . lsp-deferred)
-  (python-ts-mode . lsp-deferred)
-  (latex-mode     . lsp-deferred)
-  (web-mode       . lsp-deferred)
-  (js-mode        . lsp-deferred)
-  (js-ts-mode     . lsp-deferred)
-  (java-mode      . lsp-deferred)
-  
+  (c-mode             . lsp-deferred)
+  (c-ts-mode          . lsp-deferred)
+  (haskell-mode       . lsp-deferred)
+  (c++-mode           . lsp-deferred)
+  (c++-ts-mode        . lsp-deferred)
+  (java-ts-mode       . lsp-deferred)
+  (lua-mode           . lsp-deferred)
+  (python-mode        . lsp-deferred)
+  (python-ts-mode     . lsp-deferred)
+  (latex-mode         . lsp-deferred)
+  (web-mode           . lsp-deferred)
+  (js-mode            . lsp-deferred)
+  (typescript-ts-mode . lsp-deferred)
+  (js-ts-mode         . lsp-deferred)
+  (tsx-ts-mode        . lsp-deferred)
+  (java-mode          . lsp-deferred)
   :config
   (setq-default lsp-rename-use-prepare nil
                 lsp-enable-indentation nil
-                lsp-enable-symbol-highlighting t)
-
+                lsp-enable-symbol-highlighting t
+                lsp-use-plists t)
   :custom
+  (lsp-completion-provider :none)
+  (lsp-keymap-prefix       "M-s")
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
   (lsp-enable-on-type-formatting nil)
@@ -589,17 +587,11 @@
           (lambda()
             (local-set-key (kbd "C-c r x") 'myProg/make-file-executable)))
 
-(use-package json-mode
-  :ensure t
-  :defer  t)
+(use-package json-mode :ensure t :defer  t)
 
-(use-package kdl-mode
-  :ensure t
-  :defer  t)
+(use-package kdl-mode :ensure t :defer  t)
 
-(use-package lua-mode
-  :ensure t
-  :defer  t)
+(use-package lua-mode :ensure t :defer  t)
 
 (use-package haskell-mode
   :ensure t
@@ -618,29 +610,17 @@
 		lsp-enable-symbol-highlighting nil
 		lsp-signature-auto-activate    nil))
 
-(use-package nix-mode
-  :ensure t
-  :defer  t)
+(use-package nix-mode :ensure t :defer  t)
 
-(use-package nix-ts-mode
-  :ensure t
-  :defer  t)
+(use-package nix-ts-mode :ensure t :defer  t)
 
-(use-package csv-mode
-  :ensure t
-  :defer  t)
+(use-package csv-mode :ensure t :defer  t)
 
-(use-package yaml-mode
-  :ensure t
-  :defer  t)
+(use-package yaml-mode :ensure t :defer  t)
 
-(use-package typescript-mode
-  :ensure t
-  :defer t)
+(use-package typescript-mode :ensure t :defer t)
 
-(use-package qml-mode
-  :ensure t
-  :defer t)
+(use-package qml-mode :ensure t :defer t)
 
 (add-to-list 'load-path "~/.emacs.d/src/qml-ts-mode")
 (add-hook 'qml-mode-hook (lambda () (require 'qml-ts-mode)))
@@ -694,7 +674,7 @@
   (save-window-excursion
     (myWeb/launch-server-generic "npm run dev")))
 
-(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook))
+(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook))
   (add-hook mode-hook
             (lambda ()
               (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
@@ -715,6 +695,9 @@
   :custom
   (js-jsx-detect-syntax nil)
   :mode ("\\.jsx\\'" . rjsx-mode))
+
+(use-package tsx-ts-mode
+  :mode ("\\.tsx\\'" . tsx-ts-mode))
 
 (add-hook 'json-mode-hook
           (lambda()

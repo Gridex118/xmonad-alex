@@ -29,4 +29,6 @@
   (add-to-list 'warning-suppress-log-types
                '(org-element org-element-parser)))
 
+(setenv "LSP_USE_PLISTS" "true")
+
 (setq-default tab-width 4)
