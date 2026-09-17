@@ -979,10 +979,6 @@ Use the 'buffer local' fork, =envrc=
           web-mode-css-indent-offset    4
           web-mode-code-indent-offset   4))
 #+end_src
-**** Set Indentation to 4 Spaces
-#+begin_src emacs-lisp
-  (setq sgml-basic-offset 4)
-#+end_src
 **** Emmet Templating
 #+begin_src emacs-lisp
   (use-package emmet-mode
@@ -1057,12 +1053,27 @@ Because this seemed like an appropriate point to update live server
 #+end_src
 
 **** Indentations
+Basic HTML can have indentation set to 4
 JSON and JSX files should set JS indent to 2
 #+begin_src emacs-lisp
+  (setq sgml-basic-offset 4)
   (add-hook 'json-mode-hook
             (lambda()
               (setq-local js-indent-level 2)))
 #+end_src
+**** Want Prettier for JS/JSX/TSX
+#+begin_src emacs-lisp
+  (use-package prettier-js
+    :ensure t
+    :defer  t
+    :hook
+    (rjsx-mode          . prettier-js-mode)
+    (tsx-ts-mode        . prettier-js-mode)
+    (typescript-ts-mode . prettier-js-mode)
+    :custom
+    (prettier-js-use-modules-bin t))
+#+end_src
+
 *** C Family Settings
 **** Indentation
 #+begin_src emacs-lisp
@@ -1107,8 +1118,6 @@ JSON and JSX files should set JS indent to 2
        (read-string "File name: " (file-name-nondirectory template)))))
   (global-set-key (kbd "C-c r t") 'myProg/gen-from-template)
 #+end_src
-**** Split Window and Open a new Treminal
-
 *** Python Settings
 **** Jupyter
 #+begin_src emacs-lisp

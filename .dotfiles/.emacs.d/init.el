@@ -639,8 +639,6 @@
         web-mode-css-indent-offset    4
         web-mode-code-indent-offset   4))
 
-(setq sgml-basic-offset 4)
-
 (use-package emmet-mode
   :ensure t
   :hook
@@ -699,9 +697,20 @@
 (use-package tsx-ts-mode
   :mode ("\\.tsx\\'" . tsx-ts-mode))
 
+(setq sgml-basic-offset 4)
 (add-hook 'json-mode-hook
           (lambda()
             (setq-local js-indent-level 2)))
+
+(use-package prettier-js
+  :ensure t
+  :defer  t
+  :hook
+  (rjsx-mode          . prettier-js-mode)
+  (tsx-ts-mode        . prettier-js-mode)
+  (typescript-ts-mode . prettier-js-mode)
+  :custom
+  (prettier-js-use-modules-bin t))
 
 (add-hook 'c-mode-hook
           (lambda()
