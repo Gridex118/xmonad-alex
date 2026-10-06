@@ -301,6 +301,7 @@ window-rule {
 
 window-rule {
     match app-id="^firefox$" title="YouTube"
+    match title="^Krita" app-id="krita"
     opacity 1.0
 }
 
@@ -320,11 +321,17 @@ window-rule {
 window-rule {
     match app-id="^com.obsproject.Studio$"
     match app-id="^gimp$"
+    match title="^Krita" app-id="krita"
     match app-id="^virt-manager$"
     match app-id="^PopupPanelBackupWindow$"
     match app-id="^PopupPanelUpdateWindow$"
     match app-id="^DBeaver"
     open-maximized true
+}
+
+window-rule {
+    match title="P3R" app-id="p3r.exe"
+    open-floating true
 }
 
 window-rule {

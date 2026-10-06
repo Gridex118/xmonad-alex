@@ -43,6 +43,9 @@ menu:
       - key: "m"
         desc: "SKlauncher"
         cmd: "lutris 'lutris:rungame/sklauncherminecraft'"
+      - key: "p"
+        desc: "Persona 3 Reload"
+        cmd: "lutris 'lutris:rungame/persona-3-reload'"
   - key: "p"
     desc: "PCSX2"
     cmd: pcsx2-qt
