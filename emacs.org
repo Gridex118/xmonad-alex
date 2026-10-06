@@ -593,6 +593,18 @@ For saving and restoring 'workspaces'. /Do not save =magit=, =sudo= buffers, or 
                      (or (string-prefix-p "magit" bname)
                          (string-prefix-p "*"     bname))))))
 #+end_src
+Keybinds for running =persp-mode= rather than autoloading on startup
+#+begin_src emacs-lisp
+  (setq myPersp/oneshot-persp-load-state-key "C-c c p l")
+
+  (defun myPersp/oneshot-persp-load-state ()
+    (interactive)
+    (if (not persp-mode) (persp-mode 1))
+    (call-interactively #'persp-load-state-from-file)
+    (keymap-global-unset myPersp/oneshot-persp-load-state-key))
+
+  (keymap-global-set myPersp/oneshot-persp-load-state-key #'myPersp/oneshot-persp-load-state)
+#+end_src
 
 *** Rainbows
 Mainly for emacs lisp, but the delimitors work for other languages too
@@ -1051,6 +1063,17 @@ Because this seemed like an appropriate point to update live server
   (use-package tsx-ts-mode
     :mode ("\\.tsx\\'" . tsx-ts-mode))
 #+end_src
+JTSX mode for extra capabilities
+#+begin_src emacs-lisp
+  (use-package jtsx
+    :ensure t
+    :defer  t
+    :mode ("\\.tsx\\'" . jtsx-tsx-mode)
+    :hook (jtsx-tsx-mode . hs-minor-mode)
+    :config
+    (with-eval-after-load 'smartparens
+      (sp-local-pair 'jtsx-tsx-mode "<" nil :actions nil)))
+#+end_src
 
 **** Indentations
 Basic HTML can have indentation set to 4
@@ -1185,7 +1208,6 @@ But, we don't want this for Makefiles
   (add-hook 'makefile-gmake-mode-hook
             (lambda() (indent-tabs-mode 1)))
 #+end_src
-
 
 
 ** Unclutter Custom Variables

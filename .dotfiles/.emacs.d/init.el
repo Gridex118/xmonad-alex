@@ -365,6 +365,16 @@
                    (or (string-prefix-p "magit" bname)
                        (string-prefix-p "*"     bname))))))
 
+(setq myPersp/oneshot-persp-load-state-key "C-c c p l")
+
+(defun myPersp/oneshot-persp-load-state ()
+  (interactive)
+  (if (not persp-mode) (persp-mode 1))
+  (call-interactively #'persp-load-state-from-file)
+  (keymap-global-unset myPersp/oneshot-persp-load-state-key))
+
+(keymap-global-set myPersp/oneshot-persp-load-state-key #'myPersp/oneshot-persp-load-state)
+
 (use-package rainbow-delimiters
   :ensure t
   :hook prog-mode)
@@ -696,6 +706,15 @@
 
 (use-package tsx-ts-mode
   :mode ("\\.tsx\\'" . tsx-ts-mode))
+
+(use-package jtsx
+  :ensure t
+  :defer  t
+  :mode ("\\.tsx\\'" . jtsx-tsx-mode)
+  :hook (jtsx-tsx-mode . hs-minor-mode)
+  :config
+  (with-eval-after-load 'smartparens
+    (sp-local-pair 'jtsx-tsx-mode "<" nil :actions nil)))
 
 (setq sgml-basic-offset 4)
 (add-hook 'json-mode-hook
