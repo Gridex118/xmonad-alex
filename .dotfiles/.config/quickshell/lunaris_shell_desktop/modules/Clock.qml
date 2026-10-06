@@ -7,7 +7,7 @@ import QtQuick.Shapes
 
 PanelWindow {
     id: root
-    implicitWidth: 650
+    implicitWidth: 1100
     implicitHeight: 375
 
     anchors.left: true
