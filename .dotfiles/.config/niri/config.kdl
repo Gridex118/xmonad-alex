@@ -9,6 +9,7 @@ environment {
     SDL_IM_MODULE "fcitx"
     GLFW_IM_MODULE "ibus"
     QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
     MOZ_ENABLE_WAYLAND "1"
 }
 
@@ -301,6 +302,8 @@ window-rule {
 
 window-rule {
     match app-id="^firefox$" title="YouTube"
+    match title="on QEMU/KVM$" app-id="^.virt-manager-wrapped"
+    match app-id="^org.kde.kdenlive$"
     match title="^Krita" app-id="krita"
     opacity 1.0
 }
@@ -322,7 +325,7 @@ window-rule {
     match app-id="^com.obsproject.Studio$"
     match app-id="^gimp$"
     match title="^Krita" app-id="krita"
-    match app-id="^virt-manager$"
+    match app-id="^org.kde.kdenlive$"
     match app-id="^PopupPanelBackupWindow$"
     match app-id="^PopupPanelUpdateWindow$"
     match app-id="^DBeaver"
