@@ -163,6 +163,13 @@
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (keymap-global-set "C->" 'mc/mark-next-like-this)
+  (keymap-global-set "C-<" 'mc/mark-previous-like-this)
+  (keymap-global-set "C-c C-<" 'mc/mark-all-like-this))
+
 (use-package evil
   :ensure t
   :init
@@ -622,13 +629,19 @@
 
 (use-package nix-mode :ensure t :defer  t)
 
-(use-package nix-ts-mode :ensure t :defer  t)
+(use-package nix-ts-mode
+  :ensure t
+  :mode "\\.nix\\'")
 
 (use-package csv-mode :ensure t :defer  t)
 
 (use-package yaml-mode :ensure t :defer  t)
 
-(use-package typescript-mode :ensure t :defer t)
+(use-package typescript-mode
+  :ensure t
+  :defer t
+  :custom
+  (lsp-clients-typescript-prefer-use-project-ts-server t))
 
 (use-package qml-mode :ensure t :defer t)
 
@@ -800,6 +813,8 @@
   (treesit-load-name-override-list
    '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
   :config
+  (add-to-list 'treesit-language-source-alist
+               '(nix "https://github.com/nix-community/tree-sitter-nix"))
   (add-hook 'prog-made-hook
             (lambda ()
               (setq c-ts-mode-indent-style 'k&r

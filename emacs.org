@@ -336,6 +336,16 @@ Swap =isearch= with =isearch-regexp=
   (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 #+end_src
 
+*** Multiple Cursors
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :ensure t
+    :config
+    (keymap-global-set "C->" 'mc/mark-next-like-this)
+    (keymap-global-set "C-<" 'mc/mark-previous-like-this)
+    (keymap-global-set "C-c C-<" 'mc/mark-all-like-this))
+#+end_src
+
 *** Vim Layer
 #+begin_src emacs-lisp
   (use-package evil
@@ -960,13 +970,19 @@ Use the 'buffer local' fork, =envrc=
 
   (use-package nix-mode :ensure t :defer  t)
 
-  (use-package nix-ts-mode :ensure t :defer  t)
+  (use-package nix-ts-mode
+    :ensure t
+    :mode "\\.nix\\'")
 
   (use-package csv-mode :ensure t :defer  t)
 
   (use-package yaml-mode :ensure t :defer  t)
 
-  (use-package typescript-mode :ensure t :defer t)
+  (use-package typescript-mode
+    :ensure t
+    :defer t
+    :custom
+    (lsp-clients-typescript-prefer-use-project-ts-server t))
 
   (use-package qml-mode :ensure t :defer t)
 
@@ -1192,6 +1208,8 @@ for org-babel to recognise the =jupyter= src type.
     (treesit-load-name-override-list
      '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
     :config
+    (add-to-list 'treesit-language-source-alist
+                 '(nix "https://github.com/nix-community/tree-sitter-nix"))
     (add-hook 'prog-made-hook
               (lambda ()
                 (setq c-ts-mode-indent-style 'k&r
