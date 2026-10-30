@@ -11,6 +11,7 @@ environment {
     QT_QPA_PLATFORM "wayland"
     QT_QPA_PLATFORMTHEME "gtk3"
     MOZ_ENABLE_WAYLAND "1"
+    _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
 // Input device configuration.
