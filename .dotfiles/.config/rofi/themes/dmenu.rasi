@@ -18,12 +18,12 @@
     lightbg:                     rgba ( 238, 232, 213, 100 % );
     selected-active-foreground:  rgba ( 249, 249, 249, 100 % );
     alternate-active-background: rgba ( 75, 81, 96, 89 % );
-    background:                  rgba ( 45, 48, 59, 95 % );
+    background:                  #1E2127FF;
     alternate-normal-foreground: @foreground;
     normal-background:           @background;
     lightfg:                     rgba ( 88, 104, 117, 100 % );
     selected-normal-background:  rgba ( 64, 132, 214, 100 % );
-    border-color:                rgba ( 124, 131, 137, 100 % );
+    border-color:                #61AFEFFF;
     spacing:                     2;
     separatorcolor:              rgba ( 29, 31, 33, 100 % );
     urgent-background:           rgba ( 29, 31, 33, 17 % );
@@ -35,16 +35,20 @@
     selected-active-background:  rgba ( 68, 145, 237, 100 % );
 }
 window {
+    transparency:     "real";
     background-color: @background;
-    border:           1;
+    border:           2;
     border-radius:    10px;
-    padding:          5;
-    height:           28%;
-    width:            40%;
+    padding:          0px;
+    margin:           0px;
+    width:            900px;
+    fullscreen:       false;
+    location:         center;
+    anchor:           center;
 }
 mainbox {
     border:  0;
-    padding: 0;
+    spacing: 10px;
 }
 message {
     border:       2px 0px 0px ;
@@ -55,16 +59,22 @@ textbox {
     text-color: @foreground;
 }
 listview {
-    fixed-height: 0;
-    border:       2px 0px 0px ;
-    border-color: @separatorcolor;
-    spacing:      2px ;
-    scrollbar:    true;
-    padding:      2px 0px 0px ;
+    fixed-height:     true;
+    fixed-columns:    true;
+    columns:          1;
+    lines:            8;
+    border:           2px 0px 0px ;
+    spacing:          5px ;
+    scrollbar:        false;
+    padding:          8px;
+    background-color: transparent;
+    dynamic:          true;
 }
 element {
-    border:  0;
-    padding: 1px ;
+    spacing:       10px;
+    border:        0;
+    border-radius: 8px;
+    padding:       4px 12px;
 }
 element-text {
     background-color: inherit;
@@ -84,7 +94,7 @@ element.normal.active {
 }
 element.selected.normal {
     background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
+    text-color:       @background;
 }
 element.selected.urgent {
     background-color: @selected-urgent-background;
@@ -95,16 +105,16 @@ element.selected.active {
     text-color:       @selected-active-foreground;
 }
 element.alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
+    background-color: @normal-background;
+    text-color:       @normal-foreground;
 }
 element.alternate.urgent {
-    background-color: @alternate-urgent-background;
-    text-color:       @alternate-urgent-foreground;
+    background-color: @urgent-background;
+    text-color:       @urgent-foreground;
 }
 element.alternate.active {
-    background-color: @alternate-active-background;
-    text-color:       @alternate-active-foreground;
+    background-color: @active-background;
+    text-color:       @active-foreground;
 }
 scrollbar {
     width:        4px ;
@@ -138,16 +148,17 @@ entry {
     spacing:    0;
     text-color: @normal-foreground;
 }
-prompt {
-    spacing:    0;
-    text-color: @normal-foreground;
-}
 inputbar {
-    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+    children: [textbox-prompt-colon,entry];
+    enabled:  true;
+    spacing:  10px;
+    margin:   0px;
+    padding:  8px 12px;
+    border:   0px solid;
+    border-radius:8px;
 }
 textbox-prompt-colon {
     expand:     false;
-    str:        ":";
-    margin:     0px 0.3em 0em 0em ;
+    str:        "File: ";
     text-color: @normal-foreground;
 }
