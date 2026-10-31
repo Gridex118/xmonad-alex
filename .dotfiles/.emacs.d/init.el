@@ -40,7 +40,7 @@
         (add-hook hook
                   (lambda ()
                     (sp--remove-local-pair "<"))))
-      '(js-mode-hook js-ts-mode-hook))
+      '(js-mode-hook js-ts-mode-hook web-mode-hook))
 
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
@@ -140,7 +140,6 @@
   :ensure t
   :bind
   ("C-c c b" . consult-buffer)
-  ("C-c c w" . consult-buffer-other-window)
   ("C-c c /" . consult-ripgrep)
   ("C-c c i" . consult-imenu))
 
@@ -149,19 +148,17 @@
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
 
 (with-eval-after-load 'persp-mode
-  (defun myConsult/switch-to-buffer-other-window ()
-    (interactive)
-    (with-persp-buffer-list () (consult-buffer-other-window)))
   (defun myConsult/switch-to-buffer ()
     (interactive)
     (with-persp-buffer-list () (consult-buffer)))
-  (global-set-key (kbd "C-c c w")
-                  'myConsult/switch-to-buffer-other-window)
   (global-set-key (kbd "C-c c b")
                   'myConsult/switch-to-buffer))
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
+(keymap-global-set "C-x o" #'other-window)
+(keymap-global-set "C-c o" #'ace-window)
 
 (use-package multiple-cursors
   :ensure t
@@ -272,16 +269,16 @@
   (tsx-ts-mode        . lsp-deferred)
   (java-mode          . lsp-deferred)
   :config
-  (setq-default lsp-rename-use-prepare nil
-                lsp-enable-indentation nil
-                lsp-enable-symbol-highlighting t
-                lsp-use-plists t)
+  (setq lsp-rename-use-prepare nil
+        lsp-use-plists t)
   :custom
   (lsp-completion-provider :none)
   (lsp-keymap-prefix       "M-s")
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
   (lsp-enable-on-type-formatting nil)
+  (lsp-enable-symbol-highlighting t)
+  (lsp-enable-indentation nil)
   (lsp-eslint-runtime "/etc/profiles/per-user/rosegrid/bin/npm"))
 
 (use-package lsp-ui
@@ -475,9 +472,29 @@
 
 (use-package emojify
   :ensure t
-  :hook ((org-mode  . emojify-mode)
-         (text-mode . emojify-mode)
+  :hook ((text-mode . emojify-mode)
          (web-mode  . emojify-mode)))
+
+(use-package ligature
+  :ensure t
+  :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures'prog-mode
+   '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+     ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+     "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+     "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+     "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+     "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+     "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+     "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+     ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+     "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+     "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+     "\\\\" "://"))
+  (global-ligature-mode t))
 
 (add-hook 'latex-mode-hook
           (lambda ()
@@ -650,17 +667,22 @@
 
 (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
 (add-to-list 'auto-mode-alist
-             '("\\.ebuild\\'" . (lambda ()
-                                  (require 'ebuild-mode)
-                                  (ebuild-mode))))
+             '("\\.ebuild\\'"
+               . (lambda ()
+                   (require 'ebuild-mode)
+                   (ebuild-mode))))
+(use-package ess
+  :ensure t
+  :mode "\\.R\\'")
 
 (use-package web-mode
   :ensure t
   :hook (html-mode . web-mode)
+  :mode ("\\.ejs\\'")
   :config
-  (setq web-mode-markup-indent-offset 4
-        web-mode-css-indent-offset    4
-        web-mode-code-indent-offset   4))
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset    2
+        web-mode-code-indent-offset   2))
 
 (use-package emmet-mode
   :ensure t
@@ -695,7 +717,7 @@
   (save-window-excursion
     (myWeb/launch-server-generic "npm run dev")))
 
-(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook))
+(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook typescript-ts-base-mode-hook))
   (add-hook mode-hook
             (lambda ()
               (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
@@ -738,6 +760,8 @@
   :ensure t
   :defer  t
   :hook
+  (web-mode           . prettier-js-mode)
+  (js-ts-mode         . prettier-js-mode)
   (rjsx-mode          . prettier-js-mode)
   (tsx-ts-mode        . prettier-js-mode)
   (typescript-ts-mode . prettier-js-mode)

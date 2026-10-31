@@ -171,7 +171,7 @@ Remove angle bracket pairing for =Javascript= mode
           (add-hook hook
                     (lambda ()
                       (sp--remove-local-pair "<"))))
-        '(js-mode-hook js-ts-mode-hook))
+        '(js-mode-hook js-ts-mode-hook web-mode-hook))
 #+end_src
 
 *** Line Numbering
@@ -306,7 +306,6 @@ Hippie Expansion: mostly for file name expansion
     :ensure t
     :bind
     ("C-c c b" . consult-buffer)
-    ("C-c c w" . consult-buffer-other-window)
     ("C-c c /" . consult-ripgrep)
     ("C-c c i" . consult-imenu))
 #+end_src
@@ -319,14 +318,9 @@ Hippie Expansion: mostly for file name expansion
 When =persp-mode= is available, augment =consult= with the selected perspective's buffer list.
 #+begin_src emacs-lisp
   (with-eval-after-load 'persp-mode
-    (defun myConsult/switch-to-buffer-other-window ()
-      (interactive)
-      (with-persp-buffer-list () (consult-buffer-other-window)))
     (defun myConsult/switch-to-buffer ()
       (interactive)
       (with-persp-buffer-list () (consult-buffer)))
-    (global-set-key (kbd "C-c c w")
-                    'myConsult/switch-to-buffer-other-window)
     (global-set-key (kbd "C-c c b")
                     'myConsult/switch-to-buffer))
 #+end_src
@@ -334,6 +328,11 @@ Swap =isearch= with =isearch-regexp=
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-s") 'isearch-forward-regexp)
   (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+#+end_src
+Use =ace-window= for quicker window switching when multiple windows are up
+#+begin_src emacs-lisp
+  (keymap-global-set "C-x o" #'other-window)
+  (keymap-global-set "C-c o" #'ace-window)
 #+end_src
 
 *** Multiple Cursors
@@ -472,16 +471,16 @@ Then the LSP config itself
     (tsx-ts-mode        . lsp-deferred)
     (java-mode          . lsp-deferred)
     :config
-    (setq-default lsp-rename-use-prepare nil
-                  lsp-enable-indentation nil
-                  lsp-enable-symbol-highlighting t
-                  lsp-use-plists t)
+    (setq lsp-rename-use-prepare nil
+          lsp-use-plists t)
     :custom
     (lsp-completion-provider :none)
     (lsp-keymap-prefix       "M-s")
     (lsp-rust-analyzer-cargo-watch-command "clippy")
     (lsp-eldoc-render-all t)
     (lsp-enable-on-type-formatting nil)
+    (lsp-enable-symbol-highlighting t)
+    (lsp-enable-indentation nil)
     (lsp-eslint-runtime "/etc/profiles/per-user/rosegrid/bin/npm"))
 #+end_src
 Additional UI features
@@ -752,9 +751,32 @@ Use the new direct async process options
 #+begin_src emacs-lisp
   (use-package emojify
     :ensure t
-    :hook ((org-mode  . emojify-mode)
-           (text-mode . emojify-mode)
+    :hook ((text-mode . emojify-mode)
            (web-mode  . emojify-mode)))
+#+end_src
+
+*** Font Ligatures
+#+begin_src emacs-lisp
+  (use-package ligature
+    :ensure t
+    :config
+    (ligature-set-ligatures 't '("www"))
+    (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+    (ligature-set-ligatures'prog-mode
+     '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+       ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+       "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+       "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+       "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+       "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+       "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+       "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+       ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+       "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+       "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+       "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+       "\\\\" "://"))
+    (global-ligature-mode t))
 #+end_src
 
 
@@ -991,9 +1013,13 @@ Use the 'buffer local' fork, =envrc=
 
   (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
   (add-to-list 'auto-mode-alist
-               '("\\.ebuild\\'" . (lambda ()
-                                    (require 'ebuild-mode)
-                                    (ebuild-mode))))
+               '("\\.ebuild\\'"
+                 . (lambda ()
+                     (require 'ebuild-mode)
+                     (ebuild-mode))))
+  (use-package ess
+    :ensure t
+    :mode "\\.R\\'")
 #+end_src
 
 *** WebDev Settings
@@ -1002,10 +1028,11 @@ Use the 'buffer local' fork, =envrc=
   (use-package web-mode
     :ensure t
     :hook (html-mode . web-mode)
+    :mode ("\\.ejs\\'")
     :config
-    (setq web-mode-markup-indent-offset 4
-          web-mode-css-indent-offset    4
-          web-mode-code-indent-offset   4))
+    (setq web-mode-markup-indent-offset 2
+          web-mode-css-indent-offset    2
+          web-mode-code-indent-offset   2))
 #+end_src
 **** Emmet Templating
 #+begin_src emacs-lisp
@@ -1044,7 +1071,7 @@ Use the 'buffer local' fork, =envrc=
     (save-window-excursion
       (myWeb/launch-server-generic "npm run dev")))
 
-  (dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook))
+  (dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook typescript-ts-base-mode-hook))
     (add-hook mode-hook
               (lambda ()
                 (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
@@ -1100,12 +1127,14 @@ JSON and JSX files should set JS indent to 2
             (lambda()
               (setq-local js-indent-level 2)))
 #+end_src
-**** Want Prettier for JS/JSX/TSX
+**** Want Prettier for Web/JS/JSX/TSX
 #+begin_src emacs-lisp
   (use-package prettier-js
     :ensure t
     :defer  t
     :hook
+    (web-mode           . prettier-js-mode)
+    (js-ts-mode         . prettier-js-mode)
     (rjsx-mode          . prettier-js-mode)
     (tsx-ts-mode        . prettier-js-mode)
     (typescript-ts-mode . prettier-js-mode)
