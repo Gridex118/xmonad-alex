@@ -377,6 +377,13 @@ Vim surround emulation
     :config
     (global-evil-surround-mode 1))
 #+end_src
+Extra configs for LaTeX
+#+begin_src emacs-lisp
+  (use-package evil-tex
+    :ensure t
+    :after evil-surround
+    :hook TeX-mode)
+#+end_src
 Set some sane default modes
 #+begin_src emacs-lisp
   (require 'compile)
@@ -787,12 +794,22 @@ Use the new direct async process options
     :ensure t
     :defer  t
     :custom
-    (TeX-master     'dwim)
     (TeX-output-dir "pdf")
     (TeX-engine     'luatex)
+    (TeX-fold-auto   t)
+    (TeX-auto-save   t)
+    (TeX-parse-self  t)
     :config
+    (setq-default TeX-master 'dwim)
     (with-eval-after-load 'tex
-      (add-to-list 'TeX-view-program-list '("Zathura" "zathura %o"))
+      (add-to-list
+       'TeX-view-program-list
+       '("Zathura" ("zathura "
+          (mode-io-correlate
+           " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
+          " %o")
+         "zathura"))
+      (TeX-source-correlate-mode t)
       (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))))
 
   (use-package auctex-latexmk
@@ -800,12 +817,22 @@ Use the new direct async process options
     :after auctex)
 #+end_src
 
-*** CDLaTeX Model
+*** CDLaTeX Mode
 #+begin_src emacs-lisp
   (use-package cdlatex
     :ensure t
     :after auctex
     :hook TeX-mode)
+#+end_src
+
+*** RefTeX Mode
+#+begin_src emacs-lisp
+  (use-package reftex
+    :ensure t
+    :after auctex
+    :hook TeX-mode
+    :preface
+    (setq reftex-plug-into-AUCTeX t))
 #+end_src
 
 *** Prettification
@@ -814,9 +841,10 @@ Prettify math symbols and collapse =section=, =label=, etc
   (add-hook 'TeX-mode-hook
             (lambda ()
               (prettify-symbols-mode)
-              (TeX-fold-mode)))
+              (TeX-fold-mode)
+              (LaTeX-math-mode)
+              (add-hook 'find-file-hook #'TeX-fold-buffer t)))
 #+end_src
-
 Number labels in buffer
 #+begin_src emacs-lisp
   (use-package auctex-label-numbers

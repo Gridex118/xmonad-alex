@@ -193,6 +193,11 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package evil-tex
+  :ensure t
+  :after evil-surround
+  :hook TeX-mode)
+
 (require 'compile)
 (require 'vterm)
 (setq prefs/evil-emacs-state-modes
@@ -500,12 +505,22 @@
   :ensure t
   :defer  t
   :custom
-  (TeX-master     'dwim)
   (TeX-output-dir "pdf")
   (TeX-engine     'luatex)
+  (TeX-fold-auto   t)
+  (TeX-auto-save   t)
+  (TeX-parse-self  t)
   :config
+  (setq-default TeX-master 'dwim)
   (with-eval-after-load 'tex
-    (add-to-list 'TeX-view-program-list '("Zathura" "zathura %o"))
+    (add-to-list
+     'TeX-view-program-list
+     '("Zathura" ("zathura "
+        (mode-io-correlate
+         " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
+        " %o")
+       "zathura"))
+    (TeX-source-correlate-mode t)
     (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))))
 
 (use-package auctex-latexmk
@@ -517,10 +532,19 @@
   :after auctex
   :hook TeX-mode)
 
+(use-package reftex
+  :ensure t
+  :after auctex
+  :hook TeX-mode
+  :preface
+  (setq reftex-plug-into-AUCTeX t))
+
 (add-hook 'TeX-mode-hook
           (lambda ()
             (prettify-symbols-mode)
-            (TeX-fold-mode)))
+            (TeX-fold-mode)
+            (LaTeX-math-mode)
+            (add-hook 'find-file-hook #'TeX-fold-buffer t)))
 
 (use-package auctex-label-numbers
   :ensure t
