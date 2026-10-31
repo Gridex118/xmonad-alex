@@ -157,7 +157,7 @@ and use =smartparens-mode=
 #+begin_src emacs-lisp
   (use-package smartparens
     :ensure t
-    :hook (prog-mode latex-mode)
+    :hook (prog-mode TeX-mode)
     :config
     (require 'smartparens-config)
     (sp-with-modes 'sh-mode
@@ -180,7 +180,7 @@ Remove angle bracket pairing for =Javascript= mode
     (setq display-line-numbers-type 'relative)
     (display-line-numbers-mode))
   (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
-  (add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+  (add-hook 'TeX-mode-hook 'pref/set-line-number-mode)
   (add-hook 'conf-mode-hook 'pref/set-line-number-mode)
 
   (setq column-number-mode t)
@@ -261,7 +261,7 @@ Yasnippet, for snippets
     :ensure t
     :hook ((prog-mode  . yas-minor-mode)
            (org-mode   . yas-minor-mode)
-  	     (latex-mode . yas-minor-mode))
+  	     (TeX-mode . yas-minor-mode))
     :config
     (define-key yas-minor-mode-map (kbd "<tab>") nil)
     (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -271,6 +271,7 @@ Yasnippet, for snippets
     (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
     (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
     (yas-reload-all))
+
   (use-package yasnippet-snippets
     :ensure t
     :after yasnippet)
@@ -463,7 +464,7 @@ Then the LSP config itself
     (lua-mode           . lsp-deferred)
     (python-mode        . lsp-deferred)
     (python-ts-mode     . lsp-deferred)
-    (latex-mode         . lsp-deferred)
+    (TeX-mode         . lsp-deferred)
     (web-mode           . lsp-deferred)
     (js-mode            . lsp-deferred)
     (typescript-ts-mode . lsp-deferred)
@@ -650,7 +651,6 @@ Mainly for emacs lisp, but the delimitors work for other languages too
 
 ** File Extension Matching
 #+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
 #+end_src
 
 
@@ -751,8 +751,7 @@ Use the new direct async process options
 #+begin_src emacs-lisp
   (use-package emojify
     :ensure t
-    :hook ((text-mode . emojify-mode)
-           (web-mode  . emojify-mode)))
+    :hook web-mode)
 #+end_src
 
 *** Font Ligatures
@@ -782,17 +781,63 @@ Use the new direct async process options
 
 ** LaTeX Mode
 
+*** AUCTeX Mode
+#+begin_src emacs-lisp
+  (use-package auctex
+    :ensure t
+    :defer  t
+    :custom
+    (TeX-master     'dwim)
+    (TeX-output-dir "pdf")
+    (TeX-engine     'luatex)
+    :config
+    (with-eval-after-load 'tex
+      (add-to-list 'TeX-view-program-list '("Zathura" "zathura %o"))
+      (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))))
+
+  (use-package auctex-latexmk
+    :ensure t
+    :after auctex)
+#+end_src
+
+*** CDLaTeX Model
+#+begin_src emacs-lisp
+  (use-package cdlatex
+    :ensure t
+    :after auctex
+    :hook TeX-mode)
+#+end_src
+
+*** Prettification
+Prettify math symbols and collapse =section=, =label=, etc
+#+begin_src emacs-lisp
+  (add-hook 'TeX-mode-hook
+            (lambda ()
+              (prettify-symbols-mode)
+              (TeX-fold-mode)))
+#+end_src
+
+Number labels in buffer
+#+begin_src emacs-lisp
+  (use-package auctex-label-numbers
+    :ensure t
+    :after auctex
+    :hook TeX-mode)
+#+end_src
+
 *** Enable Auto Fill
 #+begin_src emacs-lisp
-  (add-hook 'latex-mode-hook
+  (add-hook 'TeX-mode-hook
             (lambda ()
               (auto-fill-mode)
               (setq-local fill-column 70)))
 #+end_src
+
 *** Enable Flyspell
 #+begin_src emacs-lisp
-  (add-hook 'latex-mode-hook 'flyspell-mode)
+  (add-hook 'TeX-mode-hook 'flyspell-mode)
 #+end_src
+
 *** Get LaTeX Project Root
 All my LaTeX projects have a =cfg.cfg= file in their root directories
 #+begin_src emacs-lisp
@@ -806,50 +851,12 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
   (defun myLaTeX/get-project-root()
     (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
 #+end_src
-*** Single File Compilation
-#+begin_src emacs-lisp
-  (defvar myLaTeX/main-tex-file nil)
-  (defun myLaTeX/set-main-tex-file()
-    (interactive)
-    (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
-    (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
-  (add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
-
-  (defun myLaTeX/single-file-compile()
-    (interactive)
-    (save-window-excursion
-      (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
-  				 myLaTeX/main-tex-file))))
-#+end_src
-*** Full Project Compilation
-#+begin_src emacs-lisp
-  (defun myLaTeX/project-complie()
-    (interactive)
-    (save-window-excursion
-      (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
-#+end_src
-*** Open PDF in Zathura
-#+begin_src emacs-lisp
-  (defun myLaTeX/choose-file()
-    (interactive)
-    (read-file-name "Which PDF? "
-  		  (concat (myLaTeX/get-project-root) "pdf/")))
-
-  (defun myLaTeX/open-pdf-zathura()
-    (interactive)
-    (save-window-excursion
-      (async-shell-command (concat "zathura --fork "
-  				 (myLaTeX/choose-file)))))
-#+end_src
 
 *** Keybindings
 #+begin_src emacs-lisp
-  (add-hook 'latex-mode-hook
+  (add-hook 'TeX-mode-hook
   	  (lambda()
-  	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-  	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
-  	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
-  	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
+  	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)))
 #+end_src
 
 

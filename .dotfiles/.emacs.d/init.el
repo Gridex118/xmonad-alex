@@ -28,7 +28,7 @@
 
 (use-package smartparens
   :ensure t
-  :hook (prog-mode latex-mode)
+  :hook (prog-mode TeX-mode)
   :config
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
@@ -46,7 +46,7 @@
   (setq display-line-numbers-type 'relative)
   (display-line-numbers-mode))
 (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
-(add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+(add-hook 'TeX-mode-hook 'pref/set-line-number-mode)
 (add-hook 'conf-mode-hook 'pref/set-line-number-mode)
 
 (setq column-number-mode t)
@@ -105,7 +105,7 @@
   :ensure t
   :hook ((prog-mode  . yas-minor-mode)
          (org-mode   . yas-minor-mode)
-	     (latex-mode . yas-minor-mode))
+	     (TeX-mode . yas-minor-mode))
   :config
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -115,6 +115,7 @@
   (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
   (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
+
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
@@ -261,7 +262,7 @@
   (lua-mode           . lsp-deferred)
   (python-mode        . lsp-deferred)
   (python-ts-mode     . lsp-deferred)
-  (latex-mode         . lsp-deferred)
+  (TeX-mode         . lsp-deferred)
   (web-mode           . lsp-deferred)
   (js-mode            . lsp-deferred)
   (typescript-ts-mode . lsp-deferred)
@@ -398,7 +399,7 @@
 
 (pixel-scroll-precision-mode)
 
-(add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
+
 
 (setq auth-source-save-behavior nil)
 
@@ -472,8 +473,7 @@
 
 (use-package emojify
   :ensure t
-  :hook ((text-mode . emojify-mode)
-         (web-mode  . emojify-mode)))
+  :hook web-mode)
 
 (use-package ligature
   :ensure t
@@ -496,12 +496,43 @@
      "\\\\" "://"))
   (global-ligature-mode t))
 
-(add-hook 'latex-mode-hook
+(use-package auctex
+  :ensure t
+  :defer  t
+  :custom
+  (TeX-master     'dwim)
+  (TeX-output-dir "pdf")
+  (TeX-engine     'luatex)
+  :config
+  (with-eval-after-load 'tex
+    (add-to-list 'TeX-view-program-list '("Zathura" "zathura %o"))
+    (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))))
+
+(use-package auctex-latexmk
+  :ensure t
+  :after auctex)
+
+(use-package cdlatex
+  :ensure t
+  :after auctex
+  :hook TeX-mode)
+
+(add-hook 'TeX-mode-hook
+          (lambda ()
+            (prettify-symbols-mode)
+            (TeX-fold-mode)))
+
+(use-package auctex-label-numbers
+  :ensure t
+  :after auctex
+  :hook TeX-mode)
+
+(add-hook 'TeX-mode-hook
           (lambda ()
             (auto-fill-mode)
             (setq-local fill-column 70)))
 
-(add-hook 'latex-mode-hook 'flyspell-mode)
+(add-hook 'TeX-mode-hook 'flyspell-mode)
 
 (defun myLaTeX/is-project-root(directory counter)
   (if (file-exists-p (concat directory "cfg.cfg"))
@@ -513,41 +544,9 @@
 (defun myLaTeX/get-project-root()
   (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
 
-(defvar myLaTeX/main-tex-file nil)
-(defun myLaTeX/set-main-tex-file()
-  (interactive)
-  (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
-  (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
-(add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
-
-(defun myLaTeX/single-file-compile()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
-				 myLaTeX/main-tex-file))))
-
-(defun myLaTeX/project-complie()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
-
-(defun myLaTeX/choose-file()
-  (interactive)
-  (read-file-name "Which PDF? "
-		  (concat (myLaTeX/get-project-root) "pdf/")))
-
-(defun myLaTeX/open-pdf-zathura()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat "zathura --fork "
-				 (myLaTeX/choose-file)))))
-
-(add-hook 'latex-mode-hook
+(add-hook 'TeX-mode-hook
 	  (lambda()
-	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
-	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
-	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
+	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)))
 
 (use-package org-mouse
   :after org)
