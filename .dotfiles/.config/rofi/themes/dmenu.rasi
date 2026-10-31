@@ -59,6 +59,7 @@ textbox {
     text-color: @foreground;
 }
 listview {
+    cycle:            false;
     fixed-height:     true;
     fixed-columns:    true;
     columns:          1;
