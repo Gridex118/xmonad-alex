@@ -159,7 +159,8 @@
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 
 (keymap-global-set "C-x o" #'other-window)
-(keymap-global-set "C-c o" #'ace-window)
+(keymap-global-set "M-o" #'ace-window)
+(setq aw-dispatch-always t)
 
 (use-package multiple-cursors
   :ensure t
@@ -167,6 +168,20 @@
   (keymap-global-set "C->" 'mc/mark-next-like-this)
   (keymap-global-set "C-<" 'mc/mark-previous-like-this)
   (keymap-global-set "C-c C-<" 'mc/mark-all-like-this))
+
+(use-package embark
+  :ensure t
+  :bind (("C-."   . embark-act)
+         ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (with-eval-after-load 'evil
+    (define-key evil-normal-state-map (kbd "C-.") nil)))
+
+(use-package embark-consult
+  :ensure t
+  :after (embark consult))
 
 (use-package evil
   :ensure t
@@ -573,6 +588,14 @@
   :ensure t
   :after auctex
   :hook TeX-mode)
+
+(use-package citar
+  :ensure t
+  :custom
+  (citar-bibliography '("references.bib"))
+  :hook
+  (TeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
 
 (add-hook 'TeX-mode-hook
           (lambda ()

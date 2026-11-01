@@ -333,7 +333,8 @@ Swap =isearch= with =isearch-regexp=
 Use =ace-window= for quicker window switching when multiple windows are up
 #+begin_src emacs-lisp
   (keymap-global-set "C-x o" #'other-window)
-  (keymap-global-set "C-c o" #'ace-window)
+  (keymap-global-set "M-o" #'ace-window)
+  (setq aw-dispatch-always t)
 #+end_src
 
 *** Multiple Cursors
@@ -344,6 +345,25 @@ Use =ace-window= for quicker window switching when multiple windows are up
     (keymap-global-set "C->" 'mc/mark-next-like-this)
     (keymap-global-set "C-<" 'mc/mark-previous-like-this)
     (keymap-global-set "C-c C-<" 'mc/mark-all-like-this))
+#+end_src
+
+*** Embark
+#+begin_src emacs-lisp
+  (use-package embark
+    :ensure t
+    :bind (("C-."   . embark-act)
+           ("C-h B" . embark-bindings))
+    :init
+    (setq prefix-help-command #'embark-prefix-help-command)
+    :config
+    (with-eval-after-load 'evil
+      (define-key evil-normal-state-map (kbd "C-.") nil)))
+#+end_src
+=embark-consult= is needed when using both embark and consult
+#+begin_src emacs-lisp
+  (use-package embark-consult
+    :ensure t
+    :after (embark consult))
 #+end_src
 
 *** Vim Layer
@@ -880,6 +900,17 @@ Number labels in buffer
     :ensure t
     :after auctex
     :hook TeX-mode)
+#+end_src
+
+*** Citar
+#+begin_src emacs-lisp
+  (use-package citar
+    :ensure t
+    :custom
+    (citar-bibliography '("references.bib"))
+    :hook
+    (TeX-mode . citar-capf-setup)
+    (org-mode . citar-capf-setup))
 #+end_src
 
 *** Enable Auto Fill
