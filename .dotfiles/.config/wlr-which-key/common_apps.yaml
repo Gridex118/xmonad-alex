@@ -24,7 +24,7 @@ menu:
     cmd: gimp
   - key: "e"
     desc: "Emacs"
-    cmd: emacsclient --create-frame
+    cmd: ~/.local/bin/emacs-connect.sh
   - key: "v"
     desc: "Volume"
     cmd: pavucontrol

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
@@ -26,7 +28,7 @@
 
 (use-package smartparens
   :ensure t
-  :hook (prog-mode latex-mode)
+  :hook (prog-mode TeX-mode)
   :config
   (require 'smartparens-config)
   (sp-with-modes 'sh-mode
@@ -38,13 +40,13 @@
         (add-hook hook
                   (lambda ()
                     (sp--remove-local-pair "<"))))
-      '(js-mode-hook js-ts-mode-hook))
+      '(js-mode-hook js-ts-mode-hook web-mode-hook))
 
 (defun pref/set-line-number-mode()
   (setq display-line-numbers-type 'relative)
   (display-line-numbers-mode))
 (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
-(add-hook 'latex-mode-hook 'pref/set-line-number-mode)
+(add-hook 'TeX-mode-hook 'pref/set-line-number-mode)
 (add-hook 'conf-mode-hook 'pref/set-line-number-mode)
 
 (setq column-number-mode t)
@@ -103,7 +105,7 @@
   :ensure t
   :hook ((prog-mode  . yas-minor-mode)
          (org-mode   . yas-minor-mode)
-	     (latex-mode . yas-minor-mode))
+	     (TeX-mode . yas-minor-mode))
   :config
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -113,6 +115,7 @@
   (define-key yas/keymap         (kbd "C-j") #'yas-next-field)
   (define-key yas/keymap         (kbd "C-S-j") #'yas-prev-field)
   (yas-reload-all))
+
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
@@ -138,7 +141,6 @@
   :ensure t
   :bind
   ("C-c c b" . consult-buffer)
-  ("C-c c w" . consult-buffer-other-window)
   ("C-c c /" . consult-ripgrep)
   ("C-c c i" . consult-imenu))
 
@@ -147,19 +149,39 @@
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
 
 (with-eval-after-load 'persp-mode
-  (defun myConsult/switch-to-buffer-other-window ()
-    (interactive)
-    (with-persp-buffer-list () (consult-buffer-other-window)))
   (defun myConsult/switch-to-buffer ()
     (interactive)
     (with-persp-buffer-list () (consult-buffer)))
-  (global-set-key (kbd "C-c c w")
-                  'myConsult/switch-to-buffer-other-window)
   (global-set-key (kbd "C-c c b")
                   'myConsult/switch-to-buffer))
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
+(keymap-global-set "C-x o" #'other-window)
+(keymap-global-set "M-o" #'ace-window)
+(setq aw-dispatch-always t)
+
+(use-package multiple-cursors
+  :ensure t
+  :config
+  (keymap-global-set "C->" 'mc/mark-next-like-this)
+  (keymap-global-set "C-<" 'mc/mark-previous-like-this)
+  (keymap-global-set "C-c C-<" 'mc/mark-all-like-this))
+
+(use-package embark
+  :ensure t
+  :bind (("C-."   . embark-act)
+         ("C-h B" . embark-bindings))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (with-eval-after-load 'evil
+    (define-key evil-normal-state-map (kbd "C-.") nil)))
+
+(use-package embark-consult
+  :ensure t
+  :after (embark consult))
 
 (use-package evil
   :ensure t
@@ -185,6 +207,11 @@
   :ensure t
   :config
   (global-evil-surround-mode 1))
+
+(use-package evil-tex
+  :ensure t
+  :after evil-surround
+  :hook TeX-mode)
 
 (require 'compile)
 (require 'vterm)
@@ -232,48 +259,47 @@
 (setq which-key-idle-delay 0.2)
 (which-key-mode)
 
+(use-package flycheck :ensure t)
+
 (use-package lsp-mode
   :ensure t
-
-  :custom
-  (lsp-completion-provider :none)
-  (lsp-keymap-prefix       "M-s")
-
+  :after flycheck
   :init
   (defun myLsp/orderless-dispatch-flex-first(_pattern index _total)
     (and (eq index 0) 'orderless-flex))
-  
   (defun myLsp/lsp-mode-setup-completion()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
 	  '(orderless))
     (add-hook 'orderless-style-dispatchers #'myLsp/orderless-dispatch-flex-first nil 'local))
-  
   :hook
   (lsp-completion-mode . myLsp/lsp-mode-setup-completion)
-  
-  (c-mode         . lsp-deferred)
-  (c-ts-mode      . lsp-deferred)
-  (haskell-mode   . lsp-deferred)
-  (c++-mode       . lsp-deferred)
-  (c++-ts-mode    . lsp-deferred)
-  (java-ts-mode   . lsp-deferred)
-  (lua-mode       . lsp-deferred)
-  (python-mode    . lsp-deferred)
-  (python-ts-mode . lsp-deferred)
-  (latex-mode     . lsp-deferred)
-  (web-mode       . lsp-deferred)
-  (js-mode        . lsp-deferred)
-  (js-ts-mode     . lsp-deferred)
-  (java-mode      . lsp-deferred)
-  
+  (c-mode             . lsp-deferred)
+  (c-ts-mode          . lsp-deferred)
+  (haskell-mode       . lsp-deferred)
+  (c++-mode           . lsp-deferred)
+  (c++-ts-mode        . lsp-deferred)
+  (java-ts-mode       . lsp-deferred)
+  (lua-mode           . lsp-deferred)
+  (python-mode        . lsp-deferred)
+  (python-ts-mode     . lsp-deferred)
+  (TeX-mode         . lsp-deferred)
+  (web-mode           . lsp-deferred)
+  (js-mode            . lsp-deferred)
+  (typescript-ts-mode . lsp-deferred)
+  (js-ts-mode         . lsp-deferred)
+  (tsx-ts-mode        . lsp-deferred)
+  (java-mode          . lsp-deferred)
   :config
-  (setq-default lsp-rename-use-prepare nil
-                lsp-enable-indentation nil)
-
+  (setq lsp-rename-use-prepare nil
+        lsp-use-plists t)
   :custom
+  (lsp-completion-provider :none)
+  (lsp-keymap-prefix       "M-s")
   (lsp-rust-analyzer-cargo-watch-command "clippy")
   (lsp-eldoc-render-all t)
   (lsp-enable-on-type-formatting nil)
+  (lsp-enable-symbol-highlighting t)
+  (lsp-enable-indentation nil)
   (lsp-eslint-runtime "/etc/profiles/per-user/rosegrid/bin/npm"))
 
 (use-package lsp-ui
@@ -364,6 +390,16 @@
                    (or (string-prefix-p "magit" bname)
                        (string-prefix-p "*"     bname))))))
 
+(setq myPersp/oneshot-persp-load-state-key "C-c c p l")
+
+(defun myPersp/oneshot-persp-load-state ()
+  (interactive)
+  (if (not persp-mode) (persp-mode 1))
+  (call-interactively #'persp-load-state-from-file)
+  (keymap-global-unset myPersp/oneshot-persp-load-state-key))
+
+(keymap-global-set myPersp/oneshot-persp-load-state-key #'myPersp/oneshot-persp-load-state)
+
 (use-package rainbow-delimiters
   :ensure t
   :hook prog-mode)
@@ -383,7 +419,7 @@
 
 (pixel-scroll-precision-mode)
 
-(add-to-list 'auto-mode-alist '("\\.latex\\'" . latex-mode))
+
 
 (setq auth-source-save-behavior nil)
 
@@ -406,19 +442,28 @@
 (use-package doom-themes
   :ensure t
   :config
-  (setq doom-themes-enable-bold   t
+  ;; Emacs 31: prevent circular Gnus face inheritance.
+  (setcdr (assq 'gnus-group-news-low-empty doom-themes-base-faces)
+          '(:inherit 'gnus-group-mail-1-empty :weight 'normal))
+
+  (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
+
   (set-face-italic 'font-lock-comment-face t)
   (load-theme 'doom-tokyo-night t)
+
   (doom-themes-org-config)
   (doom-themes-treemacs-config)
+
   (with-eval-after-load 'treemacs
     (treemacs-load-theme "doom-atom"))
+
   (set-face-foreground 'font-lock-property-name-face "#6dcec0")
   (set-face-foreground 'font-lock-delimiter-face "SkyBlue3")
   (set-face-foreground 'font-lock-type-face "#2698b0")
   (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
   (set-face-attribute 'font-lock-function-call-face nil :slant 'italic)
+
   (with-eval-after-load 'org
     (set-face-foreground 'org-level-3 "Skyblue")))
 
@@ -448,16 +493,116 @@
 
 (use-package emojify
   :ensure t
-  :hook ((org-mode  . emojify-mode)
-         (text-mode . emojify-mode)
-         (web-mode  . emojify-mode)))
+  :hook web-mode)
 
-(add-hook 'latex-mode-hook
+(use-package ligature
+  :ensure t
+  :config
+  (ligature-set-ligatures 't '("www"))
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures'prog-mode
+   '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+     ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+     "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+     "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+     "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+     "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+     "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+     "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+     ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+     "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+     "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+     "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+     "\\\\" "://"))
+  (global-ligature-mode t))
+
+(defun myLaTeX/setup-auctex-latexmk ()
+  (add-to-list
+   'TeX-expand-list
+   '("%(-PDF)"
+     (lambda ()
+       (if TeX-PDF-mode
+           (cond
+            ((eq TeX-engine 'default) "-pdf")
+            ((eq TeX-engine 'xetex) "-pdfxe")
+            ((eq TeX-engine 'luatex) "-pdflua")) ""))))
+
+  (add-to-list 'TeX-command-list
+               '("LaTeXmk" "latexmk %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
+                 TeX-run-format nil (latex-mode doctex-mode) :help "Run Latexmk"))
+
+  (with-eval-after-load 'latex
+    (setq LaTeX-clean-intermediate-suffixes
+          (append LaTeX-clean-intermediate-suffixes '("\\.fdb_latexmk" "\\.fls"))))
+
+  (add-hook 'TeX-mode-hook (lambda () (setq TeX-command-default "LateXMk"))))
+
+(use-package auctex
+  :ensure t
+  :defer  t
+  :after  tex
+  :custom
+  (TeX-output-dir "pdf")
+  (TeX-engine     'luatex)
+  (TeX-fold-auto   t)
+  (TeX-auto-save   t)
+  (TeX-parse-self  t)
+  :config
+  (setq-default TeX-master 'dwim)
+  (myLaTeX/setup-auctex-latexmk))
+
+(defun myLaTeX/setup-tex-zathura-synctex ()
+  (add-to-list
+   'TeX-view-program-list
+   '("Zathura" ("zathura "
+                (mode-io-correlate
+                 " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
+                " %o")
+     "zathura"))
+  (TeX-source-correlate-mode t)
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
+
+(with-eval-after-load 'tex
+  (myLaTeX/setup-tex-zathura-synctex))
+
+(use-package cdlatex
+  :ensure t
+  :after auctex
+  :hook TeX-mode)
+
+(use-package reftex
+  :ensure t
+  :after auctex
+  :hook TeX-mode
+  :preface
+  (setq reftex-plug-into-AUCTeX t))
+
+(add-hook 'TeX-mode-hook
+          (lambda ()
+            (prettify-symbols-mode)
+            (TeX-fold-mode)
+            (LaTeX-math-mode)
+            (add-hook 'find-file-hook #'TeX-fold-buffer t)))
+
+(use-package auctex-label-numbers
+  :ensure t
+  :after auctex
+  :hook TeX-mode)
+
+(use-package citar
+  :ensure t
+  :custom
+  (citar-bibliography '("references.bib"))
+  :hook
+  (TeX-mode . citar-capf-setup)
+  (org-mode . citar-capf-setup))
+
+(add-hook 'TeX-mode-hook
           (lambda ()
             (auto-fill-mode)
             (setq-local fill-column 70)))
 
-(add-hook 'latex-mode-hook 'flyspell-mode)
+(add-hook 'TeX-mode-hook 'flyspell-mode)
 
 (defun myLaTeX/is-project-root(directory counter)
   (if (file-exists-p (concat directory "cfg.cfg"))
@@ -469,41 +614,9 @@
 (defun myLaTeX/get-project-root()
   (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
 
-(defvar myLaTeX/main-tex-file nil)
-(defun myLaTeX/set-main-tex-file()
-  (interactive)
-  (setq myLaTeX/main-tex-file (file-relative-name buffer-file-name))
-  (remove-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file))
-(add-hook 'latex-mode-hook 'myLaTeX/set-main-tex-file)
-
-(defun myLaTeX/single-file-compile()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat "latexmk -quiet -lualatex -f -auxdir=$HOME/.texbuild/ -outdir=pdf/ "
-				 myLaTeX/main-tex-file))))
-
-(defun myLaTeX/project-complie()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat (concat "cd " (myLaTeX/get-project-root)) " && mktex"))))
-
-(defun myLaTeX/choose-file()
-  (interactive)
-  (read-file-name "Which PDF? "
-		  (concat (myLaTeX/get-project-root) "pdf/")))
-
-(defun myLaTeX/open-pdf-zathura()
-  (interactive)
-  (save-window-excursion
-    (async-shell-command (concat "zathura --fork "
-				 (myLaTeX/choose-file)))))
-
-(add-hook 'latex-mode-hook
+(add-hook 'TeX-mode-hook
 	  (lambda()
-	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)
-	    (local-set-key (kbd "C-c l c") 'myLaTeX/single-file-compile)
-	    (local-set-key (kbd "C-c l m") 'myLaTeX/project-complie)
-	    (local-set-key (kbd "C-c l z") 'myLaTeX/open-pdf-zathura)))
+	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)))
 
 (use-package org-mouse
   :after org)
@@ -545,7 +658,8 @@
 
 (add-hook 'org-mode-hook
           (lambda()
-            (setq org-startup-indented  t)))
+            (setq org-startup-indented  t)
+            (org-num-mode)))
 
 (use-package olivetti
   :ensure t
@@ -576,17 +690,11 @@
           (lambda()
             (local-set-key (kbd "C-c r x") 'myProg/make-file-executable)))
 
-(use-package json-mode
-  :ensure t
-  :defer  t)
+(use-package json-mode :ensure t :defer  t)
 
-(use-package kdl-mode
-  :ensure t
-  :defer  t)
+(use-package kdl-mode :ensure t :defer  t)
 
-(use-package lua-mode
-  :ensure t
-  :defer  t)
+(use-package lua-mode :ensure t :defer  t)
 
 (use-package haskell-mode
   :ensure t
@@ -605,48 +713,45 @@
 		lsp-enable-symbol-highlighting nil
 		lsp-signature-auto-activate    nil))
 
-(use-package nix-mode
-  :ensure t
-  :defer  t)
+(use-package nix-mode :ensure t :defer  t)
 
 (use-package nix-ts-mode
   :ensure t
-  :defer  t)
+  :mode "\\.nix\\'")
 
-(use-package csv-mode
-  :ensure t
-  :defer  t)
+(use-package csv-mode :ensure t :defer  t)
 
-(use-package yaml-mode
-  :ensure t
-  :defer  t)
+(use-package yaml-mode :ensure t :defer  t)
 
 (use-package typescript-mode
   :ensure t
-  :defer t)
+  :defer t
+  :custom
+  (lsp-clients-typescript-prefer-use-project-ts-server t))
 
-(use-package qml-mode
-  :ensure t
-  :defer t)
+(use-package qml-mode :ensure t :defer t)
 
 (add-to-list 'load-path "~/.emacs.d/src/qml-ts-mode")
 (add-hook 'qml-mode-hook (lambda () (require 'qml-ts-mode)))
 
 (add-to-list 'load-path "~/.emacs.d/src/ebuild-mode")
 (add-to-list 'auto-mode-alist
-             '("\\.ebuild\\'" . (lambda ()
-                                  (require 'ebuild-mode)
-                                  (ebuild-mode))))
+             '("\\.ebuild\\'"
+               . (lambda ()
+                   (require 'ebuild-mode)
+                   (ebuild-mode))))
+(use-package ess
+  :ensure t
+  :mode "\\.R\\'")
 
 (use-package web-mode
   :ensure t
   :hook (html-mode . web-mode)
+  :mode ("\\.ejs\\'")
   :config
-  (setq web-mode-markup-indent-offset 4
-        web-mode-css-indent-offset    4
-        web-mode-code-indent-offset   4))
-
-(setq sgml-basic-offset 4)
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset    2
+        web-mode-code-indent-offset   2))
 
 (use-package emmet-mode
   :ensure t
@@ -681,7 +786,7 @@
   (save-window-excursion
     (myWeb/launch-server-generic "npm run dev")))
 
-(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook))
+(dolist (mode-hook '(web-mode-hook js-base-mode-hook css-base-mode-hook tsx-ts-mode-hook typescript-ts-base-mode-hook))
   (add-hook mode-hook
             (lambda ()
               (local-set-key (kbd "C-c w ls") 'myWeb/launch-live-server)
@@ -703,9 +808,34 @@
   (js-jsx-detect-syntax nil)
   :mode ("\\.jsx\\'" . rjsx-mode))
 
+(use-package tsx-ts-mode
+  :mode ("\\.tsx\\'" . tsx-ts-mode))
+
+(use-package jtsx
+  :ensure t
+  :defer  t
+  :mode ("\\.tsx\\'" . jtsx-tsx-mode)
+  :hook (jtsx-tsx-mode . hs-minor-mode)
+  :config
+  (with-eval-after-load 'smartparens
+    (sp-local-pair 'jtsx-tsx-mode "<" nil :actions nil)))
+
+(setq sgml-basic-offset 4)
 (add-hook 'json-mode-hook
           (lambda()
             (setq-local js-indent-level 2)))
+
+(use-package prettier-js
+  :ensure t
+  :defer  t
+  :hook
+  (web-mode           . prettier-js-mode)
+  (js-ts-mode         . prettier-js-mode)
+  (rjsx-mode          . prettier-js-mode)
+  (tsx-ts-mode        . prettier-js-mode)
+  (typescript-ts-mode . prettier-js-mode)
+  :custom
+  (prettier-js-use-modules-bin t))
 
 (add-hook 'c-mode-hook
           (lambda()
@@ -738,31 +868,6 @@
      (read-string "File name: " (file-name-nondirectory template)))))
 (global-set-key (kbd "C-c r t") 'myProg/gen-from-template)
 
-(use-package elpy
-  :ensure t
-  :hook ((python-mode    . elpy-enable)
-         (python-ts-mode . elpy-enable))
-  :config
-  (setenv "WORKON_HOME" "~/.venvs")
-  (delete 'elpy-module-highlight-indentation elpy-modules)
-  :init
-  (add-hook 'python-ts-mode-hook
-            (lambda () (elpy-mode 1))))
-
-(add-hook 'elpy-mode-hook
-          (lambda() (company-mode -1)))
-
-(defun myProg/switch-workon-dir(&optional workon-home)
-  (interactive)
-  (if workon-home
-      (setenv "WORKON_HOME" workon-home)
-    (if (string-equal (getenv "WORKON_HOME") "~/.venvs")
-        (setenv "WORKON_HOME" "~/.opt/miniconda3/envs")
-      (setenv "WORKON_HOME" "~/.venvs")))
-  (message "Switched to %s" (getenv "WORKON_HOME")))
-
-(global-set-key (kbd "C-c r w") 'myProg/switch-workon-dir)
-
 (use-package zmq
   :ensure t
   :defer t)
@@ -793,30 +898,20 @@
   (insert (concat "javac " (file-relative-name buffer-file-name))))
 (add-hook 'java-ts-mode-hook (lambda() (local-set-key (kbd "C-c r C") 'myJava/insert-compile-command)))
 
-(add-hook 'prog-mode-hook
-          (lambda()
-            (setq treesit-font-lock-level 4
-                  c-ts-mode-indent-style 'k&r
-                  c-ts-mode-indent-offset 4)))
-
-(setq treesit-language-source-alist
-      '((cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (c "https://github.com/tree-sitter/tree-sitter-c")
-        (bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (nix "https://github.com/nix-community/tree-sitter-nix")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
-(setq major-mode-remap-alist
-      '((c-mode          . c-ts-mode)
-        (c++-mode        . c++-ts-mode)
-        (bash-mode       . bash-ts-mode)
-        (javascript-mode . js-ts-mode)
-        (css-mode        . css-ts-mode)
-        (python-mode     . python-ts-mode)
-        (nix-mode        . nix-ts-mode)))
+(use-package treesit
+  :custom
+  (treesit-auto-install-grammar 'ask)
+  (treesit-enabled-modes t)
+  (treesit-font-lock-level 4)
+  (treesit-load-name-override-list
+   '((dockerfile "libtree-sitter-docker" "tree_sitter_dockerfile")))
+  :config
+  (add-to-list 'treesit-language-source-alist
+               '(nix "https://github.com/nix-community/tree-sitter-nix"))
+  (add-hook 'prog-made-hook
+            (lambda ()
+              (setq c-ts-mode-indent-style 'k&r
+                    c-ts-mode-indent-offset 4))))
 
 (add-hook 'prog-mode-hook
           (lambda() (indent-tabs-mode -1)))

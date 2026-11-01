@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (visual-line-mode -1)
 (setq-default fill-column 110)
 (setq-default truncate-lines t)
@@ -26,5 +28,7 @@
   :config
   (add-to-list 'warning-suppress-log-types
                '(org-element org-element-parser)))
+
+(setenv "LSP_USE_PLISTS" "true")
 
 (setq-default tab-width 4)

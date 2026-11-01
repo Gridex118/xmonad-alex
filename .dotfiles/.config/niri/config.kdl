@@ -9,7 +9,9 @@ environment {
     SDL_IM_MODULE "fcitx"
     GLFW_IM_MODULE "ibus"
     QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
     MOZ_ENABLE_WAYLAND "1"
+    _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
 // Input device configuration.
@@ -259,6 +261,7 @@ window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     match app-id="sun-applet-Main"
     match app-id="godotengine" title="DEBUG"
+    match app-id="Zenity"
     match title=r#"[Ss]plash"#
     match title="^Waydroid$"
     match app-id="^waydroid"
@@ -276,6 +279,9 @@ window-rule {
     match title="Lutris"
     match app-id="GParted"
     match title="Authentication Required"
+    match app-id="java"
+    match app-id="^Minecraft.*"
+    match title="^SKlauncher"
     open-floating true
 }
 
@@ -286,7 +292,7 @@ window-rule {
 
 window-rule {
     match title="Lutris" is-focused=true
-    opacity 0.75
+    opacity 0.77
 }
 
 window-rule {
@@ -297,10 +303,14 @@ window-rule {
 
 window-rule {
     match app-id="^firefox$" title="YouTube"
+    match title="on QEMU/KVM$" app-id="^.virt-manager-wrapped"
+    match app-id="^org.kde.kdenlive$"
+    match title="^Krita" app-id="krita"
     opacity 1.0
 }
 
 window-rule {
+    match app-id="^Minecraft.*"
     match title="Vulkan"
     match title="^RPCS3"
     match app-id="^mpv$"
@@ -313,17 +323,19 @@ window-rule {
 }
 
 window-rule {
-    match app-id="^mpv$"
-    open-fullscreen true
+    match app-id="^com.obsproject.Studio$"
+    match app-id="^gimp$"
+    match title="^Krita" app-id="krita"
+    match app-id="^org.kde.kdenlive$"
+    match app-id="^PopupPanelBackupWindow$"
+    match app-id="^PopupPanelUpdateWindow$"
+    match app-id="^DBeaver"
+    open-maximized true
 }
 
 window-rule {
-    match app-id="^com.obsproject.Studio$"
-    match app-id="^gimp$"
-    match app-id="^virt-manager$"
-    match app-id="^PopupPanelBackupWindow$"
-    match app-id="^PopupPanelUpdateWindow$"
-    open-maximized true
+    match title="P3R" app-id="p3r.exe"
+    open-floating true
 }
 
 window-rule {
@@ -529,9 +541,11 @@ binds {
     XF86AudioPause { spawn-sh "~/scripts/playctl_play_or_mpv.sh"; }
     Mod+F4 { spawn-sh "playerctl stop"; }
     XF86AudioNext { spawn-sh "playerctl next"; }
-    Shift+XF86AudioNext { spawn-sh "playerctld shift"; }
     XF86AudioPrev { spawn-sh "playerctl previous"; }
+    Shift+XF86AudioNext { spawn-sh "playerctld shift"; }
+    Ctrl+F4 { spawn-sh "playerctld shift"; }
     Shift+XF86AudioPrev { spawn-sh "playerctld unshift"; }
+    Ctrl+Shift+F4 { spawn-sh "playerctld unshift"; }
 
     // Touchpad Toggle
     F9 { spawn-sh "~/scripts/toggle_niri_touchpad.sh"; }

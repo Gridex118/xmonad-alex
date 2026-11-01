@@ -1,6 +1,7 @@
 #!/run/current-system/sw/bin/python
 
 import os
+from contextlib import contextmanager
 import argparse
 import subprocess
 from typing import Final
@@ -17,6 +18,13 @@ class FZathuraParser(argparse.ArgumentParser):
         self.add_argument('-n', "--no-save-recent", action="store_true")
         self.add_argument('-p', "--pdf")
 
+@contextmanager
+def cwd(path):
+    old_wd: str = os.getcwd()
+    os.chdir(path)
+    try: yield
+    finally: os.chdir(old_wd)
+
 
 def get_home_dir() -> str:
     HOME: str | None = os.getenv("HOME")
@@ -25,27 +33,32 @@ def get_home_dir() -> str:
         exit()
     return HOME
 
-def get_all_pdfs_in_documents(home_dir: str) -> list[str]:
+def get_all_pdfs(dir: str) -> list[str]:
     all_pdfs: list[str] = []
-    os.chdir(f"{home_dir}/Documents")
-    for path_name, _, files in os.walk("."):
-        pdf_files: list[str] = [ child for child in files if child.endswith(".pdf") ]
-        rel_path_name: str = path_name.replace("./", "")
-        for pdf_file in pdf_files:
-            all_pdfs.append(os.path.join(rel_path_name, pdf_file))
-    os.chdir(f"{home_dir}")
+    with cwd(dir):
+        for path_name, _, files in os.walk("."):
+            pdf_files: list[str] = [
+                child for child in files if child.endswith(".pdf")
+            ]
+            rel_path_name: str = path_name.replace("./", "")
+            for pdf_file in pdf_files:
+                all_pdfs.append(os.path.join(rel_path_name, pdf_file))
     return all_pdfs
 
 def get_rofi_menu_selection(home_dir: str) -> str:
+    if home_dir.endswith('/'):
+        home_dir = home_dir[:-1]
+
     rofi_dmenu_proc = subprocess.Popen(
         ["rofi", "-theme", f"{home_dir}/.config/rofi/themes/dmenu.rasi",
         "-i", "-dmenu"],
         stdin=subprocess.PIPE, stdout=subprocess.PIPE,
         text=True
     )
-    all_pdfs: str = "\n".join(get_all_pdfs_in_documents(home_dir))
+    all_pdfs: str = "\n".join(get_all_pdfs(f"{home_dir}/Documents"))
     output, _ = rofi_dmenu_proc.communicate(input=all_pdfs)
     output = f"{home_dir}/Documents/{output}".replace('\n', '')
+
     return ("" if (output == f"{home_dir}/Documents/")
             else output.replace('\n', ''))
 
@@ -56,22 +69,23 @@ def zathura_open_pdf(pdf_file: str, log_file:str, save_to_recents: bool = True) 
     subprocess.run(f"zathura --fork '{pdf_file}'", shell=True)
 
 
-HOME: Final[str] = get_home_dir()
-args = FZathuraParser().parse_args()
-LOG_FILE: Final[str] = f"{HOME}/.config/zathura/recents.log"
+if __name__ == "__main__":
+    HOME: Final[str] = get_home_dir()
+    args = FZathuraParser().parse_args()
+    LOG_FILE: Final[str] = f"{HOME}/.config/zathura/recents.log"
 
-pdf_file: str = args.pdf or ""
-if args.resume and not pdf_file:
-    try:
-        with open(LOG_FILE, "r") as source:
-            pdf_file = source.read()
-    except FileNotFoundError:
-        print("No recents log file found")
-elif args.menu and not pdf_file:
-    pdf_file = get_rofi_menu_selection(HOME)
+    pdf_file: str = args.pdf or ""
+    if args.resume and not pdf_file:
+        try:
+            with open(LOG_FILE, "r") as source:
+                pdf_file = source.read()
+        except FileNotFoundError:
+            print("No recents log file found")
+    elif args.menu and not pdf_file:
+        pdf_file = get_rofi_menu_selection(HOME)
 
-if pdf_file:
-    zathura_open_pdf(
-        pdf_file, LOG_FILE, not args.no_save_recent
-    )
-else: print("Aborting; Nothing was Selected")
+    if pdf_file:
+        zathura_open_pdf(
+            pdf_file, LOG_FILE, not args.no_save_recent
+        )
+    else: print("Aborting; Nothing was Selected")
