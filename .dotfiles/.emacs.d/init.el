@@ -501,9 +501,31 @@
      "\\\\" "://"))
   (global-ligature-mode t))
 
+(defun myLaTeX/setup-auctex-latexmk ()
+  (add-to-list
+   'TeX-expand-list
+   '("%(-PDF)"
+     (lambda ()
+       (if TeX-PDF-mode
+           (cond
+            ((eq TeX-engine 'default) "-pdf")
+            ((eq TeX-engine 'xetex) "-pdfxe")
+            ((eq TeX-engine 'luatex) "-pdflua")) ""))))
+
+  (add-to-list 'TeX-command-list
+               '("LaTeXmk" "latexmk %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
+                 TeX-run-format nil (latex-mode doctex-mode) :help "Run Latexmk"))
+
+  (with-eval-after-load 'latex
+    (setq LaTeX-clean-intermediate-suffixes
+          (append LaTeX-clean-intermediate-suffixes '("\\.fdb_latexmk" "\\.fls"))))
+
+  (add-hook 'TeX-mode-hook (lambda () (setq TeX-command-default "LateXMk"))))
+
 (use-package auctex
   :ensure t
   :defer  t
+  :after  tex
   :custom
   (TeX-output-dir "pdf")
   (TeX-engine     'luatex)
@@ -512,20 +534,21 @@
   (TeX-parse-self  t)
   :config
   (setq-default TeX-master 'dwim)
-  (with-eval-after-load 'tex
-    (add-to-list
-     'TeX-view-program-list
-     '("Zathura" ("zathura "
-        (mode-io-correlate
-         " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
-        " %o")
-       "zathura"))
-    (TeX-source-correlate-mode t)
-    (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura"))))
+  (myLaTeX/setup-auctex-latexmk))
 
-(use-package auctex-latexmk
-  :ensure t
-  :after auctex)
+(defun myLaTeX/setup-tex-zathura-synctex ()
+  (add-to-list
+   'TeX-view-program-list
+   '("Zathura" ("zathura "
+                (mode-io-correlate
+                 " --synctex-forward %n:0:%b -x \"emacsclient +%{line} %{input}\" ")
+                " %o")
+     "zathura"))
+  (TeX-source-correlate-mode t)
+  (add-to-list 'TeX-view-program-selection '(output-pdf "Zathura")))
+
+(with-eval-after-load 'tex
+  (myLaTeX/setup-tex-zathura-synctex))
 
 (use-package cdlatex
   :ensure t
