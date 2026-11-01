@@ -85,9 +85,7 @@ Build LSP with plists
 #+begin_src emacs-lisp
   (setenv "LSP_USE_PLISTS" "true")
 #+end_src
-
-
-** Tab Size
+Set default tab width to 4
 #+begin_src emacs-lisp
   (setq-default tab-width 4)
 #+end_src
@@ -711,8 +709,6 @@ Use the new direct async process options
 
 
 ** UI Settings
-
-
 *** A (Fairly) Good looking theme
 #+begin_src emacs-lisp
   (use-package doom-themes
@@ -1030,8 +1026,6 @@ Keybinding for agenda list, if inside an org buffer
 
 
 ** Programming
-
-
 *** Runner for Simple Programs
 #+begin_src emacs-lisp
   (use-package quickrun
@@ -1357,6 +1351,7 @@ But, we don't want this for Makefiles
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
 #+end_src
+
 
 ** Utility Functions
 
