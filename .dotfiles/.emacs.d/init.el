@@ -172,12 +172,27 @@
 (use-package embark
   :ensure t
   :bind (("C-."   . embark-act)
+         ("M-."   . embark-dwim)
          ("C-h B" . embark-bindings))
+  :preface
+  (with-eval-after-load 'evil
+    (define-key evil-normal-state-map (kbd "C-.") nil)
+    (define-key evil-normal-state-map (kbd "M-.") nil))
+  (with-eval-after-load 'flyspell
+    (define-key flyspell-mode-map (kbd "C-.") nil)
+    (define-key flyspell-mode-map (kbd "M-.") nil))
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
+  :custom
+  (embark-indicators
+   '(embark-minimal-indicator
+     embark-highlight-indicator
+     embark-isearch-highlight-indicator))
   :config
-  (with-eval-after-load 'evil
-    (define-key evil-normal-state-map (kbd "C-.") nil)))
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
   :ensure t
@@ -596,6 +611,12 @@
   :hook
   (TeX-mode . citar-capf-setup)
   (org-mode . citar-capf-setup))
+
+(use-package citar-embark
+  :ensure t
+  :after (citar embark)
+  :no-require
+  :config (citar-embark-mode))
 
 (add-hook 'TeX-mode-hook
           (lambda ()
