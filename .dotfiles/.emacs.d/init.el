@@ -144,6 +144,35 @@
   ("C-c c /" . consult-ripgrep)
   ("C-c c i" . consult-imenu))
 
+(defun myConsult/zoxide-dirs ()
+  "Return list of zoxide dirs."
+  (split-string (shell-command-to-string "zoxide query -l") "\n" t))
+
+(use-package consult-dir
+  :ensure t
+  :bind
+  (("C-c c d" . consult-dir)
+   :map vertico-map
+   ("C-c c d" . consult-dir)
+   ("C-c c j" . consult-dir-jump-file))
+  :preface
+  (defvar myConsult/source-zoxide
+   `(:name     "Zoxide dirs"
+     :narrow   ?z
+     :category file
+     :face     consult-file
+     :history  file-name-history
+     :enabled  ,(lambda () (executable-find "zoxide"))
+     :items    ,#'myConsult/zoxide-dirs))
+  :custom
+  (consult-dir-sources
+   '(consult-dir--source-default
+     consult-dir--source-bookmark
+     consult-dir--source-project
+     consult-dir--source-recentf
+     myConsult/source-zoxide
+     consult-dir--source-tramp-local)))
+
 (add-hook 'org-mode-hook
 	  (lambda()
 	    (local-set-key (kbd "C-c c o") 'consult-outline)))
@@ -181,9 +210,8 @@
   (with-eval-after-load 'flyspell
     (define-key flyspell-mode-map (kbd "C-.") nil)
     (define-key flyspell-mode-map (kbd "M-.") nil))
-  :init
-  (setq prefix-help-command #'embark-prefix-help-command)
   :custom
+  (prefix-help-command #'embark-prefix-help-command)
   (embark-indicators
    '(embark-minimal-indicator
      embark-highlight-indicator
@@ -271,8 +299,12 @@
 (global-set-key (kbd "C-c a") 'myEvil/increment-number-at-point)
 (global-set-key (kbd "C-c x") 'myEvil/decrement-number-at-point)
 
-(setq which-key-idle-delay 0.2)
-(which-key-mode)
+(use-package which-key
+  :custom
+  (which-key-idle-delay       0.2)
+  (which-key-use-C-h-commands nil)
+  :config
+  (which-key-mode 1))
 
 (use-package flycheck :ensure t)
 
