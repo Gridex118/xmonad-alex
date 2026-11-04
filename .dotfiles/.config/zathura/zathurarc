@@ -38,6 +38,7 @@ set notification-warning-fg "#151515" #00
 
 set highlight-color "rgba(0,0,0,0.3)"
 set highlight-active-color "rgba(0,0,0,0.3)"
+set highlight-fg "#ffffff"
 
 set completion-highlight-fg "#151515" #02
 set completion-highlight-bg "#90A959" #0C
