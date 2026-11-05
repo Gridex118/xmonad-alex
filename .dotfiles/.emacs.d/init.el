@@ -43,7 +43,7 @@
       '(js-mode-hook js-ts-mode-hook web-mode-hook))
 
 (defun pref/set-line-number-mode()
-  (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers-type 'visual)
   (display-line-numbers-mode))
 (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
 (add-hook 'TeX-mode-hook 'pref/set-line-number-mode)
@@ -103,9 +103,9 @@
 
 (use-package yasnippet
   :ensure t
-  :hook ((prog-mode  . yas-minor-mode)
-         (org-mode   . yas-minor-mode)
-	     (TeX-mode . yas-minor-mode))
+  :hook ((prog-mode . yas-minor-mode)
+         (org-mode  . yas-minor-mode)
+	     (TeX-mode  . yas-minor-mode))
   :config
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -228,10 +228,11 @@
 
 (use-package evil
   :ensure t
-  :init
+  :preface
   (setq evil-want-integration t
         evil-want-keybinding  nil
-	evil-undo-system #'undo-redo)
+        evil-respect-visual-line-mode t
+	    evil-undo-system #'undo-redo)
   :config
   (evil-mode 1))
 
@@ -569,10 +570,7 @@
    '("%(-PDF)"
      (lambda ()
        (if TeX-PDF-mode
-           (cond
-            ((eq TeX-engine 'default) "-pdf")
-            ((eq TeX-engine 'xetex) "-pdfxe")
-            ((eq TeX-engine 'luatex) "-pdflua")) ""))))
+           "-pdflua" ""))))
 
   (add-to-list 'TeX-command-list
                '("LaTeXmk" "latexmk %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
@@ -628,6 +626,7 @@
           (lambda ()
             (prettify-symbols-mode)
             (TeX-fold-mode)
+            (visual-wrap-prefix-mode 1)
             (LaTeX-math-mode)
             (add-hook 'find-file-hook #'TeX-fold-buffer t)))
 
@@ -650,26 +649,7 @@
   :no-require
   :config (citar-embark-mode))
 
-(add-hook 'TeX-mode-hook
-          (lambda ()
-            (auto-fill-mode)
-            (setq-local fill-column 70)))
-
 (add-hook 'TeX-mode-hook 'flyspell-mode)
-
-(defun myLaTeX/is-project-root(directory counter)
-  (if (file-exists-p (concat directory "cfg.cfg"))
-      directory
-    (if (< counter 3)
-	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
-      nil)))
-
-(defun myLaTeX/get-project-root()
-  (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
-
-(add-hook 'TeX-mode-hook
-	  (lambda()
-	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)))
 
 (use-package org-mouse
   :after org)
@@ -680,17 +660,20 @@
 (add-hook 'org-mode-hook
           (lambda()
             (setq org-latex-src-block-backend 'listings
-                  org-latex-listings-options  '(("numbers" "left")
-                                                ("breaklines" "true")
-                                                ("upquote" "true")
-                                                ("showstringspaces" "false")
-                                                ("basicstyle" "\\ttfamily")))))
+                  org-latex-compiler          "lualatex")
+            (setq org-latex-listings-options
+                  '(("numbers" "left")
+                    ("breaklines" "true")
+                    ("upquote" "true")
+                    ("showstringspaces" "false")
+                    ("basicstyle" "\\ttfamily")))))
 
 (add-hook 'org-mode-hook
           (lambda()
             (setq org-preview-latex-default-process 'dvipng
-                  org-startup-with-latex-preview     nil
-                  org-format-latex-options           (plist-put org-format-latex-options :scale 2.0))))
+                  org-startup-with-latex-preview     nil)
+            (setq org-format-latex-options
+                  (plist-put org-format-latex-options :scale 2.0))))
 
 (add-hook 'org-mode-hook
           (lambda()
@@ -709,6 +692,13 @@
   :ensure t
   :hook (org-mode . org-bullets-mode))
 
+(use-package org-appear
+  :ensure t
+  :hook org-mode
+  :custom
+  (org-hide-emphasis-markers t)
+  (org-pretty-entities       t))
+
 (add-hook 'org-mode-hook
           (lambda()
             (setq org-startup-indented  t)
@@ -719,7 +709,8 @@
   :config
   (setq-default olivetti-body-width 120)
   :hook (org-mode
-         markdown-mode))
+         markdown-mode
+         TeX-mode))
 
 (add-hook 'org-mode-hook
           (lambda ()

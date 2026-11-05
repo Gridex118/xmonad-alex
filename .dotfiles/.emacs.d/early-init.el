@@ -1,18 +1,19 @@
 ;; -*- lexical-binding: t; -*-
 
-(visual-line-mode -1)
 (setq-default fill-column 110)
 (setq-default truncate-lines t)
 (setq-default blink-cursor-mode nil)
 (setq-default inhibit-startup-screen t)
-
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
+(visual-line-mode -1)
+(tool-bar-mode    -1)
+(menu-bar-mode    -1)
+(scroll-bar-mode  -1)
 
 (setq package-quickstart t)
 
-(setq gc-cons-threshold (* 64 1000 1000))
+(setq gc-cons-threshold (* 256 1024 1024))
+(add-hook 'emacs-startup-hook
+          (lambda () (setq gc-cons-threshold (* 32 1024 1024))))
 (setq read-process-output-max (* 1024 1024))
 
 (setq scroll-conservatively 101)

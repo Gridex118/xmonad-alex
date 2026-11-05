@@ -23,15 +23,14 @@ instead.
 and it disables cursor blinking too./
 
 #+begin_src emacs-lisp
-  (visual-line-mode -1)
   (setq-default fill-column 110)
   (setq-default truncate-lines t)
   (setq-default blink-cursor-mode nil)
   (setq-default inhibit-startup-screen t)
-
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (scroll-bar-mode -1)
+  (visual-line-mode -1)
+  (tool-bar-mode    -1)
+  (menu-bar-mode    -1)
+  (scroll-bar-mode  -1)
 #+end_src
 
 
@@ -46,7 +45,9 @@ then.
 
 *** Garbage Collector Tweaks
 #+begin_src emacs-lisp
-  (setq gc-cons-threshold (* 64 1000 1000))
+  (setq gc-cons-threshold (* 256 1024 1024))
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold (* 32 1024 1024))))
   (setq read-process-output-max (* 1024 1024))
 #+end_src
 
@@ -175,7 +176,7 @@ Remove angle bracket pairing for =Javascript= mode
 *** Line Numbering
 #+begin_src emacs-lisp
   (defun pref/set-line-number-mode()
-    (setq display-line-numbers-type 'relative)
+    (setq display-line-numbers-type 'visual)
     (display-line-numbers-mode))
   (add-hook 'prog-mode-hook 'pref/set-line-number-mode)
   (add-hook 'TeX-mode-hook 'pref/set-line-number-mode)
@@ -257,9 +258,9 @@ Yasnippet, for snippets
 #+begin_src emacs-lisp
   (use-package yasnippet
     :ensure t
-    :hook ((prog-mode  . yas-minor-mode)
-           (org-mode   . yas-minor-mode)
-  	     (TeX-mode . yas-minor-mode))
+    :hook ((prog-mode . yas-minor-mode)
+           (org-mode  . yas-minor-mode)
+  	     (TeX-mode  . yas-minor-mode))
     :config
     (define-key yas-minor-mode-map (kbd "<tab>") nil)
     (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -416,10 +417,11 @@ Use =ace-window= for quicker window switching when multiple windows are up
 #+begin_src emacs-lisp
   (use-package evil
     :ensure t
-    :init
+    :preface
     (setq evil-want-integration t
           evil-want-keybinding  nil
-  	evil-undo-system #'undo-redo)
+          evil-respect-visual-line-mode t
+  	    evil-undo-system #'undo-redo)
     :config
     (evil-mode 1))
 #+end_src
@@ -858,7 +860,7 @@ Use the new direct async process options
 ** LaTeX Mode
 
 *** AUCTeX Mode
-=latexmk= setup taken from an [[https://github.com/tom-tan/auctex-latexmk/issues/47][=auctex-latexmk= issue]] for setting up latexmk since the package in question is no longer maintained
+=latexmk= setup taken from an [[https://github.com/tom-tan/auctex-latexmk/issues/47][=auctex-latexmk= issue]] for setting up latexmk since the package in question is no longer maintained. =TeX-expand-list= uses luatex, change =-pdflua= to =-pdf= for pdflatex or =-pdfxe= for xelatex.
 #+begin_src emacs-lisp
   (defun myLaTeX/setup-auctex-latexmk ()
     (add-to-list
@@ -866,10 +868,7 @@ Use the new direct async process options
      '("%(-PDF)"
        (lambda ()
          (if TeX-PDF-mode
-             (cond
-              ((eq TeX-engine 'default) "-pdf")
-              ((eq TeX-engine 'xetex) "-pdfxe")
-              ((eq TeX-engine 'luatex) "-pdflua")) ""))))
+             "-pdflua" ""))))
 
     (add-to-list 'TeX-command-list
                  '("LaTeXmk" "latexmk %(-PDF) -%(PDF)%(latex)='%`%l%(mode)%'' %(output-dir) %t"
@@ -934,12 +933,13 @@ Use the new direct async process options
 #+end_src
 
 *** Prettification
-Prettify math symbols and collapse =section=, =label=, etc
+Prettify math symbols, use prefix visual line wrap and collapse =section=, =label=, etc
 #+begin_src emacs-lisp
   (add-hook 'TeX-mode-hook
             (lambda ()
               (prettify-symbols-mode)
               (TeX-fold-mode)
+              (visual-wrap-prefix-mode 1)
               (LaTeX-math-mode)
               (add-hook 'find-file-hook #'TeX-fold-buffer t)))
 #+end_src
@@ -970,38 +970,9 @@ Add =embark= context
     :config (citar-embark-mode))
 #+end_src
 
-*** Enable Auto Fill
-#+begin_src emacs-lisp
-  (add-hook 'TeX-mode-hook
-            (lambda ()
-              (auto-fill-mode)
-              (setq-local fill-column 70)))
-#+end_src
-
 *** Enable Flyspell
 #+begin_src emacs-lisp
   (add-hook 'TeX-mode-hook 'flyspell-mode)
-#+end_src
-
-*** Get LaTeX Project Root
-All my LaTeX projects have a =cfg.cfg= file in their root directories
-#+begin_src emacs-lisp
-  (defun myLaTeX/is-project-root(directory counter)
-    (if (file-exists-p (concat directory "cfg.cfg"))
-        directory
-      (if (< counter 3)
-  	(myLaTeX/is-project-root (file-name-parent-directory directory) (+ 1 counter))
-        nil)))
-
-  (defun myLaTeX/get-project-root()
-    (myLaTeX/is-project-root (file-name-directory buffer-file-name) 1))
-#+end_src
-
-*** Keybindings
-#+begin_src emacs-lisp
-  (add-hook 'TeX-mode-hook
-  	  (lambda()
-  	    (local-set-key (kbd "C-c l r") 'myLaTeX/set-main-tex-file)))
 #+end_src
 
 
@@ -1010,6 +981,7 @@ All my LaTeX projects have a =cfg.cfg= file in their root directories
   (use-package org-mouse
     :after org)
 #+end_src
+
 *** Performance Improvements
 Otherwise, at least on my system, entering text in the code blocks is *slow*.
 #+begin_src emacs-lisp
@@ -1022,11 +994,13 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (add-hook 'org-mode-hook
             (lambda()
               (setq org-latex-src-block-backend 'listings
-                    org-latex-listings-options  '(("numbers" "left")
-                                                  ("breaklines" "true")
-                                                  ("upquote" "true")
-                                                  ("showstringspaces" "false")
-                                                  ("basicstyle" "\\ttfamily")))))
+                    org-latex-compiler          "lualatex")
+              (setq org-latex-listings-options
+                    '(("numbers" "left")
+                      ("breaklines" "true")
+                      ("upquote" "true")
+                      ("showstringspaces" "false")
+                      ("basicstyle" "\\ttfamily")))))
 #+end_src
 
 *** LaTeX Preview Settings
@@ -1034,8 +1008,9 @@ Otherwise, at least on my system, entering text in the code blocks is *slow*.
   (add-hook 'org-mode-hook
             (lambda()
               (setq org-preview-latex-default-process 'dvipng
-                    org-startup-with-latex-preview     nil
-                    org-format-latex-options           (plist-put org-format-latex-options :scale 2.0))))
+                    org-startup-with-latex-preview     nil)
+              (setq org-format-latex-options
+                    (plist-put org-format-latex-options :scale 2.0))))
 #+end_src
 
 *** Org Babel Settings
@@ -1057,24 +1032,37 @@ For languages that probably can't affect the system much, I'd rather not have to
 #+end_src
 
 *** Appearance
+Prettier bullet points
 #+begin_src emacs-lisp
   (use-package org-bullets
     :ensure t
     :hook (org-mode . org-bullets-mode))
 #+end_src
+Automatic hide/reveal for emphasis markers, etc through [[https://github.com/awth13/org-appear][ org-appear ]]
+#+begin_src emacs-lisp
+  (use-package org-appear
+    :ensure t
+    :hook org-mode
+    :custom
+    (org-hide-emphasis-markers t)
+    (org-pretty-entities       t))
+#+end_src
+Indentation and section numbering
  #+begin_src emacs-lisp
    (add-hook 'org-mode-hook
              (lambda()
                (setq org-startup-indented  t)
                (org-num-mode)))
 #+end_src
+[[https://www.google.com/goto?url=CAESXQHEIkXX7qJbioQGNlYA-g3RPoRwDz9XbekvNN3Q3H8esvpelmWWWow1sN5jDvPFjIVK0Jcn0NQw4-pKvyJ7n2-MhDiFq6KqlIlM7l18EuhE6jNmw6iGA4c1G8Hybg][Olivetti Mode]] for better viewing in non programming modes
 #+begin_src emacs-lisp
   (use-package olivetti
     :ensure t
     :config
     (setq-default olivetti-body-width 120)
     :hook (org-mode
-           markdown-mode))
+           markdown-mode
+           TeX-mode))
 #+end_src
 
 *** Agenda
